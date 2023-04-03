@@ -6,17 +6,17 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/03/31 19:07:06 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/03 12:04:49 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	signal_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
-		write(1, "\n", 1);
+		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -38,6 +38,7 @@ int	main(void)
 		line = readline("minishell-1.0$ ");
 		if (!line)
 			return (0);
+		add_history(line);
 		free(line);
 	}
 	return (0);
