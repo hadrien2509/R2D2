@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/03 14:19:48 by sde-smed         ###   ########.fr       */
+/*   Created: 2022/10/04 12:33:47 by samy              #+#    #+#             */
+/*   Updated: 2022/10/12 11:06:13 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <stdio.h>					// For readline
-# include <readline/readline.h>		// For readline
-# include <readline/history.h>		// For readline
-# include <stdlib.h>				// For malloc
-# include <signal.h>				// For signals
-# include <unistd.h>				// For write
-# include <termios.h>
-# include "../libft/libft.h"
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+{
+	char			*str;
+	unsigned int	i;
 
-# define ERROR 1
-# define SUCCESS 0
-
-#endif
+	if (!s || !f)
+		return (0);
+	str = ft_strdup(s);
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i])
+	{
+		str[i] = (*f)(i, str[i]);
+		i++;
+	}
+	return (str);
+}

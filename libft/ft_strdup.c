@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/03 14:19:48 by sde-smed         ###   ########.fr       */
+/*   Created: 2022/10/06 16:11:51 by sde-smed          #+#    #+#             */
+/*   Updated: 2022/10/06 16:16:10 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "stdlib.h"
 
-# include <stdio.h>					// For readline
-# include <readline/readline.h>		// For readline
-# include <readline/history.h>		// For readline
-# include <stdlib.h>				// For malloc
-# include <signal.h>				// For signals
-# include <unistd.h>				// For write
-# include <termios.h>
-# include "../libft/libft.h"
+char	*ft_strdup(const char *s1)
+{
+	char	*cpy;
+	int		i;
 
-# define ERROR 1
-# define SUCCESS 0
-
-#endif
+	i = 0;
+	while (s1[i])
+		i++;
+	cpy = malloc((i + 1) * sizeof(char));
+	if (!cpy)
+		return (0);
+	i = 0;
+	while (s1[i])
+	{
+		cpy[i] = s1[i];
+		i++;
+	}
+	cpy[i] = '\0';
+	return (cpy);
+}
