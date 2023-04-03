@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
+#    By: samy <samy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/04 11:24:14 by samy              #+#    #+#              #
-#    Updated: 2023/04/03 14:24:05 by sde-smed         ###   ########.fr        #
+#    Updated: 2023/04/03 20:35:45 by samy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,12 @@ BONUS = ft_lstnew.c\
 		ft_lstmap.c
 
 OBJ_BONUS = $(BONUS:.c=.o)
-
+        # Colors #
+GREEN           =       \e[38;5;118m
+YELLOW          =       \e[38;5;226m
+RESET           =       \e[0m
+_SUCCESS        =       [$(GREEN)SUCCESS$(RESET)]
+_INFO           =       [$(YELLOW)INFO$(RESET)]
 CC			=	cc
 
 FLAG = -Wall -Wextra -Werror
@@ -81,19 +86,22 @@ RM		= rm -rf
 	@$(CC) $(FLAGS) -c -o $@ $<
 
 $(NAME): $(OBJ)
-	@echo "make libft"
 	@$(ARRCS) $(NAME) $^
+	@printf "$(_SUCCESS) $(NAME) ready.\n"
 	
 bonus: $(OBJ_BONUS) 
 	$(ARRCS) $(NAME) $^
+	@printf "$(_SUCCESS) $(NAME) bonus ready.\n"
 	
 all: $(NAME)
 
 clean:
 	@$(RM) $(OBJ) $(OBJ_BONUS)
+	@printf "$(_INFO) $(NAME) objects folder removed.\n"
 
 fclean: clean
 	@$(RM) $(NAME)
+	@printf "$(_INFO) $(NAME) removed.\n"
 
 re: fclean all
 

@@ -1,20 +1,19 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile copy                                      :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: samy <samy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/04/03 20:35:51 by samy             ###   ########.fr        #
+#    Updated: 2023/04/03 20:24:49 by samy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRCS = main.c 
-SRCS_DIR = srcs
-OBJS_DIR = objs
+SRCS = srcs/main.c 
+
 READLINE_PATH = $(shell brew --prefix readline)
 READLINE_LIB = -lreadline -lhistory -L $(READLINE_PATH)/lib
 READLINE_INC = -I $(READLINE_PATH)/include 
@@ -26,7 +25,7 @@ INCLUDES = -I includes/ -I $(READLINE_PATH)/include -I $(LIBFT)
 AR = ar rcs
 RM = rm -f
 OBJS = $(addprefix ${OBJS_DIR}/, ${SRCS:%.c=%.o})
-OBJ = $(SRCS:.c=.o)
+OBJS = $(SRCS:.c=.o)
         # Colors #
 GREEN           =       \e[38;5;118m
 YELLOW          =       \e[38;5;226m
@@ -38,20 +37,20 @@ all: $(NAME)
 
 
 $(NAME): $(OBJS)
-	@make -C $(LIBFT)
-	@cc $(FLAGS) $(INCLUDES) $(OBJS) $(LIB) -o $(NAME)
+	make -C $(LIBFT)
+	cc $(FLAGS) $(INCLUDES) $(OBJS) $(LIB) -o $(NAME)
 	@printf "$(_SUCCESS) $(NAME) ready.\n"
 
 ${OBJS_DIR}/%.o: ${SRCS_DIR}/%.c
 	@mkdir -p ${@D}
-	@cc $(CFLAGS) $(INCLUDES) -c $< -o $@
+	cc $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 bonus: all
 
 clean:
 		@make -C $(LIBFT) clean
-		@${RM} -r ${OBJS_DIR}
-		@printf "$(_INFO) $(NAME) objects folder removed.\n"
+		@${RM} ${OBJS_DIR}
+		@printf "$(_INFO) objects folder removed.\n"
 
 fclean: clean
 		@make -C $(LIBFT) fclean
