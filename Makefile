@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: samy <samy@student.42.fr>                  +#+  +:+       +#+         #
+#    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/04/03 20:35:51 by samy             ###   ########.fr        #
+#    Updated: 2023/04/04 15:51:23 by sde-smed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,8 +53,10 @@ clean:
 		@${RM} -r ${OBJS_DIR}
 		@printf "$(_INFO) $(NAME) objects folder removed.\n"
 
-fclean: clean
+fclean:
 		@make -C $(LIBFT) fclean
+		@${RM} -r ${OBJS_DIR}
+		@printf "$(_INFO) $(NAME) objects folder removed.\n"
 		@${RM} ${NAME}
 		@printf "$(_INFO) $(NAME) removed.\n"
 
