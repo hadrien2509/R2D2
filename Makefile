@@ -6,13 +6,15 @@
 #    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/04/04 15:51:23 by sde-smed         ###   ########.fr        #
+#    Updated: 2023/04/05 13:43:26 by sde-smed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRCS = main.c 
+SRCS = main.c\
+		commands.c
+
 SRCS_DIR = srcs
 OBJS_DIR = objs
 READLINE_PATH = $(shell brew --prefix readline)

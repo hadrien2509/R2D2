@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/03 14:19:48 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/05 13:37:07 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,8 @@
 
 # define ERROR 1
 # define SUCCESS 0
+
+void	check_command(char **command, char *envp[]);
+void	signal_handler(int signal);
 
 #endif
