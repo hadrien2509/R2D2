@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/05 14:48:38 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/06 11:15:35 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,13 @@ void	check_command(char **command, char *envp[])
 	i = -1;
 	if (!command[0])
 		return ;
-	if (!ft_strcmp(command[0], "pwd"))
-	{
+	else if (!ft_strcmp(command[0], "pwd"))
 		printf("%s\n", getenv("PWD"));
-		return ;
-	}
-	if (!ft_strcmp(command[0], "exit"))
+	else if (!ft_strcmp(command[0], "cd"))
+		chdir(command[1]);
+	else if (!ft_strcmp(command[0], "exit"))
 		exit(0);
-	if (!ft_strcmp(command[0], "env"))
+	else if (!ft_strcmp(command[0], "env"))
 		while (envp[++i])
 			printf("%s\n", envp[i]);
 	else
