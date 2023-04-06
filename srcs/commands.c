@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/06 12:36:05 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/07 00:27:10 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,47 +86,47 @@ static void	exec(char **args)
 	free(binary_path);
 }
 
-void print_tab(char **command)
+void	print_tab(char **command)
 {
 	int	i;
-	
+
 	i = 0;
 	while (command[i])
 	{
-		printf ("%s", command[i]);
+		printf("%s", command[i]);
 		if (command[++i])
 			printf(" ");
 	}
 }
+
 int	echo_check_para(const char *str)
 {
-	char * tmp;
+	char	*tmp;
 
-	tmp = (char *) str;
+	tmp = (char *)str;
 	while (*tmp == 'n')
-	{
-		
-		tmp++;
-		if ( *tmp != 'n')
+		if (*(++tmp) && *tmp != 'n')
 			return (-1);
-	}
 	return (1);
 }
 
 void	echo(char **command)
 {
 	int	i;
-	int there_is_command;
-	
+	int	there_is_command;
+
 	i = 1;
 	there_is_command = 0;
-	while (there_is_command != -1 && command[i][0] == '-')
+	if (command[1])
 	{
-		there_is_command = echo_check_para(&command[i][1]);
-		if (there_is_command)
-			i++;
+		while (there_is_command != -1 && command[i][0] == '-')
+		{
+			there_is_command = echo_check_para(&command[i][1]);
+			if (there_is_command)
+				i++;
+		}
+		print_tab(&command[i]);
 	}
-	print_tab(&command[i]);
 	if (there_is_command != 1)
 		printf("\n");
 }
