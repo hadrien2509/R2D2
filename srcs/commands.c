@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/06 11:15:35 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/06 12:36:05 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,51 @@ static void	exec(char **args)
 	free(binary_path);
 }
 
+void print_tab(char **command)
+{
+	int	i;
+	
+	i = 0;
+	while (command[i])
+	{
+		printf ("%s", command[i]);
+		if (command[++i])
+			printf(" ");
+	}
+}
+int	echo_check_para(const char *str)
+{
+	char * tmp;
+
+	tmp = (char *) str;
+	while (*tmp == 'n')
+	{
+		
+		tmp++;
+		if ( *tmp != 'n')
+			return (-1);
+	}
+	return (1);
+}
+
+void	echo(char **command)
+{
+	int	i;
+	int there_is_command;
+	
+	i = 1;
+	there_is_command = 0;
+	while (there_is_command != -1 && command[i][0] == '-')
+	{
+		there_is_command = echo_check_para(&command[i][1]);
+		if (there_is_command)
+			i++;
+	}
+	print_tab(&command[i]);
+	if (there_is_command != 1)
+		printf("\n");
+}
+
 void	check_command(char **command, char *envp[])
 {
 	int	i;
@@ -97,6 +142,8 @@ void	check_command(char **command, char *envp[])
 		printf("%s\n", getenv("PWD"));
 	else if (!ft_strcmp(command[0], "cd"))
 		chdir(command[1]);
+	else if (!ft_strcmp(command[0], "echo"))
+		echo(command);
 	else if (!ft_strcmp(command[0], "exit"))
 		exit(0);
 	else if (!ft_strcmp(command[0], "env"))
