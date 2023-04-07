@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/07 00:27:10 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/07 15:22:22 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*get_binary_path(char *name)
 	return (NULL);
 }
 
-static void	exec(char **args)
+static void	exec(char **args, char **env)
 {
 	char	*binary_path;
 
@@ -74,7 +74,7 @@ static void	exec(char **args)
 	}
 	if (fork() == 0)
 	{
-		execve(binary_path, args, NULL);
+		execve(binary_path, args, env);
 		perror("execve");
 		exit(1);
 	}
@@ -131,7 +131,7 @@ void	echo(char **command)
 		printf("\n");
 }
 
-void	check_command(char **command, char *envp[])
+void	check_command(char **command, char **env)
 {
 	int	i;
 
@@ -147,10 +147,10 @@ void	check_command(char **command, char *envp[])
 	else if (!ft_strcmp(command[0], "exit"))
 		exit(0);
 	else if (!ft_strcmp(command[0], "env"))
-		while (envp[++i])
-			printf("%s\n", envp[i]);
+		while (env[++i])
+			printf("%s\n", env[i]);
 	else
 	{
-		exec(command);
+		exec(command,env);
 	}
 }
