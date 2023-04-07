@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/07 15:22:22 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/07 17:12:15 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,16 @@ void	print_tab(char **command)
 	}
 }
 
-int	echo_check_para(const char *str)
+int	check_n(const char *str)
 {
 	char	*tmp;
 
 	tmp = (char *)str;
-	while (*tmp == 'n')
-		if (*(++tmp) && *tmp != 'n')
+	while (*tmp)
+	{
+		if (*tmp++ != 'n' && *(tmp))
 			return (-1);
+	}
 	return (1);
 }
 
@@ -117,16 +119,14 @@ void	echo(char **command)
 
 	i = 1;
 	there_is_command = 0;
-	if (command[1])
+	while (command[i] && there_is_command != -1 && command[i][0] == '-')
 	{
-		while (there_is_command != -1 && command[i][0] == '-')
-		{
-			there_is_command = echo_check_para(&command[i][1]);
-			if (there_is_command)
-				i++;
-		}
-		print_tab(&command[i]);
+		there_is_command = check_n(&command[i][1]);
+		if (there_is_command == 1)
+			i++;
 	}
+	if (command[i])
+		print_tab(&command[i]);
 	if (there_is_command != 1)
 		printf("\n");
 }
@@ -151,6 +151,6 @@ void	check_command(char **command, char **env)
 			printf("%s\n", env[i]);
 	else
 	{
-		exec(command,env);
+		exec(command, env);
 	}
 }
