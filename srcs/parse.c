@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 12:45:43 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/10 10:07:01 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/10 17:43:03 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,73 +17,135 @@
 // 	if (i = )
 // }
 
-void	create_tokens(char **line, t_instructions *lst)
+char	*get_cmd_path(char *arg)
 {
-	t_Token	*token;
-	int		i;
-	int		arg_needed;
+	char	*path;
 
+	if (ft_strchr(arg, '/') != NULL)
+		path = ft_strdup(arg);
+	else
+		path = get_binary_path(arg);
+	if (!path | (access(path, F_OK) != 0))
+	{
+		free(path);
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd(": command not found\n", 2);
+	}
+	return (path);
+}
+void	print_tokens(t_Token *token)
+{
+	while (token)
+	{
+		printf("%d\n", token->type);
+		printf("%s\n", token->value);
+		token = token->next;
+	}
+}
+
+
+t_Token	*ft_lstnewtoken(int type, char *value)
+{
+	t_Token	*new_lst;
+
+	new_lst = malloc(sizeof(t_Token));
+	if (!new_lst)
+		return (0);
+	new_lst->type = type;
+	new_lst->value = value;
+	new_lst->next = 0;
+	return (new_lst);
+}
+
+t_Token	*ft_lstlasttoken(t_Token *lst)
+{
+	while (lst && lst->next)
+	{
+		lst = lst->next;
+	}
+	return (lst);
+}
+
+void	ft_lstaddtoken_back(t_Token **lst, t_Token *new)
+{
+	t_Token	*last;
+
+	if (*lst)
+	{
+		last = ft_lstlasttoken(*lst);
+		last->next = new;
+	}
+	else
+		*lst = new;
+}
+
+t_Token	create_tokens(char **line)
+{
+	int			i;
+	int			arg_needed;
+	t_Token		*new;
+	t_Token		*token;
+
+	token = 0;
 	i = 0;
+	arg_needed = 0;
 	while (line[i])
 	{
+		ft_lstnewtoken(2, line[i]);
 		if (ft_strcmp(line[i], "<") == 0)
 		{
 			i++;
-			token->type = 2;
-			token->value = line[i];
+			new = ft_lstnewtoken(2, line[i]);
 		}
-		if (ft_strcmp(line[i], ">") == 0)
+		else if (ft_strcmp(line[i], ">") == 0)
 		{
 			i++;
-			token->type = 3;
-			token->value = line[i];
+			new = ft_lstnewtoken(3, line[i]);
 		}
-		if (arg_needed == 1)
+		else if (ft_strcmp(line[i], "|") == 0)
 		{
-			token->type = 1;
-			token->value = line[i];
+			new = ft_lstnewtoken(4, line[i]);
+			arg_needed = 0;
 		}
+		else if (arg_needed == 1)
+			new = ft_lstnewtoken(1, line[i]);
 		else
 		{
-			token->type = 0;
-			if (strchr(line[i], '/') != NULL)
-				token->value = strdup(line[i]);
-			else
-				token->value = get_binary_path(line[i]);
-			if (!token->value)
-				exit(1);
-			if (access(token->value, F_OK) != 0)
-			{
-				free(token->value);
-				exit(1);
-			}
+			new = ft_lstnewtoken(0, get_cmd_path(line[i]));
 			arg_needed = 1;
 		}
+		i++;
+		ft_lstaddtoken_back(&token, new);
 	}
+	return (*token);
 }
 
-void	create_tokens(char **line, t_instructions *lst)
-{
-	int	i;
+// void	parse_tokens(t_Token *token)
+// {
+// 	if (token)
+// }
 
-	i = 0;
-	while (line[i])
-	{
-		if (ft_strcmp(line[i], ">") == 0)
-		{
-			ft_setcmd();
-			ft_setcmdarg();
-			ft_setinput();
-			ft_setoutput();
-		}
-		if (ft_strcmp(line[i], "<") == 0)
-		{
-			ft_setcmd();
-			ft_setcmdarg();
-			ft_setinput();
-			ft_setoutput();
-		}
-		if (ft_strcmp(line[i], "") == 0)
-			break;
-	}
-}
+// void	create_tokens(char **line, t_instructions *lst)
+// {
+// 	int		i;
+
+// 	i = 0;
+// 	while (line[i])
+// 	{
+// 		if (ft_strcmp(line[i], ">") == 0)
+// 		{
+// 			ft_setcmd();
+// 			ft_setcmdarg();
+// 			ft_setinput();
+// 			ft_setoutput();
+// 		}	
+// 		if (ft_strcmp(line[i], "<") == 0)
+// 		{
+// 			ft_setcmd();
+// 			ft_setcmdarg();
+// 			ft_setinput();
+// 			ft_setoutput();
+// 		}
+// 		if (ft_strcmp(line[i], "") == 0)
+// 	}
+// }
