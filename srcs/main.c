@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/06 12:00:55 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/10 13:24:08 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@ void	signal_handler(int signal)
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	char			*line;
-	char			**command;
 	struct termios	curr;
 	struct termios	save;
+	t_data	data;
 
 	tcgetattr(STDIN_FILENO, &curr);
 	tcgetattr(STDIN_FILENO, &save);
@@ -38,18 +37,20 @@ int	main(int argc, char *argv[], char *envp[])
 		return (ERROR);
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		return (ERROR);
+	if (init_data(&data, envp))
+		return (ERROR);
 	while (1)
 	{
-		line = readline("minishell_alpha-0.1$ ");
-		if (!line)
+		data.line = readline(PROMPT);
+		if (!data.line)
 		{
 			printf("exit\n");
 			return (0);
 		}
-		add_history(line);
-		command = ft_split(line, ' ');
-		check_command(command, envp);
-		free(line);
+		add_history(data.line);
+		data.command = ft_split(data.line, ' ');
+		check_command(data.command, &data);
+		free(data.line);
 	}
 	tcsetattr(STDIN_FILENO, 0, &save);
 	return (0);

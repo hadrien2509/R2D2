@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 12:45:43 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/09 19:26:17 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/10 10:07:01 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 
 void	create_tokens(char **line, t_instructions *lst)
 {
-	t_Token		*token;
-	int			i;
-	int			arg_needed;
+	t_Token	*token;
+	int		i;
+	int		arg_needed;
 
 	i = 0;
 	while (line[i])
@@ -47,24 +47,24 @@ void	create_tokens(char **line, t_instructions *lst)
 		{
 			token->type = 0;
 			if (strchr(line[i], '/') != NULL)
-			token->value = strdup(line[i]);
+				token->value = strdup(line[i]);
 			else
 				token->value = get_binary_path(line[i]);
 			if (!token->value)
-				exit (1);
+				exit(1);
 			if (access(token->value, F_OK) != 0)
 			{
 				free(token->value);
-				exit (1);
+				exit(1);
 			}
 			arg_needed = 1;
-        }
-    }
+		}
+	}
 }
 
 void	create_tokens(char **line, t_instructions *lst)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (line[i])
@@ -75,7 +75,7 @@ void	create_tokens(char **line, t_instructions *lst)
 			ft_setcmdarg();
 			ft_setinput();
 			ft_setoutput();
-		}	
+		}
 		if (ft_strcmp(line[i], "<") == 0)
 		{
 			ft_setcmd();
@@ -84,5 +84,6 @@ void	create_tokens(char **line, t_instructions *lst)
 			ft_setoutput();
 		}
 		if (ft_strcmp(line[i], "") == 0)
+			break;
 	}
 }

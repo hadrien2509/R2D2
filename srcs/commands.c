@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/07 17:12:15 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/10 13:42:17 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*get_binary_path(char *name)
 	return (NULL);
 }
 
-static void	exec(char **args, char **env)
+static void	exec(char **args, t_data *data)
 {
 	char	*binary_path;
 
@@ -69,12 +69,13 @@ static void	exec(char **args, char **env)
 		binary_path = get_binary_path(args[0]);
 	if (!binary_path)
 	{
-		printf("minishell_alpha-0.1: %s: No such file or directory\n", args[0]);
+		printf(PROMPT);
+		printf("%s: command not found\n", args[0]);
 		return ;
 	}
 	if (fork() == 0)
 	{
-		execve(binary_path, args, env);
+		execve(binary_path, args, ft_envlst_to_chararr(data->env));
 		perror("execve");
 		exit(1);
 	}
@@ -131,7 +132,7 @@ void	echo(char **command)
 		printf("\n");
 }
 
-void	check_command(char **command, char **env)
+void	check_command(char **command, t_data *data)
 {
 	int	i;
 
@@ -139,18 +140,21 @@ void	check_command(char **command, char **env)
 	if (!command[0])
 		return ;
 	else if (!ft_strcmp(command[0], "pwd"))
-		printf("%s\n", getenv("PWD"));
+		get_env(data->env, "PWD");
 	else if (!ft_strcmp(command[0], "cd"))
+	{
 		chdir(command[1]);
+		set_env(data->env, "PWD", "42");
+	}
 	else if (!ft_strcmp(command[0], "echo"))
 		echo(command);
 	else if (!ft_strcmp(command[0], "exit"))
 		exit(0);
 	else if (!ft_strcmp(command[0], "env"))
-		while (env[++i])
-			printf("%s\n", env[i]);
+	//	while (env[++i])
+			printf(" oui %s\n", data->env->var);
 	else
 	{
-		exec(command, env);
+		exec(command, data);
 	}
 }

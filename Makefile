@@ -6,14 +6,15 @@
 #    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/04/05 13:43:26 by sde-smed         ###   ########.fr        #
+#    Updated: 2023/04/10 10:58:00 by sde-smed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 SRCS = main.c\
-		commands.c
+		commands.c\
+		utils.c
 
 SRCS_DIR = srcs
 OBJS_DIR = objs
