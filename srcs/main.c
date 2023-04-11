@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/10 13:24:08 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/11 12:57:35 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	struct termios	curr;
 	struct termios	save;
-	t_data	data;
+	t_data			data;
 
 	tcgetattr(STDIN_FILENO, &curr);
 	tcgetattr(STDIN_FILENO, &save);

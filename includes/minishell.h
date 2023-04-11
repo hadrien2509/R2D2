@@ -6,43 +6,48 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/10 13:41:27 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/11 15:04:47 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdio.h>					// For readline
-# include <readline/readline.h>		// For readline
-# include <readline/history.h>		// For readline
-# include <stdlib.h>				// For malloc
-# include <signal.h>				// For signals
-# include <unistd.h>				// For write
-# include <termios.h>
 # include "../libft/libft.h"
+# include <limits.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <termios.h>
+# include <unistd.h>
 
 # define ERROR 1
 # define SUCCESS 0
 # define PROMPT "minishell_alpha-0.1$ "
 
-typedef struct s_env {
-	char				*var;
-	struct s_env		*next;
-}				t_env;
+typedef struct s_env
+{
+	char			*var;
+	struct s_env	*next;
+}					t_env;
 
-
-typedef struct s_data {
+typedef struct s_data
+{
 	struct s_env	*env;
+	unsigned int	env_size;
 	char			*line;
 	char			**command;
-}				t_data;
+}					t_data;
 
-char    **ft_envlst_to_chararr(t_env *envlst);
-int		get_env(t_env *env, char *var);
-int		init_data(t_data *data, char **env);
-void	check_command(char **command, t_data *data);
-void	signal_handler(int signal);
-int		set_env(t_env *env, char *var, char *new_val);
-
+char				**env_list_to_tab(unsigned int env_size, t_env *envlst);
+int					init_data(t_data *data, char **env);
+int					check_command(char **command, t_data *data);
+void				signal_handler(int signal);
+int					set_env(t_env *env, char *var, char *new_val);
+char				*get_env(t_env *env, char *var);
+int					cd(t_env *env, char *str);
+int					print_env(t_env *env);
+int					echo(char **command);
 #endif
