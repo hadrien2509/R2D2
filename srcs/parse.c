@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 12:45:43 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/12 14:18:02 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/12 17:26:08 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	print_tokens(t_Token *token)
 		token = token->next;
 	}
 }
-
 
 t_Token	*ft_lstnewtoken(int type, char *value)
 {
@@ -121,11 +120,11 @@ void	ft_lstaddcmd_back(t_Parse **lst, t_Parse *new)
 
 t_Token	create_tokens(char **line)
 {
-	int			i;
-	int			arg_needed;
-	t_Token		*new;
-	t_Token		*cmd;
-	t_Token		*token;
+	int		i;
+	int		arg_needed;
+	t_Token	*new;
+	t_Token	*cmd;
+	t_Token	*token;
 
 	token = 0;
 	i = 0;
@@ -185,9 +184,8 @@ void	parse_tokens(t_Token *token, t_Parse *parse)
 		if (token->type == 1)
 			parse->cmd[i++] = token->value;
 		if (token->type == 2)
-			dup->
-		if (token->type == 3)
-			parse->out_nb++;
+			dup->if (token->type == 3)
+				parse->out_nb++;
 		if (token->type == 4)
 		{
 			pipe(end);
@@ -203,10 +201,8 @@ void	parse_tokens(t_Token *token, t_Parse *parse)
 
 void	setup_exec(t)
 {
-	
 }
 
-
-			parse->in = open(token->value, O_RDONLY);
-			if (parse->in == -1)
-				perror(token->value);
+parse->in = open(token->value, O_RDONLY);
+if (parse->in == -1)
+	perror(token->value);

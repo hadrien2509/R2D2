@@ -21,6 +21,7 @@
 		"vector": "c",
 		"minishell.h": "c",
 		"stdlib.h": "c",
-		"termios.h": "c"
+		"termios.h": "c",
+		"sstream": "c"
 	}
 }

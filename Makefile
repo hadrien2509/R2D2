@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
+#    By: samy <samy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/04/11 13:56:16 by sde-smed         ###   ########.fr        #
+#    Updated: 2023/04/12 17:25:22 by samy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,18 +17,19 @@ SRCS = main.c\
 		utils.c\
 		cd.c\
 		echo.c\
-		env.c
+		env.c\
+		export.c
 
 SRCS_DIR = srcs
 OBJS_DIR = objs
 READLINE_PATH = $(shell brew --prefix readline)
 READLINE_LIB = -lreadline -lhistory -L $(READLINE_PATH)/lib
-READLINE_INC = -I $(READLINE_PATH)/include 
+READLINE_INC = -I $(READLINE_PATH)/include
 LIBFT_LIB =  -L ./libft -lft
 LIB = $(READLINE_LIB) $(LIBFT_LIB)
 LIBFT	= libft/
-FLAGS = -Wall -Wextra -Werror $(READLINE_LIB)
-INCLUDES = -I includes/ -I $(READLINE_PATH)/include -I $(LIBFT)
+FLAGS = -Wall -Wextra -Werror
+INCLUDES = -I includes/ $(READLINE_INC) -I $(LIBFT)
 AR = ar rcs
 RM = rm -f
 OBJS = $(addprefix ${OBJS_DIR}/, ${SRCS:%.c=%.o})
@@ -50,7 +51,7 @@ $(NAME): $(OBJS)
 
 ${OBJS_DIR}/%.o: ${SRCS_DIR}/%.c
 	@mkdir -p ${@D}
-	@cc $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@cc $(FLAGS) $(INCLUDES) -c $< -o $@
 
 bonus: all
 

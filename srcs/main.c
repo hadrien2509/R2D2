@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/11 12:57:35 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/12 13:32:37 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	main(int argc, char *argv[], char *envp[])
 	struct termios	save;
 	t_data			data;
 
+	(void)argc;
+	(void)argv;
 	tcgetattr(STDIN_FILENO, &curr);
 	tcgetattr(STDIN_FILENO, &save);
 	curr.c_lflag &= ~ECHOCTL;
@@ -49,7 +51,8 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		add_history(data.line);
 		data.command = ft_split(data.line, ' ');
-		check_command(data.command, &data);
+		if (check_command(data.command, &data))
+			printf("an error append\n");
 		free(data.line);
 	}
 	tcsetattr(STDIN_FILENO, 0, &save);

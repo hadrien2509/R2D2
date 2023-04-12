@@ -3,122 +3,161 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/11 15:03:20 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/12 20:37:48 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	free_tab(char **tab)
-{
-	int	i;
-
-	if (!tab)
-		return ;
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-}
-
-static char	*idk(char *path, char *name)
+/*
+** Search for the binary path of the given command name
+** in the specified directory.
+** @param path the path to the directory to search in
+** @param name the name of the command to search for
+** @return the binary path if found, NULL otherwise
+*/
+static char	*check_binary_path(char *path, char *name)
 {
 	char	*binary_path;
 	char	*temp;
 
 	temp = ft_strjoin(path, "/");
+	if (!temp)
+		return (NULL);
 	binary_path = ft_strjoin(temp, name);
 	free(temp);
+	if (!binary_path)
+		return (NULL);
 	if (access(binary_path, F_OK) == 0)
 		return (binary_path);
 	free(binary_path);
 	return (NULL);
 }
 
-static char	*get_binary_path(char *name)
+/*
+** Returns the binary path of the given command name.
+** @param env a linked list of environment variables
+** @param name the name of the command to search for
+** @return the binary path if found, NULL otherwise
+*/
+static char	*get_binary_path(t_env *env, char *name)
 {
 	char	**path_list;
 	char	*binary_path;
 	char	*path_env;
 	int		i;
 
-	if (name[0] == '/')
+	binary_path = NULL;
+	if (name[0] == '/' || name[0] == '.')
 		return (ft_strdup(name));
 	i = -1;
-	path_env = getenv("PATH");
+	path_env = get_env(env, "PATH");
 	if (!path_env)
 		return (NULL);
 	path_list = ft_split(path_env, ':');
-	if (!path_list)
-		return (NULL);
-	while (path_list[++i])
+	free(path_env);
+	if (!ft_nb_split(path_list))
 	{
-		binary_path = idk(path_list[i], name);
-		if (binary_path)
-		{
-			free_tab(path_list);
-			return (binary_path);
-		}
+		ft_free_split(path_list);
+		return (NULL);
 	}
-	free_tab(path_list);
-	return (NULL);
+	while (path_list[++i] && !binary_path)
+		binary_path = check_binary_path(path_list[i], name);
+	ft_free_split(path_list);
+	return (binary_path);
 }
 
-int	exec(char **args, t_data *data)
+/*
+** Forks and executes the given command in the child process.
+** @param args an array of strings containing the command and its arguments
+** @param binary_path the path to the binary for the command
+** @param env_list an array of strings containing the environment variables
+** @return the exit status of the command
+*/
+static int	fork_and_execute(char **args, char *binary_path, char **env_list)
 {
-	char	*binary_path;
-	int		pid;
-	int		result;
+	int	pid;
+	int	result;
 
-	binary_path = get_binary_path(args[0]);
-	if (!binary_path)
-	{
-		printf("%s %s: command not found\n", PROMPT, args[0]);
-		return (127);
-	}
 	pid = fork();
+	if (pid == -1)
+		return (1);
 	if (pid == 0)
 	{
-		execve(binary_path, args, env_list_to_tab(data->env_size, data->env));
-		free(binary_path);
-		perror("execve");
-		exit(1);
+		if (execve(binary_path, args, env_list) == -1)
+		{
+			free(binary_path);
+			free(env_list);
+			perror("execve");
+			exit(1);
+		}
 	}
 	free(binary_path);
 	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
 		exit(ERROR);
-	waitpid(pid, &result, 0);
+	if (waitpid(pid, &result, 0) == -1)
+		return (1);
 	if (signal(SIGINT, signal_handler) == SIG_ERR)
 		exit(ERROR);
 	return (result);
 }
 
+/*
+** Executes the given command.
+** @param args an array of strings containing the command and its arguments
+** @param data a struct containing the shell's data
+** @return the exit status of the command
+*/
+int	exec(char **args, t_data *data)
+{
+	char	*binary_path;
+	char	**env_list;
+	int		result;
+
+	binary_path = get_binary_path(data->env, args[0]);
+	if (!binary_path)
+	{
+		ft_putstr_fd(PROMPT, 2);
+		ft_putstr_fd(args[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		return (127);
+	}
+	env_list = env_list_to_tab(data->env_size, data->env);
+	result = fork_and_execute(args, binary_path, env_list);
+	free(env_list);
+	return (result);
+}
+
+/*
+** Determines the type of the given command and executes it accordingly.
+** @param command an array of strings containing the command and its arguments
+** @param data a struct containing the shell's data
+** @return the exit status of the command
+*/
 int	check_command(char **command, t_data *data)
 {
-	int	i;
-
-	i = -1;
 	if (!command[0])
-		return (42);
+		return (0);
 	else if (!ft_strcmp(command[0], "pwd"))
-		return (printf("%s\n", get_env(data->env, "PWD")));
+		return ((printf("%s\n", get_env(data->env, "PWD")) == 0));
 	else if (!ft_strcmp(command[0], "cd"))
-		return (cd(data->env, command[1]));
+		return (builtin_cd(data->env, command[1]));
 	else if (!ft_strcmp(command[0], "echo"))
-		return (echo(command));
+		return (builtin_echo(command));
+	else if (!ft_strcmp(command[0], "export"))
+		return (export(data->env, command[1]));
+	else if (!ft_strcmp(command[0], "unset"))
+		return (unset(data->env, command[1]));
+	else if (!ft_strcmp(command[0], "env"))
+		return (print_env(data->env));
 	else if (!ft_strcmp(command[0], "exit"))
 	{
 		printf("exit\n");
 		exit(0);
 	}
-	else if (!ft_strcmp(command[0], "env"))
-		return (print_env(data->env));
 	else
 		return (exec(command, data));
 }
