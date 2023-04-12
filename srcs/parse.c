@@ -6,11 +6,12 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 12:45:43 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/11 17:26:51 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/12 14:18:02 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include "../includes/token.h"
 
 // void	set_cmd(char **line, int i, t_instructions *lst)
 // {
@@ -53,6 +54,9 @@ t_Token	*ft_lstnewtoken(int type, char *value)
 		return (0);
 	new_lst->type = type;
 	new_lst->value = value;
+	new_lst->arg_nb = 0;
+	new_lst->in_nb = 0;
+	new_lst->out_nb = 0;
 	new_lst->next = 0;
 	return (new_lst);
 }
@@ -78,7 +82,7 @@ void	ft_lstaddtoken_back(t_Token **lst, t_Token *new)
 	else
 		*lst = new;
 }
-t_Parse	*ft_lstnewcmd(int arg_nb)
+t_Parse	*ft_lstnewcmd(void)
 {
 	t_Parse	*new_lst;
 
@@ -86,6 +90,9 @@ t_Parse	*ft_lstnewcmd(int arg_nb)
 	if (!new_lst)
 		return (0);
 	new_lst->arg_nb = 0;
+	new_lst->in = 0;
+	new_lst->out = 1;
+	new_lst->cmd = "/bin/cat";
 	new_lst->next = 0;
 	return (new_lst);
 }
@@ -117,9 +124,8 @@ t_Token	create_tokens(char **line)
 	int			i;
 	int			arg_needed;
 	t_Token		*new;
+	t_Token		*cmd;
 	t_Token		*token;
-	t_Parse		*parse;
-	t_Parse		*new_cmd;
 
 	token = 0;
 	i = 0;
@@ -139,53 +145,68 @@ t_Token	create_tokens(char **line)
 		else if (ft_strcmp(line[i], "|") == 0)
 		{
 			new = ft_lstnewtoken(4, line[i]);
-			ft_lstaddcmd_back(&parse, new_cmd);
 			arg_needed = 0;
 		}
 		else if (arg_needed == 1)
 		{
 			new = ft_lstnewtoken(1, line[i]);
-			new_cmd->arg_nb++;
+			cmd->arg_nb++;
 		}
 		else
 		{
 			new = ft_lstnewtoken(0, get_cmd_path(line[i]));
-			new = ft_lstnewcmd(0);
 			arg_needed = 1;
+			cmd = new;
 		}
 		i++;
 		ft_lstaddtoken_back(&token, new);
 	}
-	ft_lstaddcmd_back(&parse, new);
 	return (*token);
 }
 
 void	parse_tokens(t_Token *token, t_Parse *parse)
 {
 	int		i;
+	int		end[2];
+	t_Parse	*new;
+	t_Dup	*dup;
 
 	i = 0;
-	parse->cmd = malloc(sizeof(char *) * (parse->arg_nb + 2));
-	if (!parse->cmd)
-		return (0);
 	while (token->type != 0)
 	{
-		if (token->type == 0 || token->type == 1)
+		if (token->type == 0)
+		{
+			parse->cmd = malloc(sizeof(char *) * (token->arg_nb + 2));
+			if (!parse->cmd)
+				return (0);
+			parse->cmd[parse->arg_nb + 1] = NULL;
+			parse->cmd[i++] = token->value;
+		}
+		if (token->type == 1)
 			parse->cmd[i++] = token->value;
 		if (token->type == 2)
-		{
-			parse->stdin = open(token->value, O_RDONLY);
-			if (parse->stdin == -1)
-				perror(token->value);
-		}
+			dup->
 		if (token->type == 3)
-		{
-			parse->stdout = open(token->value, O_CREAT | O_WRONLY | O_APPEND, 0644);
-			if (parse->stdout == -1)
-				perror(token->value);
-		}
+			parse->out_nb++;
 		if (token->type == 4)
-			parse->stdout = pipe(end);
+		{
+			pipe(end);
+			parse->out = end[1];
+			new = ft_lstnewcmd();
+			ft_lstaddcmd_back(&parse, new);
+			parse = parse->next;
+			parse->in = end[0];
+		}
 		token = token->next;
 	}
 }
+
+void	setup_exec(t)
+{
+	
+}
+
+
+			parse->in = open(token->value, O_RDONLY);
+			if (parse->in == -1)
+				perror(token->value);
