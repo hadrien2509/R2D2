@@ -6,12 +6,14 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 17:58:46 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/12 14:36:56 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/13 14:45:44 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKEN_H
 # define TOKEN_H
+
+# include <fcntl.h>
 
 typedef enum s_TokenType
 {
@@ -36,21 +38,17 @@ typedef struct s_Token
 typedef struct s_Parse
 {
 	int				arg_nb;
-	t_Dup			*dup;
 	char			**cmd;
+	t_In			*in;
+	t_Out			*out;
 	struct s_Parse	*next;
 }					t_Parse;
 
-typedef struct s_In
+typedef struct s_Inout
 {
-	int				in;
+	int				fd;
 	struct s_In		*next;
-}				t_Dup;
-
-typedef struct s_Out
-{
-	int				out;
-	struct s_Out	*next;
-}				t_Out;
+	struct s_In		*prev;
+}				t_Inout;
 
 #endif

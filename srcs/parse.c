@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 12:45:43 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/12 17:26:08 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/13 14:53:06 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	print_tokens(t_Token *token)
 	}
 }
 
+
 t_Token	*ft_lstnewtoken(int type, char *value)
 {
 	t_Token	*new_lst;
@@ -54,8 +55,6 @@ t_Token	*ft_lstnewtoken(int type, char *value)
 	new_lst->type = type;
 	new_lst->value = value;
 	new_lst->arg_nb = 0;
-	new_lst->in_nb = 0;
-	new_lst->out_nb = 0;
 	new_lst->next = 0;
 	return (new_lst);
 }
@@ -91,7 +90,7 @@ t_Parse	*ft_lstnewcmd(void)
 	new_lst->arg_nb = 0;
 	new_lst->in = 0;
 	new_lst->out = 1;
-	new_lst->cmd = "/bin/cat";
+	new_lst->cmd = 0;
 	new_lst->next = 0;
 	return (new_lst);
 }
@@ -117,14 +116,47 @@ void	ft_lstaddcmd_back(t_Parse **lst, t_Parse *new)
 	else
 		*lst = new;
 }
+t_Inout	*ft_lstnewinout(void)
+{
+	t_Inout	*new_inout;
+
+	new_inout = malloc(sizeof(t_Inout));
+	if (!new_inout)
+		return (0);
+	new_inout->fd = 0;
+	new_inout->next = 0;
+	return (new_inout);
+}
+
+t_Inout	*ft_lstlastinout(t_Inout *lst)
+{
+	while (lst && lst->next)
+	{
+		lst = lst->next;
+	}
+	return (lst);
+}
+
+void	ft_lstaddinout_back(t_Inout **lst, t_Inout *new)
+{
+	t_Inout	*last;
+
+	if (*lst)
+	{
+		last = ft_lstlastcmd(*lst);
+		last->next = new;
+	}
+	else
+		*lst = new;
+}
 
 t_Token	create_tokens(char **line)
 {
-	int		i;
-	int		arg_needed;
-	t_Token	*new;
-	t_Token	*cmd;
-	t_Token	*token;
+	int			i;
+	int			arg_needed;
+	t_Token		*new;
+	t_Token		*cmd;
+	t_Token		*token;
 
 	token = 0;
 	i = 0;
@@ -163,16 +195,113 @@ t_Token	create_tokens(char **line)
 	return (*token);
 }
 
+void	parse_command(t_Token *token, t_Parse *cmd)
+{
+	t_Parse	*new;
+	int		i;
+
+	i = -1;
+	new = ft_lstnewcmd();
+	while (token)
+	{
+		if (token->type == 0)
+		{
+			new->cmd = malloc(sizeof(char *) * (token->arg_nb + 2));
+			if (!new->cmd)
+				return (0);
+			new->cmd[parse->arg_nb + 1] = NULL;
+			new->cmd[i++] = token->value;
+		}
+		else if (token->type == 1)
+			new->cmd[++i] = token->value;
+		else if (token->type == 4)
+		{
+			ft_lstaddcmd_back(&cmd, new);
+			new = ft_lstnewcmd();
+			i = -1;
+		}
+		token = token->next;
+	}
+}
+
+void	parse_fd(t_Token *token, t_Parse *cmd)
+{
+	int		end[2];
+	t_In	*new_in;
+	t_Out	*new_out;
+	t_In	*in;
+	t_Out	*out;
+
+	in = 0;
+	out = 0;
+	while (token)
+	{
+		if (token->type == 2)
+		{
+			new_in = ft_lstnewinout();
+			new_in->fd = open(token->value, O_RDONLY);
+			ft_lstaddinout_back(&in, new_in);
+		}
+		else if (token->type == 3)
+		{
+			new_out = ft_lstnewinout();
+			new_out->fd = open(token->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			ft_lstaddinout_back(&out, new_out);
+		}
+		else if (token->type == 4)
+		{
+			pipe(end);
+			new_out = ft_lstnewinout();
+			new_out->fd = end[1];
+			ft_lstaddinout_back(&out, new_out);
+			cmd->out = out;
+			cmd = cmd->next;
+			in = 0;
+			out = 0;
+			new_in = ft_lstnewinout();
+			new_in->fd = end[0];
+			ft_lstaddinout_back(&out, new_in);
+		}
+	}
+}
+
+void	exec(t_Parse *cmd)
+{
+	int	child;
+
+	while (parse)
+	{
+		while (parse->in)
+		{
+			child = fork();
+			if (child == 0)
+			{
+				dup2(parse->in->fd, 0);
+				dup2(parse->out->fd, 1);
+				execve(parse->cmd[0], parse->cmd);
+			}
+			parse = parse->in->next;
+		}
+		parse->out = parse->out->next;
+		while (parse->out)
+		{
+			get_next_line(parse->out->prev->fd);
+			parse->out = parse->out->next;
+		}
+		parse = parse->next;
+	}
+}
+
 void	parse_tokens(t_Token *token, t_Parse *parse)
 {
 	int		i;
 	int		end[2];
 	t_Parse	*new;
-	t_Dup	*dup;
 
 	i = 0;
-	while (token->type != 0)
+	while (token->type)
 	{
+		new = ft_lstnewcmd();
 		if (token->type == 0)
 		{
 			parse->cmd = malloc(sizeof(char *) * (token->arg_nb + 2));
@@ -184,8 +313,9 @@ void	parse_tokens(t_Token *token, t_Parse *parse)
 		if (token->type == 1)
 			parse->cmd[i++] = token->value;
 		if (token->type == 2)
-			dup->if (token->type == 3)
-				parse->out_nb++;
+			parse
+		if (token->type == 3)
+			parse->out_nb++;
 		if (token->type == 4)
 		{
 			pipe(end);
@@ -198,11 +328,3 @@ void	parse_tokens(t_Token *token, t_Parse *parse)
 		token = token->next;
 	}
 }
-
-void	setup_exec(t)
-{
-}
-
-parse->in = open(token->value, O_RDONLY);
-if (parse->in == -1)
-	perror(token->value);
