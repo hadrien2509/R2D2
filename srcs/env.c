@@ -3,54 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:52:28 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/12 13:10:24 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/13 12:18:49 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	**env_list_to_tab(unsigned env_size, t_env *first)
-{
-	char	**env;
-	size_t	i;
-	t_env	*node;
-
-	node = first;
-	env = (char **)malloc((env_size + 1) * sizeof(char *));
-	if (!env)
-		return (NULL);
-	i = 0;
-	while (node)
-	{
-		env[i] = ft_strdup(node->var);
-		if (!env[i])
-		{
-			while (i--)
-				free(env[i]);
-			free(env);
-			return (NULL);
-		}
-		i++;
-		node = node->next;
-	}
-	env[env_size] = NULL;
-	return (env);
-}
-
-int	set_env(t_env *env, char *var, char *new_val)
+/*
+** Sets a value to an environment variable.
+** @param env the environment variables list
+** @param var the variable name
+** @param new_val the new value
+** @return 0 if successful, 1 otherwise
+*/
+int	set_env(t_env *env, const char *var, const char *new_val)
 {
 	t_env	*elem;
 	char	*new_token;
+	char	*tmp;
 
 	elem = env;
-	new_token = ft_strjoin(var, "=");
-	new_token = ft_strjoin(new_token, new_val);
+	tmp = ft_strjoin(var, "=");
+	if (!tmp)
+		return (1);
+	new_token = ft_strjoin(tmp, new_val);
+	free(tmp);
+	if (!new_token)
+		return (1);
 	while (elem)
 	{
-		if (ft_strcmp(var, elem->var) == -61)
+		if (ft_strcmp(elem->var, var) == '=')
 		{
 			free(elem->var);
 			elem->var = new_token;
@@ -63,7 +48,13 @@ int	set_env(t_env *env, char *var, char *new_val)
 	return (0);
 }
 
-char	*get_env(t_env *env, char *var)
+/*
+** Returns the value of an environment variable.
+** @param env the environment variables list
+** @param var the variable name
+** @return the value of the environment variable, or NULL if it is not found
+*/
+char	*get_env(t_env *env, const char *var)
 {
 	t_env	*elem;
 	char	*value;
@@ -84,7 +75,13 @@ char	*get_env(t_env *env, char *var)
 	return (NULL);
 }
 
-int	del_env(t_env *env, char *var)
+/*
+** Deletes an environment variable from the list.
+** @param env the environment variables list
+** @param var the variable name
+** @return 0 if successful, 1 otherwise
+*/
+int	del_env(t_env *env, const char *var)
 {
 	t_env	*elem;
 
@@ -93,7 +90,7 @@ int	del_env(t_env *env, char *var)
 	{
 		if (ft_strcmp(elem->var, var) == '=')
 		{
-			elem = get_env_t(env, var);
+			elem = find_env_node(env, var);
 			if (del_elem(get_previous(env, elem), elem))
 				return (1);
 			return (0);
@@ -103,6 +100,11 @@ int	del_env(t_env *env, char *var)
 	return (1);
 }
 
+/*
+** Prints the environment variables.
+** @param env the environment variables list
+** @return 0 if successful, -1 otherwise
+*/
 int	print_env(t_env *env)
 {
 	t_env	*tmp;

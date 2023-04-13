@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: samy <samy@student.42.fr>                  +#+  +:+       +#+         #
+#    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/04/12 17:25:22 by samy             ###   ########.fr        #
+#    Updated: 2023/04/13 12:21:51 by sde-smed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,13 @@ NAME = minishell
 
 SRCS = main.c\
 		commands.c\
-		utils.c\
 		cd.c\
 		echo.c\
 		env.c\
-		export.c
+		export.c\
+		env_convertion.c\
+		env_edition.c\
+		env_get.c
 
 SRCS_DIR = srcs
 OBJS_DIR = objs

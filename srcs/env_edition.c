@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   env_edition.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 10:25:54 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/12 12:54:06 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/13 12:28:41 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+** Clears the linked list containing environment variables.
+** @param lst the address of a pointer to the first node of the list
+*/
 void	ft_envclear(t_env **lst)
 {
 	t_env	*tmp;
 
-	if (!lst)
+	if (!lst || !*lst)
 		return ;
 	while (*lst)
 	{
@@ -27,10 +31,18 @@ void	ft_envclear(t_env **lst)
 	}
 }
 
+/*
+** Allocates and initializes a new environment variable node
+** with a copy of a given string.
+** @param var the string to copy
+** @return a pointer to the new node, or NULL if the allocation fails
+*/
 t_env	*ft_envnew(char *var)
 {
 	t_env	*new;
 
+	if (!var)
+		return (NULL);
 	new = (t_env *)malloc(sizeof(t_env));
 	if (!new)
 		return (NULL);
@@ -44,6 +56,12 @@ t_env	*ft_envnew(char *var)
 	return (new);
 }
 
+/*
+** Adds a new environment variable node at the end of a linked list.
+** @param alst the address of a pointer to the first node of the list,
+	or NULL if the list is empty
+** @param new a pointer to the new node to add
+*/
 void	ft_envadd_back(t_env **alst, t_env *new)
 {
 	t_env	*last;
@@ -61,29 +79,13 @@ void	ft_envadd_back(t_env **alst, t_env *new)
 	last->next = new;
 }
 
-static t_env	*ft_strarr_to_env(t_data *data, char **strarr)
-{
-	unsigned int	i;
-	t_env			*head;
-	t_env			*node;
-
-	i = 0;
-	head = NULL;
-	while (strarr[i])
-	{
-		node = ft_envnew(strarr[i]);
-		if (!node)
-		{
-			ft_envclear(&head);
-			return (NULL);
-		}
-		ft_envadd_back(&head, node);
-		i++;
-	}
-	data->env_size = ++i;
-	return (head);
-}
-
+/*
+** Initializes the data struct with a newly created linked list of environment
+** variables from a null-terminated string array.
+** @param data a pointer to the data struct to initialize
+** @param env the null-terminated string array to copy from
+** @return 0 if successful, -1 if the allocation fails
+*/
 int	init_data(t_data *data, char **env)
 {
 	data->env = ft_strarr_to_env(data, env);
@@ -92,29 +94,13 @@ int	init_data(t_data *data, char **env)
 	return (0);
 }
 
-t_env	*get_last(t_env *env)
-{
-	if (!env)
-		return (NULL);
-	while (env->next)
-		env = env->next;
-	return (env);
-}
-
-t_env	*get_previous(t_env *env, t_env *current)
-{
-	t_env	*previous;
-
-	if (env == NULL || current == NULL)
-		return (NULL);
-	if (env == current)
-		return (NULL);
-	previous = env;
-	while (previous != NULL && previous->next != current)
-		previous = previous->next;
-	return (previous);
-}
-
+/*
+** Deletes the given node in a linked list and frees its memory.
+** @param prev the previous node of the node to be deleted,
+	NULL if the node to be deleted is the head
+** @param to_del the node to be deleted
+** @return 0 if successful, 1 if the node to be deleted is NULL
+*/
 int	del_elem(t_env *prev, t_env *to_del)
 {
 	if (to_del == NULL)
@@ -129,20 +115,4 @@ int	del_elem(t_env *prev, t_env *to_del)
 	free(to_del->var);
 	free(to_del);
 	return (0);
-}
-
-t_env	*get_env_t(t_env *env, char *arg)
-{
-	t_env	*current;
-
-	if (env == NULL || arg == NULL)
-		return (NULL);
-	current = env;
-	while (current != NULL)
-	{
-		if (ft_strcmp(current->var, arg) == '=')
-			return (current);
-		current = current->next;
-	}
-	return (NULL);
 }
