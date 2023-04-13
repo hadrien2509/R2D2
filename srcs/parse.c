@@ -227,10 +227,9 @@ void	parse_command(t_Token *token, t_Parse *cmd)
 void	parse_fd(t_Token *token, t_Parse *cmd)
 {
 	int		end[2];
-	t_In	*new_in;
-	t_Out	*new_out;
-	t_In	*in;
-	t_Out	*out;
+	t_Inout	*new;
+	t_Inout	*in;
+	t_Inout	*out;
 
 	in = 0;
 	out = 0;
@@ -238,34 +237,34 @@ void	parse_fd(t_Token *token, t_Parse *cmd)
 	{
 		if (token->type == 2)
 		{
-			new_in = ft_lstnewinout();
+			new = ft_lstnewinout();
 			new_in->fd = open(token->value, O_RDONLY);
-			ft_lstaddinout_back(&in, new_in);
+			ft_lstaddinout_back(&in, new);
 		}
 		else if (token->type == 3)
 		{
-			new_out = ft_lstnewinout();
+			new = ft_lstnewinout();
 			new_out->fd = open(token->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-			ft_lstaddinout_back(&out, new_out);
+			ft_lstaddinout_back(&out, new);
 		}
 		else if (token->type == 4)
 		{
 			pipe(end);
-			new_out = ft_lstnewinout();
-			new_out->fd = end[1];
-			ft_lstaddinout_back(&out, new_out);
+			new = ft_lstnewinout();
+			new->fd = end[1];
+			ft_lstaddinout_back(&out, new);
 			cmd->out = out;
 			cmd = cmd->next;
 			in = 0;
 			out = 0;
-			new_in = ft_lstnewinout();
-			new_in->fd = end[0];
-			ft_lstaddinout_back(&out, new_in);
+			new = ft_lstnewinout();
+			new->fd = end[0];
+			ft_lstaddinout_back(&out, new);
 		}
 	}
 }
 
-void	exec(t_Parse *cmd)
+void	exec(t_Parse *parse)
 {
 	int	child;
 
@@ -280,12 +279,12 @@ void	exec(t_Parse *cmd)
 				dup2(parse->out->fd, 1);
 				execve(parse->cmd[0], parse->cmd);
 			}
-			parse = parse->in->next;
+			parse->in = parse->in->next;
 		}
 		parse->out = parse->out->next;
 		while (parse->out)
 		{
-			get_next_line(parse->out->prev->fd);
+			ft_putstr_fd(get_next_line(parse->out->prev->fd), parse->out->fd);
 			parse->out = parse->out->next;
 		}
 		parse = parse->next;
