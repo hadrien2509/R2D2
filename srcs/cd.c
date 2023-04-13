@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:00:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/13 13:02:26 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/13 15:58:55 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,20 @@ static char	*build_absolute_path(char *current_path, char **parts)
 	return (current_path);
 }
 
+static char	*set_old_pwd(t_env *env, char *relative_path)
+{
+	char	*path;
+
+	if (!relative_path[1])
+	{
+		path = get_env(env, "OLDPWD");
+		if (!path)
+			ft_putstr_fd("cd: OLDPWD not set\n", 2);
+		return (path);
+	}
+	return (NULL);
+}
+
 /*
 ** Gets the absolute path of a relative / absolute path by joining it to
 **	the current path.
@@ -100,7 +114,7 @@ static char	*build_absolute_path(char *current_path, char **parts)
 ** @param relative_path the relative path to get the absolute path for
 ** @return the absolute path or NULL if an error occurred
 */
-static char	*get_absolute_path(t_env *env, char *current_path, char *relative_path)
+static char	*get_absolute_path(t_env *env, char *curr_path, char *relative_path)
 {
 	char	**parts;
 	char	*path;
@@ -108,42 +122,45 @@ static char	*get_absolute_path(t_env *env, char *current_path, char *relative_pa
 	if (relative_path[0] == '/')
 		return (ft_strdup(relative_path));
 	if (relative_path[0] == '-')
-		return (get_env(env, "OLDPWD"));
+	{
+		path = set_old_pwd(env, relative_path);
+		if (!path)
+			return (NULL);
+		else
+			return (path);
+	}
 	parts = ft_split(relative_path, '/');
-	if (!parts)
-		return (NULL);
-	path = build_absolute_path(current_path, parts);
+	path = build_absolute_path(curr_path, parts);
 	ft_free_split(parts);
+	if (access(path, F_OK) != 0)
+	{
+		ft_putstr_fd("cd: ", 2);
+		ft_putstr_fd(relative_path, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return (NULL);
+	}
 	return (path);
 }
 
 /*
 ** Changes the current working directory.
 ** @param env the shell's environment variables
+** @param pwd the current path
 ** @param str the path to change to
 ** @return 0 if successful, 1 otherwise
 */
-int	builtin_cd(t_env *env, char *str)
+int	builtin_cd(t_data *data, char *pwd, char *str)
 {
 	char	*path;
-	char	*pwd;
 
 	if (!str)
 		return (0);
-	pwd = get_env(env, "PWD");
-	if (!pwd)
+	path = get_absolute_path(data->env, pwd, str);
+	if (!path)
 		return (1);
-	path = get_absolute_path(env, pwd, str);
-	if (access(path, F_OK) != 0)
-	{
-		ft_putstr_fd("cd: ", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		return (1);
-	}
 	if (chdir(path))
 		return (1);
-	set_env(env, "OLDPWD", get_env(env, "PWD"));
-	set_env(env, "PWD", path);
+	set_env(data, "OLDPWD", pwd);
+	set_env(data, "PWD", path);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_edition.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 10:25:54 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/13 12:28:41 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/13 15:58:41 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,15 @@ void	ft_envadd_back(t_env **alst, t_env *new)
 */
 int	init_data(t_data *data, char **env)
 {
+	char	*pwd;
+
 	data->env = ft_strarr_to_env(data, env);
 	if (!data->env)
-		return (-1);
+		return (1);
+	pwd = get_env(data->env, "PWD");
+	if (!pwd)
+		return (1);
+	data->pwd = pwd;
 	return (0);
 }
 

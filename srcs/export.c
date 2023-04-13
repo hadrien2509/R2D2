@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:25:03 by samy              #+#    #+#             */
-/*   Updated: 2023/04/13 10:17:14 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/13 15:45:31 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** @param var the variable name and value separated by "="
 ** @return 0 if successful, 1 otherwise
 */
-int	export(t_env *env, char *arg)
+int	export(t_data *data, char *arg)
 {
 	char	**args;
 
@@ -30,7 +30,7 @@ int	export(t_env *env, char *arg)
 		ft_free_split(args);
 		return (1);
 	}
-	if (set_env(env, args[0], args[1]))
+	if (set_env(data, args[0], args[1]))
 	{
 		ft_free_split(args);
 		return (1);

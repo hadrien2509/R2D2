@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:52:28 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/13 13:08:37 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/13 15:58:24 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,15 @@
 ** @param new_val the new value
 ** @return 0 if successful, 1 otherwise
 */
-int	set_env(t_env *env, const char *var, const char *new_val)
+int	set_env(t_data *data, const char *var, const char *new_val)
 {
 	t_env	*elem;
 	char	*new_token;
 	char	*tmp;
 
-	elem = env;
+	elem = data->env;
+	if (!ft_strcmp(var, "PWD"))
+		data->pwd = ft_strdup(new_val);
 	tmp = ft_strjoin(var, "=");
 	if (!tmp)
 		return (1);
@@ -43,7 +45,7 @@ int	set_env(t_env *env, const char *var, const char *new_val)
 		}
 		elem = elem->next;
 	}
-	elem = get_last(env);
+	elem = get_last(data->env);
 	ft_envadd_back(&elem, ft_envnew(new_token));
 	return (0);
 }

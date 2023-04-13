@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/13 12:27:40 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/13 15:57:27 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,13 +142,13 @@ int	check_command(char **command, t_data *data)
 	if (!command[0])
 		return (0);
 	else if (!ft_strcmp(command[0], "pwd"))
-		return ((printf("%s\n", get_env(data->env, "PWD")) == 0));
+		return ((printf("%s\n", data->pwd) == 0));
 	else if (!ft_strcmp(command[0], "cd"))
-		return (builtin_cd(data->env, command[1]));
+		return (builtin_cd(data, data->pwd, command[1]));
 	else if (!ft_strcmp(command[0], "echo"))
 		return (builtin_echo(command));
 	else if (!ft_strcmp(command[0], "export"))
-		return (export(data->env, command[1]));
+		return (export(data, command[1]));
 	else if (!ft_strcmp(command[0], "unset"))
 		return (unset(data->env, command[1]));
 	else if (!ft_strcmp(command[0], "env"))
