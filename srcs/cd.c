@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:00:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/12 20:15:07 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/13 13:02:26 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,15 @@ static char	*build_absolute_path(char *current_path, char **parts)
 ** @param relative_path the relative path to get the absolute path for
 ** @return the absolute path or NULL if an error occurred
 */
-static char	*get_absolute_path(char *current_path, char *relative_path)
+static char	*get_absolute_path(t_env *env, char *current_path, char *relative_path)
 {
 	char	**parts;
 	char	*path;
 
 	if (relative_path[0] == '/')
 		return (ft_strdup(relative_path));
+	if (relative_path[0] == '-')
+		return (get_env(env, "OLDPWD"));
 	parts = ft_split(relative_path, '/');
 	if (!parts)
 		return (NULL);
@@ -131,7 +133,7 @@ int	builtin_cd(t_env *env, char *str)
 	pwd = get_env(env, "PWD");
 	if (!pwd)
 		return (1);
-	path = get_absolute_path(pwd, str);
+	path = get_absolute_path(env, pwd, str);
 	if (access(path, F_OK) != 0)
 	{
 		ft_putstr_fd("cd: ", 2);
