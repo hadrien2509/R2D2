@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/14 13:50:12 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:43:31 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*check_binary_path(char *path, char *name)
 ** @param name the name of the command to search for
 ** @return the binary path if found, NULL otherwise
 */
-static char	*get_binary_path(t_env *env, char *name)
+char	*get_binary_path(t_env *env, char *name)
 {
 	char	**path_list;
 	char	*binary_path;

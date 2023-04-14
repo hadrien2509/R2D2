@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:53:21 by sde-smed          #+#    #+#             */
-/*   Updated: 2022/12/20 12:07:14 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/14 16:55:04 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,4 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 	s3[i] = 0;
 	free(s1);
 	return (s3);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	char	*str;
-
-	if (!s)
-		return (0);
-	str = (char *)s;
-	while (*str != 0 && *str != (char)c)
-		str++;
-	if (*str == 0)
-		return (0);
-	return (str);
 }

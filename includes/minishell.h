@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/14 16:15:30 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:49:19 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_data
 	char			*line;
 	char			**command;
 	char			*pwd;
+	char			**envtab;
 }					t_data;
 
 char				**env_list_to_tab(size_t env_size, t_env *envlst);
@@ -71,9 +72,10 @@ char				*get_absolute_path(t_env *env, char *path, char *r_path);
 /*                             Parsing                                        */
 /* ************************************************************************** */
 
-t_Token	create_tokens(char **line);
+t_Token	create_tokens(char **line, t_data *data);
 void	parse_command(t_Token *token, t_Parse *cmd);
 void	parse_fd(t_Token *token, t_Parse *cmd);
-void	execline(t_Parse *parse);
+void	exec_line(t_Parse *parse, t_data *data);
+char	*get_binary_path(t_env *env, char *name);
 
 #endif

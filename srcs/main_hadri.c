@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main copy.c                                        :+:      :+:    :+:   */
+/*   main_hadri.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/14 16:05:02 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:49:30 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	main(int argc, char *argv[], char *envp[])
 	t_Token			token;
 	t_Parse			parse;
 
+	data.envtab = envp;
 	(void)argc;
 	(void)argv;
 	tcgetattr(STDIN_FILENO, &curr);
@@ -53,10 +54,10 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		add_history(data.line);
 		data.command = ft_split(data.line, ' ');
-		token = create_tokens(data.command);
+		token = create_tokens(data.command, &data);
 		parse_command(&token, &parse);
 		parse_fd(&token, &parse);
-		execline(&parse);
+		exec_line(&parse, &data);
 		// if (check_command(data.command, &data))
 		// 	printf("an error append\n");
 		free(data.line);

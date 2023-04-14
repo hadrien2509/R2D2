@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 12:45:43 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/14 16:04:44 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:47:39 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@
 // 	if (i = )
 // }
 
-char	*get_cmd_path(char *arg)
+char	*get_cmd_path(char *arg, t_data *data)
 {
 	char	*path;
 
 	if (ft_strchr(arg, '/') != NULL)
 		path = ft_strdup(arg);
 	else
-		path = get_binary_path(arg);
+		path = get_binary_path(data->env, arg);
 	if (!path | (access(path, F_OK) != 0))
 	{
 		free(path);
@@ -142,14 +142,14 @@ void	ft_lstaddinout_back(t_Inout **lst, t_Inout *new)
 
 	if (*lst)
 	{
-		last = ft_lstlastcmd(*lst);
+		last = ft_lstlastinout(*lst);
 		last->next = new;
 	}
 	else
 		*lst = new;
 }
 
-t_Token	create_tokens(char **line)
+t_Token	create_tokens(char **line, t_data *data)
 {
 	int			i;
 	int			arg_needed;
@@ -184,7 +184,7 @@ t_Token	create_tokens(char **line)
 		}
 		else
 		{
-			new = ft_lstnewtoken(0, get_cmd_path(line[i]));
+			new = ft_lstnewtoken(0, get_cmd_path(line[i], data));
 			arg_needed = 1;
 			cmd = new;
 		}
@@ -207,7 +207,7 @@ void	parse_command(t_Token *token, t_Parse *cmd)
 		{
 			new->cmd = malloc(sizeof(char *) * (token->arg_nb + 2));
 			if (!new->cmd)
-				return (0);
+				return ;
 			new->cmd[cmd->arg_nb + 1] = NULL;
 			new->cmd[i++] = token->value;
 		}
@@ -280,7 +280,7 @@ void	parse_fd(t_Token *token, t_Parse *cmd)
 // 	}
 // }
 
-void	exec_cmd(t_Parse	*parse)
+void	exec_cmd(t_Parse	*parse, t_data *data)
 {
 	int	child;
 
@@ -291,7 +291,7 @@ void	exec_cmd(t_Parse	*parse)
 		{
 			if (parse->out)
 				dup2(parse->out->fd, 1);
-			execve(parse->cmd[0], parse->cmd);
+			execve(parse->cmd[0], parse->cmd, data->envtab);
 		}
 	}
 	while (parse->in)
@@ -302,7 +302,7 @@ void	exec_cmd(t_Parse	*parse)
 			dup2(parse->in->fd, 0);
 			if (parse->out)
 				dup2(parse->out->fd, 1);
-			execve(parse->cmd[0], parse->cmd);
+			execve(parse->cmd[0], parse->cmd, data->envtab);
 		}
 		parse->in = parse->in->next;
 	}
@@ -350,12 +350,12 @@ void	redirec(t_Parse *parse)
 		parse->out = parse->out->next;
 	}
 }
-void	exec_line(t_Parse *parse)
+void	exec_line(t_Parse *parse, t_data *data)
 {
 	while (parse)
 	{
 		if (parse->cmd)
-			exec_cmd(parse);
+			exec_cmd(parse, data);
 		else
 			exec_nocmd(parse);
 		if (parse->out->next)
