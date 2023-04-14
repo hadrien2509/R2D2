@@ -6,13 +6,14 @@
 #    By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/04/14 16:21:20 by hgeissle         ###   ########.fr        #
+#    Updated: 2023/04/14 16:22:36 by hgeissle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 SRCS = main_hadri.c\
+		parse.c\
 		commands.c\
 		cd.c\
 		echo.c\
