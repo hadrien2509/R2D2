@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/13 15:57:27 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/14 11:45:58 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static char	*get_binary_path(t_env *env, char *name)
 	int		i;
 
 	binary_path = NULL;
-	if (name[0] == '/' || name[0] == '.')
+	if (name[0] == '/' || name[0] == '.' || name[0] == '~')
 		return (ft_strdup(name));
 	i = -1;
 	path_env = get_env(env, "PATH");
@@ -118,6 +118,7 @@ int	exec(char **args, t_data *data)
 	int		result;
 
 	binary_path = get_binary_path(data->env, args[0]);
+	binary_path = get_absolute_path(data->env, data->pwd, binary_path);
 	if (!binary_path)
 	{
 		ft_putstr_fd(PROMPT, 2);
@@ -144,7 +145,7 @@ int	check_command(char **command, t_data *data)
 	else if (!ft_strcmp(command[0], "pwd"))
 		return ((printf("%s\n", data->pwd) == 0));
 	else if (!ft_strcmp(command[0], "cd"))
-		return (builtin_cd(data, data->pwd, command[1]));
+		return (builtin_cd(data, command[1]));
 	else if (!ft_strcmp(command[0], "echo"))
 		return (builtin_echo(command));
 	else if (!ft_strcmp(command[0], "export"))

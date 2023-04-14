@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/13 15:53:05 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/14 11:37:48 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void				signal_handler(int signal);
 int					set_env(t_data *data, const char *var, const char *new_val);
 char				*get_env(t_env *env, const char *var);
 int					print_env(t_env *env);
-int					builtin_cd(t_data *data, char *pwd, char *str);
+int					builtin_cd(t_data *data, char *str);
 int					builtin_echo(char **command);
 int					unset(t_env *env, char *arg);
 int					export(t_data *data, char *arg);
@@ -62,4 +62,5 @@ t_env				*find_env_node(t_env *env, const char *arg);
 t_env				*get_previous(t_env *env, t_env *current);
 void				ft_envclear(t_env **lst);
 t_env				*ft_strarr_to_env(t_data *data, char **strarr);
+char				*get_absolute_path(t_env *env, char *curr_path, char *relative_path);
 #endif
