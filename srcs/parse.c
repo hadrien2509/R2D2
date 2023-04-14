@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 12:45:43 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/13 14:53:06 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:04:44 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	print_tokens(t_Token *token)
 		token = token->next;
 	}
 }
-
 
 t_Token	*ft_lstnewtoken(int type, char *value)
 {
@@ -89,7 +88,7 @@ t_Parse	*ft_lstnewcmd(void)
 		return (0);
 	new_lst->arg_nb = 0;
 	new_lst->in = 0;
-	new_lst->out = 1;
+	new_lst->out = 0;
 	new_lst->cmd = 0;
 	new_lst->next = 0;
 	return (new_lst);
@@ -209,7 +208,7 @@ void	parse_command(t_Token *token, t_Parse *cmd)
 			new->cmd = malloc(sizeof(char *) * (token->arg_nb + 2));
 			if (!new->cmd)
 				return (0);
-			new->cmd[parse->arg_nb + 1] = NULL;
+			new->cmd[cmd->arg_nb + 1] = NULL;
 			new->cmd[i++] = token->value;
 		}
 		else if (token->type == 1)
@@ -233,18 +232,20 @@ void	parse_fd(t_Token *token, t_Parse *cmd)
 
 	in = 0;
 	out = 0;
+	cmd->in = 0;
+	cmd->out = 0;
 	while (token)
 	{
 		if (token->type == 2)
 		{
 			new = ft_lstnewinout();
-			new_in->fd = open(token->value, O_RDONLY);
+			new->fd = open(token->value, O_RDONLY);
 			ft_lstaddinout_back(&in, new);
 		}
 		else if (token->type == 3)
 		{
 			new = ft_lstnewinout();
-			new_out->fd = open(token->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			new->fd = open(token->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			ft_lstaddinout_back(&out, new);
 		}
 		else if (token->type == 4)
@@ -262,68 +263,169 @@ void	parse_fd(t_Token *token, t_Parse *cmd)
 			ft_lstaddinout_back(&out, new);
 		}
 	}
+	cmd->in = in;
+	cmd->out = out;
 }
 
-void	exec(t_Parse *parse)
+// static void	ft_putstr_fds(char *s, t_Inout *out)
+// {
+// 	if (!s)
+// 		return ;
+// 	if (!out)
+// 		write(1, s, ft_strlen(s));
+// 	while (out)
+// 	{
+// 		write(out->fd, s, ft_strlen(s));
+// 		out = out->next;
+// 	}
+// }
+
+void	exec_cmd(t_Parse	*parse)
 {
 	int	child;
 
-	while (parse)
+	if (!parse->in)
 	{
-		while (parse->in)
+		child = fork();
+		if (child == 0)
 		{
-			child = fork();
-			if (child == 0)
-			{
-				dup2(parse->in->fd, 0);
+			if (parse->out)
 				dup2(parse->out->fd, 1);
-				execve(parse->cmd[0], parse->cmd);
-			}
-			parse->in = parse->in->next;
+			execve(parse->cmd[0], parse->cmd);
 		}
-		parse->out = parse->out->next;
-		while (parse->out)
+	}
+	while (parse->in)
+	{
+		child = fork();
+		if (child == 0)
+		{
+			dup2(parse->in->fd, 0);
+			if (parse->out)
+				dup2(parse->out->fd, 1);
+			execve(parse->cmd[0], parse->cmd);
+		}
+		parse->in = parse->in->next;
+	}
+}
+
+void	exec_nocmd(t_Parse *parse)
+{
+	char	*line;
+
+	if (!parse->in && parse->out)
+	{
+		while (1)
+		{
+			line = get_next_line(0);
+			ft_putstr_fd(line, parse->out->fd);
+		}
+	}
+	while (parse->in)
+	{
+		line = get_next_line(parse->in->fd);
+		while (line)
+		{
+			if (parse->out)
+				ft_putstr_fd(line, parse->out->fd);
+			else
+				ft_putstr_fd(line, 1);
+			line = get_next_line(parse->in->fd);
+		}
+	}
+}
+
+void	redirec(t_Parse *parse)
+{
+	char	*line;
+
+	parse->out = parse->out->next;
+	line = get_next_line(parse->out->prev->fd);
+	while (parse->out)
+	{
+		while (line)
 		{
 			ft_putstr_fd(get_next_line(parse->out->prev->fd), parse->out->fd);
-			parse->out = parse->out->next;
+			line = get_next_line(parse->out->prev->fd);
 		}
+		parse->out = parse->out->next;
+	}
+}
+void	exec_line(t_Parse *parse)
+{
+	while (parse)
+	{
+		if (parse->cmd)
+			exec_cmd(parse);
+		else
+			exec_nocmd(parse);
+		if (parse->out->next)
+			redirec(parse);
 		parse = parse->next;
 	}
 }
 
-void	parse_tokens(t_Token *token, t_Parse *parse)
-{
-	int		i;
-	int		end[2];
-	t_Parse	*new;
+// void	exec(t_Parse *parse)
+// {
+// 	int	child;
 
-	i = 0;
-	while (token->type)
-	{
-		new = ft_lstnewcmd();
-		if (token->type == 0)
-		{
-			parse->cmd = malloc(sizeof(char *) * (token->arg_nb + 2));
-			if (!parse->cmd)
-				return (0);
-			parse->cmd[parse->arg_nb + 1] = NULL;
-			parse->cmd[i++] = token->value;
-		}
-		if (token->type == 1)
-			parse->cmd[i++] = token->value;
-		if (token->type == 2)
-			parse
-		if (token->type == 3)
-			parse->out_nb++;
-		if (token->type == 4)
-		{
-			pipe(end);
-			parse->out = end[1];
-			new = ft_lstnewcmd();
-			ft_lstaddcmd_back(&parse, new);
-			parse = parse->next;
-			parse->in = end[0];
-		}
-		token = token->next;
-	}
-}
+// 	while (parse)
+// 	{
+// 		while (parse->cmd && parse->in)
+// 		{
+// 			child = fork();
+// 			if (child == 0)
+// 			{
+// 				dup2(parse->in->fd, 0);
+// 				dup2(parse->out->fd, 1);
+// 				execve(parse->cmd[0], parse->cmd);
+// 			}
+// 			parse->in = parse->in->next;
+// 		}
+// 		if (!parse->cmd)
+// 			ft_putstr_fds(get_next_line(0), parse->in);
+// 		parse->out = parse->out->next;
+// 		while (parse->out)
+// 		{
+// 			ft_putstr_fd(get_next_line(parse->out->prev->fd), parse->out->fd);
+// 			parse->out = parse->out->next;
+// 		}
+// 		parse = parse->next;
+// 	}
+// }
+
+// void	parse_tokens(t_Token *token, t_Parse *parse)
+// {
+// 	int		i;
+// 	int		end[2];
+// 	t_Parse	*new;
+
+// 	i = 0;
+// 	while (token->type)
+// 	{
+// 		new = ft_lstnewcmd();
+// 		if (token->type == 0)
+// 		{
+// 			parse->cmd = malloc(sizeof(char *) * (token->arg_nb + 2));
+// 			if (!parse->cmd)
+// 				return (0);
+// 			parse->cmd[parse->arg_nb + 1] = NULL;
+// 			parse->cmd[i++] = token->value;
+// 		}
+// 		if (token->type == 1)
+// 			parse->cmd[i++] = token->value;
+// 		if (token->type == 2)
+// 			parse
+// 		if (token->type == 3)
+// 			parse->out_nb++;
+// 		if (token->type == 4)
+// 		{
+// 			pipe(end);
+// 			parse->out = end[1];
+// 			new = ft_lstnewcmd();
+// 			ft_lstaddcmd_back(&parse, new);
+// 			parse = parse->next;
+// 			parse->in = end[0];
+// 		}
+// 		token = token->next;
+// 	}
+// }

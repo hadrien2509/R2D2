@@ -3,24 +3,23 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
+#    By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/04/14 12:21:55 by sde-smed         ###   ########.fr        #
+#    Updated: 2023/04/14 16:05:56 by hgeissle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRCS = main.c\
+SRCS = main_hadri.c\
 		commands.c\
 		cd.c\
 		echo.c\
 		env.c\
-		bultins.c\
+		export.c\
 		env_convertion.c\
 		env_edition.c\
-		export_utils.c\
 		env_get.c
 
 SRCS_DIR = srcs
