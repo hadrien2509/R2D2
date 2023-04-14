@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/14 11:37:48 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/14 12:22:34 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int					builtin_cd(t_data *data, char *str);
 int					builtin_echo(char **command);
 int					unset(t_env *env, char *arg);
 int					export(t_data *data, char *arg);
+int					export_print(t_env *old_head);
 t_env				*get_last(t_env *env);
 void				ft_envadd_back(t_env **alst, t_env *new);
 t_env				*ft_envnew(char *var);
@@ -62,5 +63,5 @@ t_env				*find_env_node(t_env *env, const char *arg);
 t_env				*get_previous(t_env *env, t_env *current);
 void				ft_envclear(t_env **lst);
 t_env				*ft_strarr_to_env(t_data *data, char **strarr);
-char				*get_absolute_path(t_env *env, char *curr_path, char *relative_path);
+char				*get_absolute_path(t_env *env, char *path, char *r_path);
 #endif

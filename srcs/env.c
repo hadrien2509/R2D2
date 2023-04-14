@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:52:28 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/13 15:58:24 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/14 13:49:25 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,18 @@ int	set_env(t_data *data, const char *var, const char *new_val)
 	elem = data->env;
 	if (!ft_strcmp(var, "PWD"))
 		data->pwd = ft_strdup(new_val);
-	tmp = ft_strjoin(var, "=");
-	if (!tmp)
-		return (1);
-	new_token = ft_strjoin(tmp, new_val);
-	free(tmp);
+	if (new_val)
+	{
+		tmp = ft_strjoin(var, "=");
+		if (!tmp)
+			return (1);
+		new_token = ft_strjoin(tmp, new_val);
+		free(tmp);
+	}
+	else
+		new_token = ft_strdup(var);
 	if (!new_token)
-		return (1);
+			return (1);
 	while (elem)
 	{
 		if (ft_strcmp(elem->var, var) == '=')
@@ -114,7 +119,8 @@ int	print_env(t_env *env)
 	tmp = env;
 	while (tmp)
 	{
-		printf("%s\n", tmp->var);
+		if (ft_strchr(tmp->var, '='))
+			printf("%s\n", tmp->var);
 		tmp = tmp->next;
 	}
 	return (0);

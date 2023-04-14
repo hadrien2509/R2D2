@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/14 11:45:58 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/14 13:50:12 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ int	exec(char **args, t_data *data)
 	int		result;
 
 	binary_path = get_binary_path(data->env, args[0]);
-	binary_path = get_absolute_path(data->env, data->pwd, binary_path);
+	if (binary_path)
+		binary_path = get_absolute_path(data->env, data->pwd, binary_path);
 	if (!binary_path)
 	{
 		ft_putstr_fd(PROMPT, 2);

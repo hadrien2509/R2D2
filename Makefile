@@ -6,7 +6,7 @@
 #    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/04/13 12:21:51 by sde-smed         ###   ########.fr        #
+#    Updated: 2023/04/14 12:21:55 by sde-smed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,10 @@ SRCS = main.c\
 		cd.c\
 		echo.c\
 		env.c\
-		export.c\
+		bultins.c\
 		env_convertion.c\
 		env_edition.c\
+		export_utils.c\
 		env_get.c
 
 SRCS_DIR = srcs
