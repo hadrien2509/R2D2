@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:52:28 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/14 13:49:25 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/14 14:09:39 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	set_env(t_data *data, const char *var, const char *new_val)
 	else
 		new_token = ft_strdup(var);
 	if (!new_token)
-			return (1);
+		return (1);
 	while (elem)
 	{
-		if (ft_strcmp(elem->var, var) == '=')
+		if (ft_strcmp(elem->var, var) == '=' || ft_strcmp(elem->var, var) == -'=')
 		{
 			free(elem->var);
 			elem->var = new_token;

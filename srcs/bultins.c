@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:25:03 by samy              #+#    #+#             */
-/*   Updated: 2023/04/14 13:36:05 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/14 14:06:53 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	export(t_data *data, char *arg)
 	if (nb_elem == 0 || nb_elem > 2)
 		return (1);
 	if (nb_elem == 1)
-		result = set_env(data, args[0], NULL);
+		result = set_env(data, arg, NULL);
 	else
 		result = set_env(data, args[0], args[1]);
 	ft_free_split(args);
