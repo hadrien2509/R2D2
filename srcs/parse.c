@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 12:45:43 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/14 16:47:39 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/15 19:27:05 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,8 +208,8 @@ void	parse_command(t_Token *token, t_Parse *cmd)
 			new->cmd = malloc(sizeof(char *) * (token->arg_nb + 2));
 			if (!new->cmd)
 				return ;
-			new->cmd[cmd->arg_nb + 1] = NULL;
-			new->cmd[i++] = token->value;
+			new->cmd[token->arg_nb + 1] = NULL;
+			new->cmd[++i] = token->value;
 		}
 		else if (token->type == 1)
 			new->cmd[++i] = token->value;
@@ -234,6 +234,7 @@ void	parse_fd(t_Token *token, t_Parse *cmd)
 	out = 0;
 	cmd->in = 0;
 	cmd->out = 0;
+	printf("ok parse fd\n");
 	while (token)
 	{
 		if (token->type == 2)
@@ -262,6 +263,7 @@ void	parse_fd(t_Token *token, t_Parse *cmd)
 			new->fd = end[0];
 			ft_lstaddinout_back(&out, new);
 		}
+		token = token->next;
 	}
 	cmd->in = in;
 	cmd->out = out;
@@ -284,6 +286,7 @@ void	exec_cmd(t_Parse	*parse, t_data *data)
 {
 	int	child;
 
+	printf("ok exec_cmd\n");
 	if (!parse->in)
 	{
 		child = fork();
@@ -312,6 +315,7 @@ void	exec_nocmd(t_Parse *parse)
 {
 	char	*line;
 
+	printf("ok exec_nocmd\n");
 	if (!parse->in && parse->out)
 	{
 		while (1)
@@ -338,6 +342,7 @@ void	redirec(t_Parse *parse)
 {
 	char	*line;
 
+	printf("ok redirec\n");
 	parse->out = parse->out->next;
 	line = get_next_line(parse->out->prev->fd);
 	while (parse->out)
@@ -352,9 +357,10 @@ void	redirec(t_Parse *parse)
 }
 void	exec_line(t_Parse *parse, t_data *data)
 {
+	printf("ok exec_line : %s\n", parse->cmd[0]);
 	while (parse)
 	{
-		if (parse->cmd)
+		if (parse->cmd[0])
 			exec_cmd(parse, data);
 		else
 			exec_nocmd(parse);
