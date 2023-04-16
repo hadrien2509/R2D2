@@ -3,19 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 12:33:27 by samy              #+#    #+#             */
-/*   Updated: 2023/04/14 16:54:50 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/16 17:38:28 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 char	*ft_strchr(const char *s, int c)
 {
 	char	*str;
 
 	if (!s)
-		return (0);
+		return (NULL);
 	str = (char *)s;
 	while (*str)
 	{
@@ -25,5 +27,5 @@ char	*ft_strchr(const char *s, int c)
 	}
 	if (*str == (unsigned char)c)
 		return (str);
-	return (0);
+	return (NULL);
 }

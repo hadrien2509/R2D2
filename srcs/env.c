@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:52:28 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/14 14:09:39 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/16 18:08:32 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,43 +15,44 @@
 /*
 ** Sets a value to an environment variable.
 ** @param env the environment variables list
-** @param var the variable name
-** @param new_val the new value
+** @param name the variable name
+** @param value the new value
 ** @return 0 if successful, 1 otherwise
 */
-int	set_env(t_data *data, const char *var, const char *new_val)
+int	set_env(t_data *data, const char *name, const char *value)
 {
 	t_env	*elem;
-	char	*new_token;
-	char	*tmp;
 
 	elem = data->env;
-	if (!ft_strcmp(var, "PWD"))
-		data->pwd = ft_strdup(new_val);
-	if (new_val)
-	{
-		tmp = ft_strjoin(var, "=");
-		if (!tmp)
-			return (1);
-		new_token = ft_strjoin(tmp, new_val);
-		free(tmp);
-	}
-	else
-		new_token = ft_strdup(var);
-	if (!new_token)
-		return (1);
+	if (!ft_strcmp(name, "PWD"))
+		data->pwd = ft_strdup(value);
 	while (elem)
 	{
-		if (ft_strcmp(elem->var, var) == '=' || ft_strcmp(elem->var, var) == -'=')
+		if (!ft_strcmp(elem->name, name))
 		{
-			free(elem->var);
-			elem->var = new_token;
+			if (!value)
+				return (0);
+			free(elem->name);
+			free(elem->value);
+			elem->name = ft_strdup(name);
+			if (!elem->name)
+			{
+				free(elem);
+				return (1);
+			}
+			elem->value = ft_strdup(value);
+			if (!elem->name)
+			{
+				free(elem->value);
+				free(elem);
+				return (1);
+			}
 			return (0);
 		}
 		elem = elem->next;
 	}
 	elem = get_last(data->env);
-	ft_envadd_back(&elem, ft_envnew(new_token));
+	ft_envadd_back(&elem, ft_envnew(name, value));
 	return (0);
 }
 
@@ -61,22 +62,15 @@ int	set_env(t_data *data, const char *var, const char *new_val)
 ** @param var the variable name
 ** @return the value of the environment variable, or NULL if it is not found
 */
-char	*get_env(t_env *env, const char *var)
+char	*get_env(t_env *env, const char *name)
 {
 	t_env	*elem;
-	char	*value;
 
 	elem = env;
 	while (elem)
 	{
-		if (ft_strcmp(elem->var, var) == '=')
-		{
-			value = ft_strchr(elem->var, '=');
-			if (value)
-				return (ft_strdup(++value));
-			else
-				return (NULL);
-		}
+		if (!ft_strcmp(elem->name, name))
+			return (ft_strdup(elem->value));
 		elem = elem->next;
 	}
 	return (NULL);
@@ -88,23 +82,14 @@ char	*get_env(t_env *env, const char *var)
 ** @param var the variable name
 ** @return 0 if successful, 1 otherwise
 */
-int	del_env(t_env *env, const char *var)
+int	del_env(t_env *env, const char *name)
 {
 	t_env	*elem;
 
-	elem = env;
-	while (elem)
-	{
-		if (ft_strcmp(elem->var, var) == '=')
-		{
-			elem = find_env_node(env, var);
-			if (del_elem(get_previous(env, elem), elem))
-				return (1);
-			return (0);
-		}
-		elem = elem->next;
-	}
-	return (1);
+	elem = find_env_node(env, name);
+	if (del_elem(get_previous(env, elem), elem))
+		return (1);
+	return (0);
 }
 
 /*
@@ -114,14 +99,14 @@ int	del_env(t_env *env, const char *var)
 */
 int	print_env(t_env *env)
 {
-	t_env	*tmp;
+	t_env	*elem;
 
-	tmp = env;
-	while (tmp)
+	elem = env;
+	while (elem)
 	{
-		if (ft_strchr(tmp->var, '='))
-			printf("%s\n", tmp->var);
-		tmp = tmp->next;
+		if (elem->value)
+			printf("%s=%s\n", elem->name, elem->value);
+		elem = elem->next;
 	}
 	return (0);
 }

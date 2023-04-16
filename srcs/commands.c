@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/14 16:43:31 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/14 18:14:47 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int	check_command(char **command, t_data *data)
 	else if (!ft_strcmp(command[0], "echo"))
 		return (builtin_echo(command));
 	else if (!ft_strcmp(command[0], "export"))
-		return (export(data, command[1]));
+		return (export(data, &command[1]));
 	else if (!ft_strcmp(command[0], "unset"))
 		return (unset(data->env, command[1]));
 	else if (!ft_strcmp(command[0], "env"))

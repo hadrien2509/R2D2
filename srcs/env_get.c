@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_get.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 12:19:41 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/13 12:25:05 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/16 18:07:56 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@
 ** @param arg the variable name to search for
 ** @return the node containing the variable name, NULL if not found
 */
-t_env	*find_env_node(t_env *env, const char *arg)
+t_env	*find_env_node(t_env *env, const char *name)
 {
 	t_env	*current;
 
-	if (env == NULL || arg == NULL)
+	if (env == NULL || name == NULL)
 		return (NULL);
 	current = env;
 	while (current != NULL)
 	{
-		if (ft_strcmp(current->var, arg) == '=')
+		if (!ft_strcmp(current->name, name))
 			return (current);
 		current = current->next;
 	}

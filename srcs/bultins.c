@@ -3,30 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   bultins.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:25:03 by samy              #+#    #+#             */
-/*   Updated: 2023/04/14 14:06:53 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/16 17:57:09 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
-** Adds or updates an environment variable.
-** @param env the environment variables list
-** @param var the variable name and value separated by "="
-** @return 0 if successful, 1 otherwise
-*/
-int	export(t_data *data, char *arg)
+int	export_var(t_data *data, char *arg)
 {
-	char	**args;
 	int		result;
-	int		nb_elem;
+	char	*value;
 
 	result = 0;
-	if (!arg)
-		return (export_print(data->env));
 	if (arg[0] >= '0' && arg[0] <= '9')
 	{
 		ft_putstr_fd("export: '", 2);
@@ -34,16 +25,38 @@ int	export(t_data *data, char *arg)
 		ft_putstr_fd("': not a valid identifier\n", 2);
 		return (1);
 	}
-	args = ft_split(arg, '=');
-	nb_elem = ft_nb_split(args);
-	if (nb_elem == 0 || nb_elem > 2)
-		return (1);
-	if (nb_elem == 1)
-		result = set_env(data, arg, NULL);
+	value = ft_strchr(arg, '=');
+	if (value && ++value)
+	{
+		*(value - 1) = 0;
+		result = set_env(data, arg, value);
+	}
 	else
-		result = set_env(data, args[0], args[1]);
-	ft_free_split(args);
+		result = set_env(data, arg, NULL);
 	return (result);
+}
+
+/*
+** Adds or updates an environment variable.
+** @param env the environment variables list
+** @param var the variable name and value separated by "="
+** @return 0 if successful, 1 otherwise
+*/
+int	export(t_data *data, char **args)
+{
+	int	i;
+	int	result;
+
+	i = -1;
+	if (!args[0])
+		return (export_print(data->env));
+	while (args[++i])
+	{
+		result = export_var(data, args[i]);
+		if (result)
+			return (result);
+	}
+	return (0);
 }
 
 /*
@@ -52,9 +65,9 @@ int	export(t_data *data, char *arg)
 ** @param arg the name of the variable to delete
 ** @return 0 if successful, 1 otherwise
 */
-int	unset(t_env *env, char *arg)
+int	unset(t_env *env, char *name)
 {
-	if (del_env(env, arg))
+	if (name && del_env(env, name))
 		return (1);
 	return (0);
 }

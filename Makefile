@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+         #
+#    By: samy <samy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/04/14 16:22:36 by hgeissle         ###   ########.fr        #
+#    Updated: 2023/04/14 18:02:58 by samy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRCS = main_hadri.c\
+SRCS = main.c\
 		parse.c\
 		commands.c\
 		cd.c\

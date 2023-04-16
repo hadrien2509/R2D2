@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 10:25:54 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/13 15:58:41 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/14 19:02:14 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	ft_envclear(t_env **lst)
 	while (*lst)
 	{
 		tmp = (*lst)->next;
-		free((*lst)->var);
+		free((*lst)->name);
+		free((*lst)->value);
 		free(*lst);
 		*lst = tmp;
 	}
@@ -37,20 +38,30 @@ void	ft_envclear(t_env **lst)
 ** @param var the string to copy
 ** @return a pointer to the new node, or NULL if the allocation fails
 */
-t_env	*ft_envnew(char *var)
+t_env	*ft_envnew(const char *name, const char *value)
 {
 	t_env	*new;
 
-	if (!var)
+	if (!name)
 		return (NULL);
 	new = (t_env *)malloc(sizeof(t_env));
 	if (!new)
 		return (NULL);
-	new->var = ft_strdup(var);
-	if (!new->var)
+	new->name = ft_strdup(name);
+	if (!new->name)
 	{
 		free(new);
 		return (NULL);
+	}
+	if (value)
+	{
+		new->value = ft_strdup(value);
+		if (!new->value)
+		{
+			free(new->name);
+			free(new);
+			return (NULL);
+		}
 	}
 	new->next = NULL;
 	return (new);
@@ -88,15 +99,12 @@ void	ft_envadd_back(t_env **alst, t_env *new)
 */
 int	init_data(t_data *data, char **env)
 {
-	char	*pwd;
-
 	data->env = ft_strarr_to_env(data, env);
 	if (!data->env)
 		return (1);
-	pwd = get_env(data->env, "PWD");
-	if (!pwd)
+	data->pwd = get_env(data->env, "PWD");
+	if (!data->pwd)
 		return (1);
-	data->pwd = pwd;
 	return (0);
 }
 
@@ -113,12 +121,14 @@ int	del_elem(t_env *prev, t_env *to_del)
 		return (1);
 	if (prev == NULL)
 	{
-		free(to_del->var);
+		free(to_del->name);
+		free(to_del->value);
 		free(to_del);
 		return (0);
 	}
 	prev->next = to_del->next;
-	free(to_del->var);
+	free(to_del->name);
+	free(to_del->value);
 	free(to_del);
 	return (0);
 }

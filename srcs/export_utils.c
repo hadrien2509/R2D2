@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:15:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/14 12:40:47 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/16 18:00:10 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,24 @@ static t_env	*copy_env_list(t_env *head)
 	while (head != NULL)
 	{
 		new_node = malloc(sizeof(t_env));
-		new_node->var = ft_strdup(head->var);
+		if (!new_node)
+			return (NULL);
+		new_node->name = ft_strdup(head->name);
+		if (!new_node->name)
+		{
+			free(new_node);
+			return (NULL);
+		}
+		if (head->value)
+		{
+			new_node->value = ft_strdup(head->value);
+			if (!new_node->value)
+			{
+				free(new_node->name);
+				free(new_node);
+				return (NULL);
+			}
+		}
 		new_node->next = NULL;
 		if (tail == NULL)
 		{
@@ -55,9 +72,12 @@ void	swap(t_env *a, t_env *b)
 {
 	char	*tmp;
 
-	tmp = a->var;
-	a->var = b->var;
-	b->var = tmp;
+	tmp = a->name;
+	a->name = b->name;
+	b->name = tmp;
+	tmp = a->value;
+	a->value = b->value;
+	b->value = tmp;
 }
 
 /*
@@ -81,7 +101,7 @@ void	sort_list(t_env **head)
 		ptr1 = *head;
 		while (ptr1->next != lptr)
 		{
-			if (ft_strcmp(ptr1->var, ptr1->next->var) > 0)
+			if (ft_strcmp(ptr1->name, ptr1->next->name) > 0)
 			{
 				swap(ptr1, ptr1->next);
 				swapped = 1;
@@ -105,9 +125,12 @@ int	export_print(t_env *old_head)
 
 	head = copy_env_list(old_head);
 	sort_list(&head);
-	while (head != NULL)
+	while (head)
 	{
-		printf("declare -x %s\n", head->var);
+		if (head->value)
+			printf("declare -x %s=\"%s\"\n", head->name, head->value);
+		else
+			printf("declare -x %s\n", head->name);
 		head = head->next;
 	}
 	ft_envclear(&head);

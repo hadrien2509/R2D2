@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_convertion.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 12:18:10 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/13 12:28:21 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/16 17:57:18 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,25 @@
 t_env	*ft_strarr_to_env(t_data *data, char **strarr)
 {
 	size_t	i;
+	int		nb;
 	t_env	*head;
 	t_env	*node;
+	char	**parts;
 
 	i = 0;
 	head = NULL;
 	while (strarr[i])
 	{
-		node = ft_envnew(strarr[i]);
+		parts = ft_split(strarr[i], '=');
+		nb = ft_nb_split(parts);
+		if (nb != 2)
+		{
+			if (nb != 0)
+				free(parts);
+			return (NULL);
+		}
+		node = ft_envnew(parts[0], parts[1]);
+		free(parts);
 		if (!node)
 		{
 			ft_envclear(&head);
@@ -53,6 +64,7 @@ t_env	*ft_strarr_to_env(t_data *data, char **strarr)
 char	**env_list_to_tab(size_t env_size, t_env *first)
 {
 	char	**env;
+	char	*tmp;
 	size_t	i;
 	t_env	*node;
 
@@ -63,13 +75,25 @@ char	**env_list_to_tab(size_t env_size, t_env *first)
 	i = 0;
 	while (node)
 	{
-		env[i] = ft_strdup(node->var);
-		if (!env[i])
+		tmp = ft_strjoin(node->name, "=");
+		if (!tmp)
 		{
 			while (i--)
 				free(env[i]);
 			free(env);
 			return (NULL);
+		}
+		if (node->value)
+		{
+			env[i] = ft_strjoin(tmp, node->value);
+			free(tmp);
+			if (!env[i])
+			{
+				while (i--)
+					free(env[i]);
+				free(env);
+				return (NULL);
+			}
 		}
 		i++;
 		node = node->next;

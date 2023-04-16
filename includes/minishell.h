@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/14 16:49:19 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/16 18:01:02 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@
 
 typedef struct s_env
 {
-	char			*var;
+	char			*name;
+	char			*value;
 	struct s_env	*next;
 }					t_env;
 
@@ -55,11 +56,11 @@ int					print_env(t_env *env);
 int					builtin_cd(t_data *data, char *str);
 int					builtin_echo(char **command);
 int					unset(t_env *env, char *arg);
-int					export(t_data *data, char *arg);
+int					export(t_data *data, char **args);
 int					export_print(t_env *old_head);
 t_env				*get_last(t_env *env);
 void				ft_envadd_back(t_env **alst, t_env *new);
-t_env				*ft_envnew(char *var);
+t_env				*ft_envnew(const char *name, const char *value);
 int					del_elem(t_env *prev, t_env *to_del);
 int					del_env(t_env *env, const char *var);
 t_env				*find_env_node(t_env *env, const char *arg);
