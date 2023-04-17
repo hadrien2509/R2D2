@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/16 18:01:02 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/17 10:56:48 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_data
 	char			**command;
 	char			*pwd;
 	char			**envtab;
+	int				exit_status;
 }					t_data;
 
 char				**env_list_to_tab(size_t env_size, t_env *envlst);
@@ -55,8 +56,9 @@ char				*get_env(t_env *env, const char *var);
 int					print_env(t_env *env);
 int					builtin_cd(t_data *data, char *str);
 int					builtin_echo(char **command);
-int					unset(t_env *env, char *arg);
+int					unset(t_env *env, char **names);
 int					export(t_data *data, char **args);
+int					ft_exit(t_data *data, char *arg);
 int					export_print(t_env *old_head);
 t_env				*get_last(t_env *env);
 void				ft_envadd_back(t_env **alst, t_env *new);

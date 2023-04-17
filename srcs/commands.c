@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/14 18:14:47 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/17 10:56:33 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,14 +152,11 @@ int	check_command(char **command, t_data *data)
 	else if (!ft_strcmp(command[0], "export"))
 		return (export(data, &command[1]));
 	else if (!ft_strcmp(command[0], "unset"))
-		return (unset(data->env, command[1]));
+		return (unset(data->env, command));
 	else if (!ft_strcmp(command[0], "env"))
 		return (print_env(data->env));
 	else if (!ft_strcmp(command[0], "exit"))
-	{
-		printf("exit\n");
-		exit(0);
-	}
+		return ft_exit(data, command[1]);
 	else
 		return (exec(command, data));
 }

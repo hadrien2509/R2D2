@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bultins.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:25:03 by samy              #+#    #+#             */
-/*   Updated: 2023/04/16 17:57:09 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/17 10:56:04 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,13 @@ int	export(t_data *data, char **args)
 ** @param arg the name of the variable to delete
 ** @return 0 if successful, 1 otherwise
 */
-int	unset(t_env *env, char *name)
+int	unset(t_env *env, char **names)
 {
-	if (name && del_env(env, name))
-		return (1);
+	int		i;
+
+	i = -1;
+	while(names[++i])
+		del_env(env, names[i]);
 	return (0);
 }
 
@@ -105,4 +108,11 @@ int	builtin_cd(t_data *data, char *str)
 	set_env(data, "OLDPWD", data->pwd);
 	set_env(data, "PWD", path);
 	return (0);
+}
+
+int	ft_exit(t_data *data, char *arg)
+{
+	if (arg)
+		exit(ft_atoi(arg));
+	exit(data->exit_status);
 }

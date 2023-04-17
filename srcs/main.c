@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/14 18:57:55 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/17 10:58:55 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		add_history(data.line);
 		data.command = ft_split(data.line, ' ');
-		if (check_command(data.command, &data))
-			printf("an error append\n");
+		data.exit_status = check_command(data.command, &data);
 		free(data.line);
 	}
 	tcsetattr(STDIN_FILENO, 0, &save);

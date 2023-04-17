@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_edition.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 10:25:54 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/14 19:02:14 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/17 10:59:15 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	ft_envadd_back(t_env **alst, t_env *new)
 */
 int	init_data(t_data *data, char **env)
 {
+	data->exit_status = 0;
 	data->env = ft_strarr_to_env(data, env);
 	if (!data->env)
 		return (1);
