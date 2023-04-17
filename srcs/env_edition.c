@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 10:25:54 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/17 10:59:15 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/17 12:03:50 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,21 @@ void	ft_envadd_back(t_env **alst, t_env *new)
 */
 int	init_data(t_data *data, char **env)
 {
+	int		shell_lvl;
+	char	*shlvl;
+
+	shell_lvl = 0;
 	data->exit_status = 0;
 	data->env = ft_strarr_to_env(data, env);
 	if (!data->env)
 		return (1);
+	shlvl = get_env(data->env, "SHLVL");
+	if (shlvl)
+		shell_lvl = ft_atoi(shlvl);
+	if (shell_lvl < 0)
+		set_env(data, "SHLVL", "0");
+	else
+		set_env(data, "SHLVL", ft_itoa(++shell_lvl));
 	data->pwd = get_env(data->env, "PWD");
 	if (!data->pwd)
 		return (1);

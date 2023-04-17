@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:25:03 by samy              #+#    #+#             */
-/*   Updated: 2023/04/17 10:56:04 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/17 13:24:11 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ int	export(t_data *data, char **args)
 */
 int	unset(t_env *env, char **names)
 {
-	int		i;
+	int	i;
 
 	i = -1;
-	while(names[++i])
+	while (names[++i])
 		del_env(env, names[i]);
 	return (0);
 }
@@ -110,9 +110,27 @@ int	builtin_cd(t_data *data, char *str)
 	return (0);
 }
 
-int	ft_exit(t_data *data, char *arg)
+int	ft_exit(t_data *data, char **args)
 {
-	if (arg)
-		exit(ft_atoi(arg));
+	long long	result;
+	int			elem;
+
+	elem = ft_nb_split(args);
+	if (elem == 0)
+		exit(data->exit_status);
+	else if (elem != 1)
+	{
+		ft_putstr_fd("exit: too many arguments\n", 2);
+		return (1);
+	}
+	if (!ft_str_is_numeric(args[0]))
+	{
+		ft_putstr_fd("exit: ", 2);
+		ft_putstr_fd(args[0], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		exit(255);
+	}
+	result = ft_atoi_long_long(args[0]);
+	result %= 256;
 	exit(data->exit_status);
 }

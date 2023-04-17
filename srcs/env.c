@@ -6,11 +6,33 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:52:28 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/17 10:48:19 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/17 13:35:12 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static int	update_env(t_env *elem, const char *value, const char *name)
+{
+	if (!value)
+		return (0);
+	free(elem->name);
+	free(elem->value);
+	elem->name = ft_strdup(name);
+	if (!elem->name)
+	{
+		free(elem);
+		return (1);
+	}
+	elem->value = ft_strdup(value);
+	if (!elem->name)
+	{
+		free(elem->value);
+		free(elem);
+		return (1);
+	}
+	return (0);
+}
 
 /*
 ** Sets a value to an environment variable.
@@ -29,26 +51,7 @@ int	set_env(t_data *data, const char *name, const char *value)
 	while (elem)
 	{
 		if (!ft_strcmp(elem->name, name))
-		{
-			if (!value)
-				return (0);
-			free(elem->name);
-			free(elem->value);
-			elem->name = ft_strdup(name);
-			if (!elem->name)
-			{
-				free(elem);
-				return (1);
-			}
-			elem->value = ft_strdup(value);
-			if (!elem->name)
-			{
-				free(elem->value);
-				free(elem);
-				return (1);
-			}
-			return (0);
-		}
+			return (update_env(elem, value, name));
 		elem = elem->next;
 	}
 	elem = get_last(data->env);

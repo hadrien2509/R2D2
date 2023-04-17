@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: samy <samy@student.42.fr>                  +#+  +:+       +#+         #
+#    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/04/14 18:02:58 by samy             ###   ########.fr        #
+#    Updated: 2023/04/17 11:24:22 by sde-smed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ SRCS = main.c\
 		env_convertion.c\
 		env_edition.c\
 		export_utils.c\
-		env_get.c
+		env_get.c\
+		ft_atoi_long_long.c
 
 SRCS_DIR = srcs
 OBJS_DIR = objs

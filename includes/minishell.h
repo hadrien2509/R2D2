@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/17 10:56:48 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/17 11:31:40 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int					builtin_cd(t_data *data, char *str);
 int					builtin_echo(char **command);
 int					unset(t_env *env, char **names);
 int					export(t_data *data, char **args);
-int					ft_exit(t_data *data, char *arg);
+int					ft_exit(t_data *data, char **args);
 int					export_print(t_env *old_head);
 t_env				*get_last(t_env *env);
 void				ft_envadd_back(t_env **alst, t_env *new);
@@ -70,15 +70,16 @@ t_env				*get_previous(t_env *env, t_env *current);
 void				ft_envclear(t_env **lst);
 t_env				*ft_strarr_to_env(t_data *data, char **strarr);
 char				*get_absolute_path(t_env *env, char *path, char *r_path);
+long long			ft_atoi_long_long(const char *str);
 
 /* ************************************************************************** */
 /*                             Parsing                                        */
 /* ************************************************************************** */
 
-t_Token	create_tokens(char **line, t_data *data);
-void	parse_command(t_Token *token, t_Parse *cmd);
-void	parse_fd(t_Token *token, t_Parse *cmd);
-void	exec_line(t_Parse *parse, t_data *data);
-char	*get_binary_path(t_env *env, char *name);
+t_Token				create_tokens(char **line, t_data *data);
+void				parse_command(t_Token *token, t_Parse *cmd);
+void				parse_fd(t_Token *token, t_Parse *cmd);
+void				exec_line(t_Parse *parse, t_data *data);
+char				*get_binary_path(t_env *env, char *name);
 
 #endif

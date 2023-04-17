@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 19:09:52 by samy              #+#    #+#             */
-/*   Updated: 2023/04/12 17:52:40 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/17 13:09:16 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,5 @@ char				*ft_strchr(const char *s, int c);
 char				*ft_free(char **str);
 void				ft_free_split(char **split);
 int					ft_nb_split(char **split);
+int					ft_str_is_numeric(char *str);
 #endif
