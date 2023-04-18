@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 12:45:43 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/15 19:27:05 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/18 13:42:41 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	ft_lstaddcmd_back(t_Parse **lst, t_Parse *new)
 	else
 		*lst = new;
 }
-t_Inout	*ft_lstnewinout(void)
+t_Inout	*ft_lstnewinout(t_Inout *prev)
 {
 	t_Inout	*new_inout;
 
@@ -124,6 +124,7 @@ t_Inout	*ft_lstnewinout(void)
 		return (0);
 	new_inout->fd = 0;
 	new_inout->next = 0;
+	new_inout->prev = prev;
 	return (new_inout);
 }
 
@@ -194,12 +195,14 @@ t_Token	create_tokens(char **line, t_data *data)
 	return (*token);
 }
 
-void	parse_command(t_Token *token, t_Parse *cmd)
+t_Parse	*parse_command(t_Token *token)
 {
 	t_Parse	*new;
+	t_Parse	*cmd;
 	int		i;
 
 	i = -1;
+	cmd = 0;
 	new = ft_lstnewcmd();
 	while (token)
 	{
@@ -207,7 +210,7 @@ void	parse_command(t_Token *token, t_Parse *cmd)
 		{
 			new->cmd = malloc(sizeof(char *) * (token->arg_nb + 2));
 			if (!new->cmd)
-				return ;
+				return (0);
 			new->cmd[token->arg_nb + 1] = NULL;
 			new->cmd[++i] = token->value;
 		}
@@ -221,6 +224,8 @@ void	parse_command(t_Token *token, t_Parse *cmd)
 		}
 		token = token->next;
 	}
+	ft_lstaddcmd_back(&cmd, new);
+	return (cmd);
 }
 
 void	parse_fd(t_Token *token, t_Parse *cmd)
@@ -234,32 +239,33 @@ void	parse_fd(t_Token *token, t_Parse *cmd)
 	out = 0;
 	cmd->in = 0;
 	cmd->out = 0;
-	printf("ok parse fd\n");
 	while (token)
 	{
 		if (token->type == 2)
 		{
-			new = ft_lstnewinout();
+			new = ft_lstnewinout(new);
 			new->fd = open(token->value, O_RDONLY);
+			new->value = token->value;
 			ft_lstaddinout_back(&in, new);
 		}
 		else if (token->type == 3)
 		{
-			new = ft_lstnewinout();
+			new = ft_lstnewinout(new);
 			new->fd = open(token->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			new->value = token->value;
 			ft_lstaddinout_back(&out, new);
 		}
 		else if (token->type == 4)
 		{
 			pipe(end);
-			new = ft_lstnewinout();
+			new = ft_lstnewinout(new);
 			new->fd = end[1];
 			ft_lstaddinout_back(&out, new);
 			cmd->out = out;
 			cmd = cmd->next;
 			in = 0;
 			out = 0;
-			new = ft_lstnewinout();
+			new = ft_lstnewinout(new);
 			new->fd = end[0];
 			ft_lstaddinout_back(&out, new);
 		}
@@ -286,7 +292,6 @@ void	exec_cmd(t_Parse	*parse, t_data *data)
 {
 	int	child;
 
-	printf("ok exec_cmd\n");
 	if (!parse->in)
 	{
 		child = fork();
@@ -294,8 +299,11 @@ void	exec_cmd(t_Parse	*parse, t_data *data)
 		{
 			if (parse->out)
 				dup2(parse->out->fd, 1);
+			// close(parse->out->prev->fd);
+			// close(parse->out->next->fd);
 			execve(parse->cmd[0], parse->cmd, data->envtab);
 		}
+		wait(&child);
 	}
 	while (parse->in)
 	{
@@ -305,17 +313,22 @@ void	exec_cmd(t_Parse	*parse, t_data *data)
 			dup2(parse->in->fd, 0);
 			if (parse->out)
 				dup2(parse->out->fd, 1);
+			// close(parse->out->prev->fd);
+			// close(parse->out->next->fd);
 			execve(parse->cmd[0], parse->cmd, data->envtab);
 		}
+		wait(&child);
 		parse->in = parse->in->next;
 	}
+	if (parse->out)
+		close(parse->out->fd);
 }
 
 void	exec_nocmd(t_Parse *parse)
 {
 	char	*line;
 
-	printf("ok exec_nocmd\n");
+	printf("ok\n");
 	if (!parse->in && parse->out)
 	{
 		while (1)
@@ -326,6 +339,7 @@ void	exec_nocmd(t_Parse *parse)
 	}
 	while (parse->in)
 	{
+		printf("ok\n");
 		line = get_next_line(parse->in->fd);
 		while (line)
 		{
@@ -335,6 +349,7 @@ void	exec_nocmd(t_Parse *parse)
 				ft_putstr_fd(line, 1);
 			line = get_next_line(parse->in->fd);
 		}
+		parse->in = parse->in->next;
 	}
 }
 
@@ -342,14 +357,14 @@ void	redirec(t_Parse *parse)
 {
 	char	*line;
 
-	printf("ok redirec\n");
 	parse->out = parse->out->next;
-	line = get_next_line(parse->out->prev->fd);
 	while (parse->out)
 	{
+		parse->out->prev->fd = open(parse->out->prev->value, O_RDONLY);
+		line = get_next_line(parse->out->prev->fd);
 		while (line)
 		{
-			ft_putstr_fd(get_next_line(parse->out->prev->fd), parse->out->fd);
+			ft_putstr_fd(line, parse->out->fd);
 			line = get_next_line(parse->out->prev->fd);
 		}
 		parse->out = parse->out->next;
@@ -357,14 +372,13 @@ void	redirec(t_Parse *parse)
 }
 void	exec_line(t_Parse *parse, t_data *data)
 {
-	printf("ok exec_line : %s\n", parse->cmd[0]);
 	while (parse)
 	{
-		if (parse->cmd[0])
+		if (parse->cmd && parse->cmd[0])
 			exec_cmd(parse, data);
-		else
+		else if (!parse->cmd)
 			exec_nocmd(parse);
-		if (parse->out->next)
+		if (parse->out && parse->out->next)
 			redirec(parse);
 		parse = parse->next;
 	}

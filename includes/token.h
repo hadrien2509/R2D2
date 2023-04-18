@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 17:58:46 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/14 16:03:35 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/18 10:51:57 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ typedef struct s_Token
 typedef struct s_Inout
 {
 	int				fd;
-	struct s_Inout	*next;
+	char			*value;
 	struct s_Inout	*prev;
+	struct s_Inout	*next;
 }				t_Inout;
 
 typedef struct s_Parse
