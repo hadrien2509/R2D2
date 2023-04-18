@@ -6,7 +6,7 @@
 #    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/04/17 11:24:22 by sde-smed         ###   ########.fr        #
+#    Updated: 2023/04/18 12:08:44 by sde-smed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 SRCS = main.c\
 		parse.c\
 		commands.c\
-		cd.c\
+		cd_utils.c\
 		echo.c\
 		env.c\
 		bultins.c\

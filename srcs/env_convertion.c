@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 12:18:10 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/18 10:35:09 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/18 10:58:35 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	**env_list_to_tab(size_t env_size, t_env *first)
 	t_env	*node;
 
 	node = first;
-	env = (char **)malloc((env_size) * sizeof(char *));
+	env = (char **)malloc((env_size + 1) * sizeof(char *));
 	if (!env)
 		return (NULL);
 	i = 0;

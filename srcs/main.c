@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/17 10:58:55 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/18 12:27:47 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ int	main(int argc, char *argv[], char *envp[])
 			printf("exit\n");
 			return (0);
 		}
-		add_history(data.line);
 		data.command = ft_split(data.line, ' ');
+		if (ft_nb_split(data.command) > 0)
+			add_history(data.line);
 		data.exit_status = check_command(data.command, &data);
 		free(data.line);
 	}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:00:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/14 11:57:55 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/18 12:34:08 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,10 @@ char	*get_absolute_path(t_env *env, char *curr_path, char *relative_path)
 	char	**parts;
 	char	*path;
 
+	if (!relative_path)
+		relative_path = ft_strdup("~");
+	if (!relative_path)
+		return (NULL);
 	if (relative_path[0] == '~')
 		relative_path = ft_tilde(env, relative_path);
 	if (relative_path[0] == '-')

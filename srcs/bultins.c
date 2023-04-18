@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:25:03 by samy              #+#    #+#             */
-/*   Updated: 2023/04/17 13:24:11 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/18 12:12:03 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ int	builtin_cd(t_data *data, char *str)
 {
 	char	*path;
 
-	if (!str)
-		return (0);
 	path = get_absolute_path(data->env, data->pwd, str);
 	if (!path || access(path, F_OK) != 0)
 	{
