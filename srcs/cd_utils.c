@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:00:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/18 12:34:08 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/18 13:24:26 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,13 @@ static char	*ft_tilde(t_env *env, char *path)
 	char	*new_path;
 
 	home = get_env(env, "HOME");
-	new_path = ft_strjoin(home, &path[1]);
-	free(path);
+	if (path)
+	{
+		new_path = ft_strjoin(home, &path[1]);
+		free(path);
+	}
+	else
+		new_path = ft_strdup(home);
 	return (new_path);
 }
 
@@ -117,11 +122,11 @@ char	*get_absolute_path(t_env *env, char *curr_path, char *relative_path)
 	char	*path;
 
 	if (!relative_path)
-		relative_path = ft_strdup("~");
-	if (!relative_path)
-		return (NULL);
+		relative_path = ft_tilde(env, NULL);
 	if (relative_path[0] == '~')
 		relative_path = ft_tilde(env, relative_path);
+	if (!relative_path)
+		return (NULL);
 	if (relative_path[0] == '-')
 	{
 		if (relative_path[1])
