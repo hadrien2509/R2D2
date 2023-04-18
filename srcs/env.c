@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:52:28 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/17 13:35:12 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/18 10:44:56 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static int	update_env(t_env *elem, const char *value, const char *name)
 	if (!value)
 		return (0);
 	free(elem->name);
-	free(elem->value);
+	if (elem->value)
+		free(elem->value);
 	elem->name = ft_strdup(name);
 	if (!elem->name)
 	{

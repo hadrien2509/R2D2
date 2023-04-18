@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 12:18:10 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/17 14:02:13 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/18 10:35:09 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,38 +23,29 @@
 */
 t_env	*ft_strarr_to_env(t_data *data, char **strarr)
 {
-	size_t	i;
-	int		nb;
 	t_env	*head;
 	t_env	*node;
-	char	**parts;
+	char	*value;
 
-	i = 0;
+	data->env_size = -1;
 	head = NULL;
-	while (strarr[i])
+	while (strarr[++data->env_size])
 	{
-		parts = ft_split(strarr[i], '=');
-		nb = ft_nb_split(parts);
-		if (nb < 1 || nb > 2)
+		value = ft_strchr(strarr[data->env_size], '=');
+		if (value && ++value)
 		{
-			if (nb != 0)
-				free(parts);
-			return (NULL);
+			*(value - 1) = 0;
+			node = ft_envnew(strarr[data->env_size], value);
 		}
-		if (nb == 1)
-			node = ft_envnew(parts[0], "");
 		else
-			node = ft_envnew(parts[0], parts[1]);
-		free(parts);
+			node = ft_envnew(strarr[data->env_size], "");
 		if (!node)
 		{
 			ft_envclear(&head);
 			return (NULL);
 		}
 		ft_envadd_back(&head, node);
-		i++;
 	}
-	data->env_size = ++i;
 	return (head);
 }
 

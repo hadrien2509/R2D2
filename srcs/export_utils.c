@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:15:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/16 18:00:10 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/18 10:46:41 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static t_env	*copy_env(t_env *node)
+{
+	t_env	*new_node;
+
+	new_node = (t_env *)malloc(sizeof(t_env));
+	if (new_node == NULL)
+		return (NULL);
+	new_node->name = ft_strdup(node->name);
+	if (!new_node->name)
+	{
+		free(new_node);
+		return (NULL);
+	}
+	if (node->value)
+	{
+		new_node->value = ft_strdup(node->value);
+		if (!new_node->value)
+		{
+			free(new_node->name);
+			free(new_node);
+			return (NULL);
+		}
+	}
+	else
+		new_node->value = NULL;
+	return (new_node);
+}
 
 /*
 ** Copies a linked list of environment variables.
@@ -27,25 +55,7 @@ static t_env	*copy_env_list(t_env *head)
 	tail = NULL;
 	while (head != NULL)
 	{
-		new_node = malloc(sizeof(t_env));
-		if (!new_node)
-			return (NULL);
-		new_node->name = ft_strdup(head->name);
-		if (!new_node->name)
-		{
-			free(new_node);
-			return (NULL);
-		}
-		if (head->value)
-		{
-			new_node->value = ft_strdup(head->value);
-			if (!new_node->value)
-			{
-				free(new_node->name);
-				free(new_node);
-				return (NULL);
-			}
-		}
+		new_node = copy_env(head);
 		new_node->next = NULL;
 		if (tail == NULL)
 		{
