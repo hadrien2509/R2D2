@@ -6,12 +6,11 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 12:45:43 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/18 13:42:41 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/19 17:32:39 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include "../includes/token.h"
 
 // void	set_cmd(char **line, int i, t_instructions *lst)
 // {
@@ -163,7 +162,17 @@ t_Token	create_tokens(char **line, t_data *data)
 	arg_needed = 0;
 	while (line[i])
 	{
-		if (ft_strcmp(line[i], "<") == 0)
+		if (ft_strcmp(line[i], "<<") == 0)
+		{
+			i++;
+			new = ft_lstnewtoken(5, line[i]);
+		}
+		else if (ft_strcmp(line[i], ">>") == 0)
+		{
+			i++;
+			new = ft_lstnewtoken(6, line[i]);
+		}
+		else if (ft_strcmp(line[i], "<") == 0)
 		{
 			i++;
 			new = ft_lstnewtoken(2, line[i]);
@@ -234,11 +243,13 @@ void	parse_fd(t_Token *token, t_Parse *cmd)
 	t_Inout	*new;
 	t_Inout	*in;
 	t_Inout	*out;
+	int		here;
 
 	in = 0;
 	out = 0;
 	cmd->in = 0;
 	cmd->out = 0;
+	here = 0;
 	while (token)
 	{
 		if (token->type == 2)
@@ -255,6 +266,23 @@ void	parse_fd(t_Token *token, t_Parse *cmd)
 			new->value = token->value;
 			ft_lstaddinout_back(&out, new);
 		}
+		else if (token->type == 5)
+		{
+			new = ft_lstnewinout(new);
+			new->fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			new->value = token->value;
+			here_doc(new);
+			new->fd = open(".heredoc_tmp", O_RDONLY);
+			ft_lstaddinout_back(&in, new);
+			here = 1;
+		}
+		else if (token->type == 6)
+		{
+			new = ft_lstnewinout(new);
+			new->fd = open(token->value, O_CREAT | O_WRONLY | O_APPEND, 0644);
+			new->value = token->value;
+			ft_lstaddinout_back(&out, new);
+		}
 		else if (token->type == 4)
 		{
 			pipe(end);
@@ -262,12 +290,18 @@ void	parse_fd(t_Token *token, t_Parse *cmd)
 			new->fd = end[1];
 			ft_lstaddinout_back(&out, new);
 			cmd->out = out;
+			cmd->in = in;
 			cmd = cmd->next;
 			in = 0;
 			out = 0;
 			new = ft_lstnewinout(new);
 			new->fd = end[0];
-			ft_lstaddinout_back(&out, new);
+			ft_lstaddinout_back(&in, new);
+			if (here)
+			{
+				unlink(".here_doc_tmp");
+				here = 0;
+			}
 		}
 		token = token->next;
 	}
@@ -328,7 +362,6 @@ void	exec_nocmd(t_Parse *parse)
 {
 	char	*line;
 
-	printf("ok\n");
 	if (!parse->in && parse->out)
 	{
 		while (1)
@@ -339,7 +372,6 @@ void	exec_nocmd(t_Parse *parse)
 	}
 	while (parse->in)
 	{
-		printf("ok\n");
 		line = get_next_line(parse->in->fd);
 		while (line)
 		{

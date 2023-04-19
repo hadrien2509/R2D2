@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 17:58:46 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/18 10:51:57 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/19 14:13:45 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ typedef enum s_TokenType
 	TOKEN_REDIRECT_INPUT,
 	TOKEN_REDIRECT_OUTPUT,
 	TOKEN_PIPE,
+	TOKEN_APPEND_INPUT,
+	TOKEN_APPEND_OUTPUT,
 	TOKEN_BACKGROUND,
 	TOKEN_END
 }					t_TokenType;
