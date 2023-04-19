@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/17 11:31:40 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/19 12:07:51 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ long long			ft_atoi_long_long(const char *str);
 /* ************************************************************************** */
 
 t_Token				create_tokens(char **line, t_data *data);
-void				parse_command(t_Token *token, t_Parse *cmd);
+//void				parse_command(t_Token *token, t_Parse *cmd);
 void				parse_fd(t_Token *token, t_Parse *cmd);
 void				exec_line(t_Parse *parse, t_data *data);
 char				*get_binary_path(t_env *env, char *name);

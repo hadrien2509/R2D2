@@ -22,6 +22,7 @@
 		"minishell.h": "c",
 		"stdlib.h": "c",
 		"termios.h": "c",
-		"sstream": "c"
+		"sstream": "c",
+		"__locale": "c"
 	}
 }

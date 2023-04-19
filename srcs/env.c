@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:52:28 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/18 10:44:56 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/19 17:24:55 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	set_env(t_data *data, const char *name, const char *value)
 
 	elem = data->env;
 	if (!ft_strcmp(name, "PWD"))
-		data->pwd = ft_strdup(value);
+		data->pwd = ft_strdup(value);//free
 	while (elem)
 	{
 		if (!ft_strcmp(elem->name, name))
