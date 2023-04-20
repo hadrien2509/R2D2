@@ -6,16 +6,19 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/18 13:25:44 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/20 17:49:42 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+int	status;
+
 void	signal_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
+		status = 130;
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
