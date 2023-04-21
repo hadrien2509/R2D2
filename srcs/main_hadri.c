@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/20 17:49:42 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/21 16:15:26 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ int	main(int argc, char *argv[], char *envp[])
 		token = create_tokens(data.command, &data);
 		parse = parse_command(&token);
 		parse_fd(&token, parse);
-		exec_line(parse, &data);
+		if (status != 130)
+			exec_line(parse, &data);
 		// if (check_command(data.command, &data))
 		// 	printf("an error append\n");
 		free(data.line);

@@ -6,16 +6,32 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 12:45:43 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/19 17:32:39 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/21 17:53:33 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// void	set_cmd(char **line, int i, t_instructions *lst)
-// {
-// 	if (i = )
-// }
+extern int	status;
+
+int	check_builtins(char *arg)
+{
+	if (!ft_strcmp(arg, "pwd"))
+		return (1);
+	else if (!ft_strcmp(arg, "cd"))
+		return (1);
+	else if (!ft_strcmp(arg, "echo"))
+		return (1);
+	else if (!ft_strcmp(arg, "export"))
+		return (1);
+	else if (!ft_strcmp(arg, "unset"))
+		return (1);
+	else if (!ft_strcmp(arg, "env"))
+		return (1);
+	else if (!ft_strcmp(arg, "exit"))
+		return (1);
+	return (0);
+}
 
 char	*get_cmd_path(char *arg, t_data *data)
 {
@@ -23,6 +39,11 @@ char	*get_cmd_path(char *arg, t_data *data)
 
 	if (ft_strchr(arg, '/') != NULL)
 		path = ft_strdup(arg);
+	else if (check_builtins(arg))
+	{
+		path = ft_strdup(arg);
+		return (path);
+	}
 	else
 		path = get_binary_path(data->env, arg);
 	if (!path | (access(path, F_OK) != 0))
@@ -243,13 +264,11 @@ void	parse_fd(t_Token *token, t_Parse *cmd)
 	t_Inout	*new;
 	t_Inout	*in;
 	t_Inout	*out;
-	int		here;
 
 	in = 0;
 	out = 0;
 	cmd->in = 0;
 	cmd->out = 0;
-	here = 0;
 	while (token)
 	{
 		if (token->type == 2)
@@ -269,12 +288,15 @@ void	parse_fd(t_Token *token, t_Parse *cmd)
 		else if (token->type == 5)
 		{
 			new = ft_lstnewinout(new);
-			new->fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			pipe(end);
+			new->fd = end[1];
 			new->value = token->value;
 			here_doc(new);
-			new->fd = open(".heredoc_tmp", O_RDONLY);
+			close(end[1]);
+			if (status == 130)
+				return ;
+			new->fd = end[0];
 			ft_lstaddinout_back(&in, new);
-			here = 1;
 		}
 		else if (token->type == 6)
 		{
@@ -297,11 +319,6 @@ void	parse_fd(t_Token *token, t_Parse *cmd)
 			new = ft_lstnewinout(new);
 			new->fd = end[0];
 			ft_lstaddinout_back(&in, new);
-			if (here)
-			{
-				unlink(".here_doc_tmp");
-				here = 0;
-			}
 		}
 		token = token->next;
 	}
@@ -322,9 +339,33 @@ void	parse_fd(t_Token *token, t_Parse *cmd)
 // 	}
 // }
 
+int	execute(t_Parse *parse, t_data *data, int pid)
+{
+	int	result;
+
+	if (pid == -1)
+		return (1);
+	if (pid == 0)
+	{
+		if (execve(parse->cmd[0], parse->cmd, data->envtab) == -1)
+		{
+			perror("execve");
+			exit(1);
+		}
+	}
+	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
+		exit(ERROR);
+	if (waitpid(pid, &result, 0) == -1)
+		return (1);
+	if (signal(SIGINT, signal_handler) == SIG_ERR)
+		exit(ERROR);
+	return (result);
+}
+
 void	exec_cmd(t_Parse	*parse, t_data *data)
 {
 	int	child;
+	int	result;
 
 	if (!parse->in)
 	{
@@ -333,9 +374,7 @@ void	exec_cmd(t_Parse	*parse, t_data *data)
 		{
 			if (parse->out)
 				dup2(parse->out->fd, 1);
-			// close(parse->out->prev->fd);
-			// close(parse->out->next->fd);
-			execve(parse->cmd[0], parse->cmd, data->envtab);
+			result = execute(parse, data, child);
 		}
 		wait(&child);
 	}
@@ -347,9 +386,7 @@ void	exec_cmd(t_Parse	*parse, t_data *data)
 			dup2(parse->in->fd, 0);
 			if (parse->out)
 				dup2(parse->out->fd, 1);
-			// close(parse->out->prev->fd);
-			// close(parse->out->next->fd);
-			execve(parse->cmd[0], parse->cmd, data->envtab);
+			result = execute(parse, data, child);
 		}
 		wait(&child);
 		parse->in = parse->in->next;
@@ -366,6 +403,8 @@ void	exec_nocmd(t_Parse *parse)
 	{
 		while (1)
 		{
+			if (status == 130)
+				return ;
 			line = get_next_line(0);
 			ft_putstr_fd(line, parse->out->fd);
 		}
@@ -375,6 +414,8 @@ void	exec_nocmd(t_Parse *parse)
 		line = get_next_line(parse->in->fd);
 		while (line)
 		{
+			if (status == 130)
+				return ;
 			if (parse->out)
 				ft_putstr_fd(line, parse->out->fd);
 			else
@@ -402,14 +443,47 @@ void	redirec(t_Parse *parse)
 		parse->out = parse->out->next;
 	}
 }
+int	exec_builtins(t_Parse *parse, t_data *data)
+{
+	if (!ft_strcmp(parse->cmd[0], "pwd"))
+	{
+		if (parse->out)
+		{
+			ft_putstr_fd(data->pwd, parse->out->fd);
+			write(parse->out->fd, "\n", 1);
+			return (0);                   //Ajouter une condition ici
+		}
+		else
+			return ((printf("%s\n", data->pwd) == 0));
+	}
+	else if (!ft_strcmp(parse->cmd[0], "cd"))
+		return (builtin_cd(data, parse->cmd[1]));
+	else if (!ft_strcmp(parse->cmd[0], "echo"))
+		return (builtin_echo(parse->cmd));
+	else if (!ft_strcmp(parse->cmd[0], "export"))
+		return (export(data, &parse->cmd[1]));
+	else if (!ft_strcmp(parse->cmd[0], "unset"))
+		return (unset(data->env, &parse->cmd[1]));
+	else if (!ft_strcmp(parse->cmd[0], "env"))
+		return (print_env(data->env));
+	else if (!ft_strcmp(parse->cmd[0], "exit"))
+		return (ft_exit(data, &parse->cmd[1]));
+	return (0);
+}
+
 void	exec_line(t_Parse *parse, t_data *data)
 {
 	while (parse)
 	{
 		if (parse->cmd && parse->cmd[0])
-			exec_cmd(parse, data);
+		{
+			if (check_builtins(parse->cmd[0]))
+				exec_builtins(parse, data);
+			else
+				exec_cmd(parse, data);
+		}
 		else if (!parse->cmd)
-			exec_nocmd(parse);
+				exec_nocmd(parse);
 		if (parse->out && parse->out->next)
 			redirec(parse);
 		parse = parse->next;

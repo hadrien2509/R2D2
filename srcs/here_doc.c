@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_Doc.c                                         :+:      :+:    :+:   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:15:44 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/19 17:36:01 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/21 16:25:53 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	status;
 
 void	here_doc(t_Inout *new)
 {
@@ -19,8 +21,10 @@ void	here_doc(t_Inout *new)
 
 	while (1)
 	{
-		write(1, "pipe heredoc> ", 14);
+		write(1, "heredoc> ", 9);
 		line = get_next_line(0);
+		if (status == 130)
+			break ;
 		if (!line)
 			exit(1);
 		len = ft_strlen(line) - 1;
