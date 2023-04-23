@@ -6,7 +6,7 @@
 #    By: samy <samy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/04 11:24:14 by samy              #+#    #+#              #
-#    Updated: 2023/04/23 18:38:00 by samy             ###   ########.fr        #
+#    Updated: 2023/04/23 21:11:00 by samy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,7 +94,7 @@ $(NAME): $(OBJ)
 	@printf "$(_SUCCESS) $(NAME) ready.\n"
 
 bonus: $(OBJ_BONUS) 
-	$(ARRCS) $(NAME) $^
+	@$(ARRCS) $(NAME) $^
 	@printf "$(_SUCCESS) $(NAME) bonus ready.\n"
 
 all: $(NAME) bonus

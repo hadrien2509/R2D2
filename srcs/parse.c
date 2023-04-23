@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 12:45:43 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/23 21:03:26 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/23 21:10:28 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,6 @@ char	*replace_env_variables(t_data *data, char *command)
 		if (!*(ptr + 1))
 		{
 			result = ft_strjoin(result, "$");
-			command += ft_strlen(tmp);
 			return (result);
 		}
 		*ptr = 0;
