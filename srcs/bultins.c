@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bultins.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:25:03 by samy              #+#    #+#             */
-/*   Updated: 2023/04/19 12:10:45 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/21 18:14:48 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,5 @@ int	ft_exit(t_data *data, char **args)
 	}
 	result = ft_atoi_long_long(args[0]);
 	result %= 256;
-	exit(data->exit_status);
+	exit(result);
 }

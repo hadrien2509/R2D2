@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_hadri.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/21 16:15:26 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/19 10:17:32 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	status;
-
 void	signal_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
-		status = 130;
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
@@ -31,10 +28,7 @@ int	main(int argc, char *argv[], char *envp[])
 	struct termios	curr;
 	struct termios	save;
 	t_data			data;
-	t_Token			token;
-	t_Parse			*parse;
 
-	data.envtab = envp;
 	(void)argc;
 	(void)argv;
 	tcgetattr(STDIN_FILENO, &curr);
@@ -55,15 +49,10 @@ int	main(int argc, char *argv[], char *envp[])
 			printf("exit\n");
 			return (0);
 		}
-		add_history(data.line);
 		data.command = ft_split(data.line, ' ');
-		token = create_tokens(data.command, &data);
-		parse = parse_command(&token);
-		parse_fd(&token, parse);
-		if (status != 130)
-			exec_line(parse, &data);
-		// if (check_command(data.command, &data))
-		// 	printf("an error append\n");
+		if (ft_nb_split(data.command) > 0)
+			add_history(data.line);
+		data.exit_status = check_command(data.command, &data);
 		free(data.line);
 	}
 	tcsetattr(STDIN_FILENO, 0, &save);

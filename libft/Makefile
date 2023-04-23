@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
+#    By: samy <samy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/04 11:24:14 by samy              #+#    #+#              #
-#    Updated: 2023/04/17 13:09:45 by sde-smed         ###   ########.fr        #
+#    Updated: 2023/04/23 18:38:00 by samy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,12 +92,12 @@ RM		= rm -rf
 $(NAME): $(OBJ)
 	@$(ARRCS) $(NAME) $^
 	@printf "$(_SUCCESS) $(NAME) ready.\n"
-	
+
 bonus: $(OBJ_BONUS) 
 	$(ARRCS) $(NAME) $^
 	@printf "$(_SUCCESS) $(NAME) bonus ready.\n"
-	
-all: $(NAME)
+
+all: $(NAME) bonus
 
 clean:
 	@$(RM) $(OBJ) $(OBJ_BONUS)

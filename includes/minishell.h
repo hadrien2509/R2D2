@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/21 15:57:44 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/23 20:46:43 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,12 @@ long long			ft_atoi_long_long(const char *str);
 /*                             Parsing                                        */
 /* ************************************************************************** */
 
-t_Token	create_tokens(char **line, t_data *data);
-t_Parse	*parse_command(t_Token *token);
-void	parse_fd(t_Token *token, t_Parse *cmd);
-void	exec_line(t_Parse *parse, t_data *data);
-char	*get_binary_path(t_env *env, char *name);
-void	here_doc(t_Inout *new);
+t_Token				create_tokens(t_list *elem, t_data *data);
+t_Parse				*parse_command(t_Token *token);
+void				parse_fd(t_Token *token, t_Parse *cmd);
+void				exec_line(t_Parse *parse, t_data *data);
+char				*get_binary_path(t_env *env, char *name);
+void				here_doc(t_Inout *new);
+char				*replace_env_variables(t_data *data, char *command);
 
 #endif

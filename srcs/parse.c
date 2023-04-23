@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 12:45:43 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/21 17:53:33 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/23 21:03:26 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char	*get_cmd_path(char *arg, t_data *data)
 	}
 	return (path);
 }
+
 void	print_tokens(t_Token *token)
 {
 	while (token)
@@ -99,6 +100,7 @@ void	ft_lstaddtoken_back(t_Token **lst, t_Token *new)
 	else
 		*lst = new;
 }
+
 t_Parse	*ft_lstnewcmd(void)
 {
 	t_Parse	*new_lst;
@@ -135,6 +137,7 @@ void	ft_lstaddcmd_back(t_Parse **lst, t_Parse *new)
 	else
 		*lst = new;
 }
+
 t_Inout	*ft_lstnewinout(t_Inout *prev)
 {
 	t_Inout	*new_inout;
@@ -170,56 +173,120 @@ void	ft_lstaddinout_back(t_Inout **lst, t_Inout *new)
 		*lst = new;
 }
 
-t_Token	create_tokens(char **line, t_data *data)
+char	*find_env_variable(char **str)
 {
-	int			i;
-	int			arg_needed;
-	t_Token		*new;
-	t_Token		*cmd;
-	t_Token		*token;
+	char	*result;
+	char	*command;
+	char	c;
+
+	c = 0;
+	command = *str;
+	while (*command && (*command == '_' || ft_isalnum(*command)))
+		command++;
+	if (*command)
+	{
+		c = *command;
+		*command = '\0';
+	}
+	result = ft_strdup(*str);
+	if (c)
+		*command = c;
+	return (result);
+}
+
+char	*replace_env_variables(t_data *data, char *command)
+{
+	char	*tmp;
+	char	*result;
+	char	*ptr;
+
+	result = ft_strdup("");
+	ptr = ft_strchr(command, '$');
+	if (!ptr)
+		return (command);
+	while (ptr && *ptr)
+	{
+		if (!*(ptr + 1))
+		{
+			result = ft_strjoin(result, "$");
+			command += ft_strlen(tmp);
+			return (result);
+		}
+		*ptr = 0;
+		ptr++;
+		result = ft_strjoin(result, command);
+		command = ptr;
+		if (*ptr == '?')
+		{
+			tmp = ft_itoa(data->exit_status);
+			result = ft_strjoin(result, tmp);
+			command += ft_strlen(tmp);
+		}
+		else
+		{
+			tmp = find_env_variable(&ptr);
+			command += ft_strlen(tmp);
+			tmp = get_env(data->env, tmp);
+			if (tmp)
+				result = ft_strjoin(result, tmp);
+		}
+		ptr = ft_strchr(command, '$');
+		if (!ptr)
+			result = ft_strjoin(result, command);
+	}
+	return (result);
+}
+
+t_Token	create_tokens(t_list *elem, t_data *data)
+{
+	int		arg_needed;
+	t_Token	*new;
+	t_Token	*cmd;
+	t_Token	*token;
+	char	*value;
 
 	token = 0;
-	i = 0;
 	arg_needed = 0;
-	while (line[i])
+	while (elem)
 	{
-		if (ft_strcmp(line[i], "<<") == 0)
+		value = elem->content;
+		if (ft_strcmp(value, "<<") == 0)
 		{
-			i++;
-			new = ft_lstnewtoken(5, line[i]);
+			elem = elem->next;
+			new = ft_lstnewtoken(5, value);
 		}
-		else if (ft_strcmp(line[i], ">>") == 0)
+		else if (ft_strcmp(value, ">>") == 0)
 		{
-			i++;
-			new = ft_lstnewtoken(6, line[i]);
+			elem = elem->next;
+			new = ft_lstnewtoken(6, value);
 		}
-		else if (ft_strcmp(line[i], "<") == 0)
+		else if (ft_strcmp(value, "<") == 0)
 		{
-			i++;
-			new = ft_lstnewtoken(2, line[i]);
+			elem = elem->next;
+			new = ft_lstnewtoken(2, value);
 		}
-		else if (ft_strcmp(line[i], ">") == 0)
+		else if (ft_strcmp(value, ">") == 0)
 		{
-			i++;
-			new = ft_lstnewtoken(3, line[i]);
+			elem = elem->next;
+			new = ft_lstnewtoken(3, value);
 		}
-		else if (ft_strcmp(line[i], "|") == 0)
+		else if (ft_strcmp(value, "|") == 0)
 		{
-			new = ft_lstnewtoken(4, line[i]);
+			new = ft_lstnewtoken(4, value);
 			arg_needed = 0;
 		}
 		else if (arg_needed == 1)
 		{
-			new = ft_lstnewtoken(1, line[i]);
+			new = ft_lstnewtoken(1, value);
 			cmd->arg_nb++;
 		}
 		else
 		{
-			new = ft_lstnewtoken(0, get_cmd_path(line[i], data));
+			new = ft_lstnewtoken(0, get_cmd_path(value, data));
 			arg_needed = 1;
 			cmd = new;
 		}
-		i++;
+		elem = elem->next;
 		ft_lstaddtoken_back(&token, new);
 	}
 	return (*token);
@@ -341,13 +408,15 @@ void	parse_fd(t_Token *token, t_Parse *cmd)
 
 int	execute(t_Parse *parse, t_data *data, int pid)
 {
-	int	result;
+	int		result;
+	char	**env_list;
 
 	if (pid == -1)
 		return (1);
 	if (pid == 0)
 	{
-		if (execve(parse->cmd[0], parse->cmd, data->envtab) == -1)
+		env_list = env_list_to_tab(data->env_size, data->env);
+		if (execve(parse->cmd[0], parse->cmd, env_list) == -1)
 		{
 			perror("execve");
 			exit(1);
@@ -362,7 +431,7 @@ int	execute(t_Parse *parse, t_data *data, int pid)
 	return (result);
 }
 
-void	exec_cmd(t_Parse	*parse, t_data *data)
+void	exec_cmd(t_Parse *parse, t_data *data)
 {
 	int	child;
 	int	result;
@@ -393,6 +462,7 @@ void	exec_cmd(t_Parse	*parse, t_data *data)
 	}
 	if (parse->out)
 		close(parse->out->fd);
+	(void)result; //TODO: remove
 }
 
 void	exec_nocmd(t_Parse *parse)
@@ -443,6 +513,7 @@ void	redirec(t_Parse *parse)
 		parse->out = parse->out->next;
 	}
 }
+
 int	exec_builtins(t_Parse *parse, t_data *data)
 {
 	if (!ft_strcmp(parse->cmd[0], "pwd"))
@@ -451,7 +522,7 @@ int	exec_builtins(t_Parse *parse, t_data *data)
 		{
 			ft_putstr_fd(data->pwd, parse->out->fd);
 			write(parse->out->fd, "\n", 1);
-			return (0);                   //Ajouter une condition ici
+			return (0); //Ajouter une condition ici
 		}
 		else
 			return ((printf("%s\n", data->pwd) == 0));
@@ -483,7 +554,7 @@ void	exec_line(t_Parse *parse, t_data *data)
 				exec_cmd(parse, data);
 		}
 		else if (!parse->cmd)
-				exec_nocmd(parse);
+			exec_nocmd(parse);
 		if (parse->out && parse->out->next)
 			redirec(parse);
 		parse = parse->next;

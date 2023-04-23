@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:15:44 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/21 16:25:53 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/23 21:00:36 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int	status;
+int status; //extern int	status;
 
 void	here_doc(t_Inout *new)
 {
