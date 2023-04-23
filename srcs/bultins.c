@@ -6,11 +6,19 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:25:03 by samy              #+#    #+#             */
-/*   Updated: 2023/04/21 18:14:48 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/23 21:24:17 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static int	error_export_var(char *arg)
+{
+	ft_putstr_fd("export: '", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+	return (1);
+}
 
 int	export_var(t_data *data, char *arg)
 {
@@ -18,12 +26,14 @@ int	export_var(t_data *data, char *arg)
 	char	*value;
 
 	result = 0;
-	if (arg[0] >= '0' && arg[0] <= '9')
+	value = arg;
+	if (!(*arg == '_') && !ft_isalpha(*arg))
+		error_export_var(arg);
+	while (*value && *value != '=')
 	{
-		ft_putstr_fd("export: '", 2);
-		ft_putstr_fd(arg, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
-		return (1);
+		if (!(*value == '_') && !ft_isalnum(*value))
+			error_export_var(arg);
+		value++;
 	}
 	value = ft_strchr(arg, '=');
 	if (value && ++value)
@@ -119,7 +129,7 @@ int	ft_exit(t_data *data, char **args)
 	else if (elem != 1)
 	{
 		ft_putstr_fd("exit: too many arguments\n", 2);
-		return (1);
+		exit(1);
 	}
 	if (!ft_str_is_numeric(args[0]))
 	{
