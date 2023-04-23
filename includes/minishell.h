@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/23 20:46:43 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/23 21:35:17 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,6 @@ void				exec_line(t_Parse *parse, t_data *data);
 char				*get_binary_path(t_env *env, char *name);
 void				here_doc(t_Inout *new);
 char				*replace_env_variables(t_data *data, char *command);
+int					is_space(int c);
 
 #endif
