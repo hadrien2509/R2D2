@@ -6,13 +6,13 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/23 21:47:48 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/24 18:05:54 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int			status;
+int		status;
 
 void	signal_handler(int signal)
 {
@@ -26,17 +26,6 @@ void	signal_handler(int signal)
 	}
 }
 
-static int	is_quote(char c)
-{
-	return (c == '\'' || c == '\"');
-}
-
-int	is_space(int c)
-{
-	return (c == ' ' || c == '\t' || c == '\n');
-}
-
-//print the list
 void	print_list(t_list *list)
 {
 	while (list)
@@ -46,23 +35,11 @@ void	print_list(t_list *list)
 	}
 }
 
-//is_empty, check if a char * is empty
-int	is_empty(char *str)
-{
-	while (str && *str)
-	{
-		if (!is_space(*str))
-			return (0);
-		str++;
-	}
-	return (1);
-}
-
 int	add_to_list(t_data *data, t_list **list, char *str, int is_simple_quote)
 {
 	t_list	*elem;
 
-	if (!is_empty(str))
+	if (!ft_isempty(str))
 	{
 		if (!is_simple_quote)
 			str = replace_env_variables(data, str);
@@ -83,37 +60,51 @@ t_list	*split_command(t_data *data, char *command)
 	char	*ptr;
 	t_list	*first;
 	int		is_simple_quote;
+	int		there_is_quote;
 
+	there_is_quote = 1;
 	first = NULL;
 	ptr = command;
+	is_simple_quote = 0;
 	while (ptr && *ptr)
 	{
-		is_simple_quote = 0;
-		if (is_space(*ptr))
+		if (ft_is_space(*ptr))
 		{
-			while (is_space(*ptr))
+			while (ft_is_space(*ptr))
 				ptr++;
 			*(ptr - 1) = '\0';
-			add_to_list(data, &first, command, 0);
+			add_to_list(data, &first, command, is_simple_quote);
 			command = ptr;
 		}
-		else if (is_quote(*ptr))
+		else if (ft_is_quote(*ptr))
 		{
+			is_simple_quote = (*ptr == '\'');
 			*ptr = '\0';
-			add_to_list(data, &first, command, 0);
-			command = ++ptr;
-			while (!is_quote(*ptr))
-				ptr++;
-			if (*ptr == '\'')
-				is_simple_quote = 1;
-			*ptr = '\0';
-			add_to_list(data, &first, command, is_simple_quote);
-			command = ++ptr;
+			if (((ptr - 1) && !ft_is_space(*(ptr - 1))))
+			{
+				*ptr = '\0';
+				if (there_is_quote % 2)
+					command = replace_env_variables(data, command);
+				ptr = ft_strjoin(command, ptr + 1);
+				command = ptr;
+				there_is_quote++;
+			}
+			else if ((!(ptr + 1) || ft_is_space(*(ptr + 1))))
+			{
+				if (*(ptr + 1))
+				{
+					*ptr = '\0';
+					add_to_list(data, &first, command, is_simple_quote);
+					command = ++ptr;
+				}
+				there_is_quote++;
+			}
 		}
 		else
 			ptr++;
 	}
-	add_to_list(data, &first, command, is_simple_quote);
+	if (command)
+		add_to_list(data, &first, command, is_simple_quote);
 	return (first);
 }
 
@@ -146,10 +137,11 @@ int	main(int argc, char *argv[], char *envp[])
 			printf("exit\n");
 			return (0);
 		}
-		data.command = ft_split(data.line, ' ');
-		//print_list(split_command(&data, data.line));
+		//data.command = ft_split(data.line, ' ');
 		//if (ft_nb_split(data.command) > 0)
 		add_history(data.line);
+		//print_list(split_command(&data, data.line));
+		//exit(0);
 		token = create_tokens(split_command(&data, data.line), &data);
 		parse = parse_command(&token);
 		parse_fd(&token, parse);

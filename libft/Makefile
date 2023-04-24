@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: samy <samy@student.42.fr>                  +#+  +:+       +#+         #
+#    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/04 11:24:14 by samy              #+#    #+#              #
-#    Updated: 2023/04/23 21:11:00 by samy             ###   ########.fr        #
+#    Updated: 2023/04/24 09:54:06 by sde-smed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,10 @@ SRC = 	ft_atoi.c\
 		ft_strcmp.c\
 		ft_free_split.c\
 		ft_nb_split.c\
-		ft_str_is_numeric.c
+		ft_str_is_numeric.c\
+		ft_is_quote.c\
+		ft_is_space.c\
+		ft_isempty.c
 
 SRCS = $(SRC) $(PRINTF) $(GNL)
 OBJ = $(SRCS:.c=.o)

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bultins.c                                          :+:      :+:    :+:   */
+/*   builtins.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -28,11 +28,11 @@ int	export_var(t_data *data, char *arg)
 	result = 0;
 	value = arg;
 	if (!(*arg == '_') && !ft_isalpha(*arg))
-		error_export_var(arg);
+		return (error_export_var(arg));
 	while (*value && *value != '=')
 	{
 		if (!(*value == '_') && !ft_isalnum(*value))
-			error_export_var(arg);
+		return (error_export_var(arg));
 		value++;
 	}
 	value = ft_strchr(arg, '=');
