@@ -3,18 +3,26 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
+#    By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/04/24 10:05:19 by sde-smed         ###   ########.fr        #
+#    Updated: 2023/04/25 12:55:09 by hgeissle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 SRCS = main.c\
-		parse.c\
+		parsing.c\
+		redirections.c\
+		tokenizer.c\
+		exec.c\
+		token_struct.c\
+		inout_struct.c\
+		cmd_struct.c\
+		check_command.c\
 		commands.c\
+		env_variables.c\
 		cd_utils.c\
 		echo.c\
 		env.c\

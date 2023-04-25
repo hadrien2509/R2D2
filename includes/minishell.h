@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/23 21:35:17 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/25 12:58:24 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,12 @@ void				parse_fd(t_Token *token, t_Parse *cmd);
 void				exec_line(t_Parse *parse, t_data *data);
 char				*get_binary_path(t_env *env, char *name);
 void				here_doc(t_Inout *new);
+void				create_heredoc(t_Inout **new, t_Inout **in, t_Token *token);
 char				*replace_env_variables(t_data *data, char *command);
-int					is_space(int c);
+char				*get_cmd_path(char *arg, t_data *data);
+int					check_builtins(char *arg);
+void				redirec(t_Parse *parse);
+char				*find_env_variable(char **str);
+char				*replace_env_variables(t_data *data, char *command);
 
 #endif

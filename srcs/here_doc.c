@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:15:44 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/23 21:00:36 by samy             ###   ########.fr       */
+/*   Updated: 2023/04/25 12:37:58 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,20 @@ void	here_doc(t_Inout *new)
 	}
 	free(line);
 	close(new->fd);
+}
+
+void	create_heredoc(t_Inout **new, t_Inout **in, t_Token *token)
+{
+	int		end[2];
+
+	pipe(end);
+	*new = ft_lstnewinout(*new);
+	(*new)->fd = end[1];
+	(*new)->value = token->value;
+	here_doc(*new);
+	close(end[1]);
+	if (status == 130)
+		return ;
+	(*new)->fd = end[0];
+	ft_lstaddinout_back(in, *new);
 }

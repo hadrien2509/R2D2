@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 17:58:46 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/19 14:13:45 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/25 11:52:19 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,17 @@ typedef struct s_Parse
 	t_Inout			*out;
 	struct s_Parse	*next;
 }					t_Parse;
+
+t_Token	*ft_lstnewtoken(int type, char *value);
+t_Token	*ft_lstlasttoken(t_Token *lst);
+void	ft_lstaddtoken_back(t_Token **lst, t_Token *new);
+
+t_Inout	*ft_lstnewinout(t_Inout *prev);
+t_Inout	*ft_lstlastinout(t_Inout *lst);
+void	ft_lstaddinout_back(t_Inout **lst, t_Inout *new);
+
+t_Parse	*ft_lstnewcmd(void);
+t_Parse	*ft_lstlastcmd(t_Parse *lst);
+void	ft_lstaddcmd_back(t_Parse **lst, t_Parse *new);
 
 #endif
