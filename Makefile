@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+         #
+#    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/04/25 12:55:09 by hgeissle         ###   ########.fr        #
+#    Updated: 2023/04/25 13:49:03 by sde-smed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS = main.c\
 		export_utils.c\
 		env_get.c\
 		here_doc.c\
+		split_command.c\
 		ft_atoi_long_long.c
 
 SRCS_DIR = srcs

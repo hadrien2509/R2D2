@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/25 13:45:07 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/25 13:53:31 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_Token	create_tokens(t_list *elem, t_data *data)
 	{
 		redirec_tokenizer(elem, &new);
 		cmd_pipes_tokenizer(elem, &new, data);
-		printf("ok\n");
+		//printf("ok\n");
 		elem = elem->next;
 		ft_lstaddtoken_back(&token, new);
 	}

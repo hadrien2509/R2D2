@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/25 12:58:24 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/25 13:49:50 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,6 @@ int					check_builtins(char *arg);
 void				redirec(t_Parse *parse);
 char				*find_env_variable(char **str);
 char				*replace_env_variables(t_data *data, char *command);
+t_list				*split_command(t_data *data, char *command);
 
 #endif
