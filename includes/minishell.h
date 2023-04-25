@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/25 13:49:50 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/25 18:04:56 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ long long			ft_atoi_long_long(const char *str);
 /*                             Parsing                                        */
 /* ************************************************************************** */
 
-t_Token				create_tokens(t_list *elem, t_data *data);
+int					create_tokens(t_list *elem, t_data *data, t_Token **token);
 t_Parse				*parse_command(t_Token *token);
 void				parse_fd(t_Token *token, t_Parse *cmd);
 void				exec_line(t_Parse *parse, t_data *data);

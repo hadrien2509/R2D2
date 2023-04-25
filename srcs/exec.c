@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/24 13:43:02 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/25 18:31:12 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,10 @@ int	exec_cmd(t_Parse *parse, t_data *data)
 	int	result;
 
 	result = 0;
-	if (!parse->in)
-	{
-		child = fork();
-		result = execute(parse, data, child);
-	}
-	while (parse->in)
-	{
-		child = fork();
-		result = execute(parse, data, child);
-		parse->in = parse->in->next;
-	}
+	parse->in = ft_lstlastinout(parse->in);
+	parse->out = ft_lstlastinout(parse->out);
+	child = fork();
+	result = execute(parse, data, child);
 	if (parse->out)
 		close(parse->out->fd);
 	return (result);
@@ -102,8 +95,8 @@ void	exec_line(t_Parse *parse, t_data *data)
 			else
 				exec_cmd(parse, data);
 		}
-		if (parse->cmd && parse->out && parse->out->next)
-			redirec(parse);
+		// if (parse->cmd && parse->out && parse->out->next)
+		// 	redirec(parse);
 		parse = parse->next;
 	}
 }

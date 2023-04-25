@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/25 13:50:10 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/25 18:36:52 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int argc, char *argv[], char *envp[])
 	struct termios	curr;
 	struct termios	save;
 	t_data			data;
-	t_Token			token;
+	t_Token			*token;
 	t_Parse			*parse;
 
 	data.envtab = envp;
@@ -57,9 +57,10 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 		//if (ft_nb_split(data.command) > 0)
 		add_history(data.line);
-		token = create_tokens(split_command(&data, data.line), &data);
-		parse = parse_command(&token);
-		parse_fd(&token, parse);
+		token = 0;
+		create_tokens(split_command(&data, data.line), &data, &token);
+		parse = parse_command(token);
+		parse_fd(token, parse);
 		if (status != 130)
 			exec_line(parse, &data);
 		free(data.line);
