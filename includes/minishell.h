@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/26 11:17:40 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/26 12:41:35 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ t_Parse				*parse_command(t_Token *token);
 void				parse_fd(t_Token *token, t_Parse *cmd);
 void				exec_line(t_Parse *parse, t_data *data);
 char				*get_binary_path(t_env *env, char *name);
-void				here_doc(t_Inout *new);
 void				create_heredoc(t_Inout **new, t_Inout **in, t_Token *token);
 char				*replace_env_variables(t_data *data, char *command);
 char				*get_cmd_path(char *arg, t_data *data);
