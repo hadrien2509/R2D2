@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/26 16:01:57 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/26 19:26:16 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	create_file(t_Inout	**new, t_Inout **inout, t_Token *token)
 	}
 }
 
-void	set_pipes(t_Inout	**new, t_Parse **cmd, t_Inout **in, t_Inout **out)
+void	set_pipes(t_Inout	**new, t_Parse *cmd, t_Inout **in, t_Inout **out)
 {
 	int			end[2];
 
@@ -86,14 +86,12 @@ void	set_pipes(t_Inout	**new, t_Parse **cmd, t_Inout **in, t_Inout **out)
 	*new = ft_lstnewinout(*new);
 	(*new)->fd = end[1];
 	ft_lstaddinout_back(out, *new);
-	(*cmd)->out = *out;
-	(*cmd)->in = *in;
-	*cmd = (*cmd)->next;
+	cmd->out = *out;
+	cmd->in = *in;
 	*in = 0;
 	*out = 0;
 	*new = ft_lstnewinout(*new);
 	(*new)->fd = end[0];
-	printf("%d\n", (*new)->fd);
 	ft_lstaddinout_back(in, *new);
 }
 
@@ -109,12 +107,17 @@ void	parse_fd(t_Token *token, t_Parse *cmd, t_data *data)
 	cmd->out = 0;
 	while (token)
 	{
-		if (token->type == 2 || token->type == 3 || token->type == 6)
+		if (token->type == 2)
 			create_file(&new, &in, token);
+		if (token->type == 3 || token->type == 6)
+			create_file(&new, &out, token);
 		else if (token->type == 5)
 			data->exit_status = create_heredoc(&new, &in, token);
 		else if (token->type == 4)
-			set_pipes(&new, &cmd, &in, &out);
+		{
+			set_pipes(&new, cmd, &in, &out);
+			cmd = cmd->next;
+		}
 		if (data->exit_status == 130)
 			return ;
 		token = token->next;
