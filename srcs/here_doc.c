@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:15:44 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/26 12:42:38 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:42:50 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	here_doc(t_Inout *new)
 	return (status);
 }
 
-void	create_heredoc(t_Inout **new, t_Inout **in, t_Token *token)
+int	create_heredoc(t_Inout **new, t_Inout **in, t_Token *token)
 {
 	int		end[2];
 	int		status;
@@ -63,7 +63,8 @@ void	create_heredoc(t_Inout **new, t_Inout **in, t_Token *token)
 	status = here_doc(*new);
 	close(end[1]);
 	if (status == 130)
-		return ;
+		return (130);
 	(*new)->fd = end[0];
 	ft_lstaddinout_back(in, *new);
+	return (0);
 }

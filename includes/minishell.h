@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/26 15:20:33 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:57:02 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_env				*get_previous(t_env *env, t_env *current);
 void				ft_envclear(t_env **lst);
 t_env				*ft_strarr_to_env(t_data *data, char **strarr);
 char				*get_absolute_path(t_env *env, char *path, char *r_path);
-long long			ft_atoi_long_long(const char *str);
+long long int		*ft_atoi_long_long(const char *str, long long int *result);
 
 /* ************************************************************************** */
 /*                             Parsing                                        */
@@ -82,8 +82,7 @@ t_Parse				*parse_command(t_Token *token);
 void				parse_fd(t_Token *token, t_Parse *cmd, t_data *data);
 void				exec_line(t_Parse *parse, t_data *data);
 char				*get_binary_path(t_env *env, char *name);
-void				here_doc(t_Inout *new);
-void				create_heredoc(t_Inout **new, t_Inout **in, t_Token *token);
+int					create_heredoc(t_Inout **new, t_Inout **in, t_Token *token);
 char				*replace_env_variables(t_data *data, char *command);
 char				*get_cmd_path(char *arg, t_data *data);
 int					check_builtins(char *arg);
