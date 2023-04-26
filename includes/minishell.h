@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/25 18:04:56 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/26 11:17:40 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_env				*get_previous(t_env *env, t_env *current);
 void				ft_envclear(t_env **lst);
 t_env				*ft_strarr_to_env(t_data *data, char **strarr);
 char				*get_absolute_path(t_env *env, char *path, char *r_path);
-long long			ft_atoi_long_long(const char *str);
+long long int		*ft_atoi_long_long(const char *str, long long int *result);
 
 /* ************************************************************************** */
 /*                             Parsing                                        */
