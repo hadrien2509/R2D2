@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/25 18:36:52 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:19:49 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,15 @@ int	main(int argc, char *argv[], char *envp[])
 		//if (ft_nb_split(data.command) > 0)
 		add_history(data.line);
 		token = 0;
-		create_tokens(split_command(&data, data.line), &data, &token);
+		data.split = split_command(&data, data.line);
+		data.exit_status = create_tokens(&data, &token);
 		parse = parse_command(token);
-		parse_fd(token, parse);
+		parse_fd(token, parse, &data);
 		if (status != 130)
+		{
 			exec_line(parse, &data);
+			printf("ok\n");
+		}
 		free(data.line);
 	}
 	tcsetattr(STDIN_FILENO, 0, &save);

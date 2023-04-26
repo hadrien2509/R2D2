@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/25 19:16:05 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:20:08 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	set_pipes(t_Inout	**new, t_Parse **cmd, t_Inout **in, t_Inout **out)
 	ft_lstaddinout_back(in, *new);
 }
 
-void	parse_fd(t_Token *token, t_Parse *cmd)
+void	parse_fd(t_Token *token, t_Parse *cmd, t_data *data)
 {
 	t_Inout	*new;
 	t_Inout	*in;
@@ -113,7 +113,7 @@ void	parse_fd(t_Token *token, t_Parse *cmd)
 		else if (token->type == 3)
 			create_file(&new, &out, token, 1);
 		else if (token->type == 5)
-			create_heredoc(&new, &in, token);
+			data->exit_status = create_heredoc(&new, &in, token);
 		else if (token->type == 6)
 			create_file(&new, &out, token, 2);
 		else if (token->type == 4)

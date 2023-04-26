@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/26 12:34:12 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/26 12:18:25 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,9 @@ void	exec_line(t_Parse *parse, t_data *data)
 		if (parse->cmd && parse->cmd[0])
 		{
 			if (check_builtins(parse->cmd[0]))
-				exec_builtins(parse, data);
+				data->exit_status = exec_builtins(parse, data);
 			else
-				exec_cmd(parse, data);
+				data->exit_status = exec_cmd(parse, data);
 		}
 		// if (parse->cmd && parse->out && parse->out->next)
 		// 	redirec(parse);
