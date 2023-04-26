@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/26 18:31:55 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/26 19:38:19 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 # define ERROR 1
 # define SUCCESS 0
-# define PROMPT "minishell_alpha-0.1$ "
+# define PROMPT "minishell_beta-0.1$ "
 
 typedef struct s_env
 {
