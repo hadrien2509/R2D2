@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 11:16:53 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/26 11:56:20 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/26 12:48:51 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static int	check_overflow(long long result, const char *str)
 {
-	if(result > LLONG_MAX / 10)
+	if (result > LLONG_MAX / 10)
 		return (1);
-	if(result == LLONG_MAX / 10 && *str - '0' > LLONG_MAX % 10)
+	if (result == LLONG_MAX / 10 && *str - '0' > LLONG_MAX % 10)
 		return (1);
 	return (0);
 }
