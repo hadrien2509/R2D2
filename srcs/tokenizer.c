@@ -6,13 +6,23 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/26 12:24:14 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/27 18:46:36 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	status;
+void	syntax_error(int error, char *str)
+{	
+	if (error == 258)
+	{
+		ft_putstr_fd("syntax error near unexpected token `", 2);
+		if (!str)
+			str = "newline";
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd("'\n", 2);
+	}
+}
 
 int	check_after_redirec(void *str)
 {
@@ -21,45 +31,53 @@ int	check_after_redirec(void *str)
 	error = 0;
 	if (str == 0)
 		error = 258;
-	else if (ft_strcmp(str, "|") == 0)
-		error = 258;
-	else if (ft_strcmp(str, "<<") == 0)
-		error = 258;
-	else if (ft_strcmp(str, ">>") == 0)
-		error = 258;
-	else if (ft_strcmp(str, "<") == 0)
-		error = 258;
-	else if (ft_strcmp(str, ">") == 0)
-		error = 258;
-	if (error == 258)
+	else if (ft_strncmp(str, "|", 1) == 0)
 	{
-		ft_putstr_fd("syntax error near unexpected token `", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd("'\n", 2);
-		return (258);
+		str = "|";
+		error = 258;
 	}
-	return (0);
+	else if (ft_strncmp(str, "<<", 2) == 0)
+	{
+		str = "<<";
+		error = 258;
+	}
+	else if (ft_strncmp(str, ">>", 2) == 0)
+	{
+		str = ">>";
+		error = 258;
+	}
+	else if (ft_strncmp(str, "<", 1) == 0)
+		error = 258;
+	else if (ft_strncmp(str, ">", 1) == 0)
+		error = 258;
+	syntax_error(error, str);
+	return (error);
 }
 
 int	redirec_tokenizer(t_list **elem, t_Token **new)
 {
-	int	redirec;
+	int		redirec;
+	char	*str;
 
+	if (!(*elem)->next)
+		str = 0;
+	else
+		str = (*elem)->next->content;
 	redirec = 1;
 	if (ft_strcmp((*elem)->content, "<<") == 0)
-		*new = ft_lstnewtoken(5, (*elem)->next->content);
+		*new = ft_lstnewtoken(5, str);
 	else if (ft_strcmp((*elem)->content, ">>") == 0)
-		*new = ft_lstnewtoken(6, (*elem)->next->content);
+		*new = ft_lstnewtoken(6, str);
 	else if (ft_strcmp((*elem)->content, "<") == 0)
-		*new = ft_lstnewtoken(2, (*elem)->next->content);
+		*new = ft_lstnewtoken(2, str);
 	else if (ft_strcmp((*elem)->content, ">") == 0)
-		*new = ft_lstnewtoken(3, (*elem)->next->content);
+		*new = ft_lstnewtoken(3, str);
 	else
 		redirec = 0;
 	if (redirec == 1)
 	{
 		(*elem) = (*elem)->next;
-		if (check_after_redirec((*elem)->content) == 258)
+		if (check_after_redirec(str) == 258)
 			return (258);
 	}
 	return (redirec);
@@ -68,14 +86,47 @@ int	redirec_tokenizer(t_list **elem, t_Token **new)
 int	complete_pipe(t_list **elem)
 {
 	t_list	*new;
+	char	*str;
+	char	*str_nonl;
+	int		i;
+	int		len;
+	int		pid;
+	int		status;
 
-	write(1, "\n> ", 1);
-	new = ft_lstnew(get_next_line(0));
-	if (status == 130)
-		return (130);
+	i = 0;
+	status = 0;
+	write(1, "> ", 2);
+	if((pid = fork()) == -1)
+		exit(1);
+	if (pid == 0)
+	{
+		if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+			exit(ERROR);
+		str = get_next_line(0);
+		if (!str)
+			return (-1);
+		len = ft_strlen(str);
+		str_nonl = malloc(sizeof(char) * len);
+		if (!str_nonl)
+			return (-1);
+		str_nonl[len] = '\0';
+		while (str[i] != '\n' && str[i])
+		{
+			str_nonl[i] = str[i];
+			i++;
+		}
+	}
+	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
+		exit(ERROR);
+	if (waitpid(pid, &status, 0) == -1)
+		return (1);
+	if (signal(SIGINT, signal_handler) == SIG_ERR)
+		exit(ERROR);
+	new = ft_lstnew(str_nonl);
 	ft_lstadd_back(elem, new);
-	return (0);
+	return (status);
 }
+
 int	check_after_pipe(t_list **elem)
 {
 	int		error;
@@ -83,18 +134,9 @@ int	check_after_pipe(t_list **elem)
 	error = 0;
 	if ((*elem)->next == 0)
 		error = complete_pipe(elem);
-	else if (ft_strcmp((*elem)->next->content, "|") == 0)
+	if ((*elem)->next && ft_strcmp((*elem)->next->content, "|") == 0)
 		error = 258;
-	else if (ft_strcmp((*elem)->next->content, "<<") == 0)
-		error = 258;
-	else if (ft_strcmp((*elem)->next->content, ">>") == 0)
-		error = 258;
-	else if (ft_strcmp((*elem)->next->content, "<") == 0)
-		error = 258;
-	else if (ft_strcmp((*elem)->next->content, ">") == 0)
-		error = 258;
-	if (error == 258)
-		ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
+	syntax_error(error, "|");
 	return (error);
 }
 

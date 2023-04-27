@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/27 13:56:54 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/27 16:59:48 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ int	main(int argc, char *argv[], char *envp[])
 		data.split = split_command(&data, data.line);
 		data.exit_status = create_tokens(&data, &token);
 		parse = parse_command(token);
-		if (data.exit_status != 130)
+		if (data.exit_status == 0)
 			parse_fd(token, parse, &data);
-		if (data.exit_status != 130)
+		if (data.exit_status == 130)
 			exec_line(parse, &data);
 		free(data.line);
 	}

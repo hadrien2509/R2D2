@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/27 14:19:58 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/27 14:22:34 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ void	exec_line(t_Parse *parse, t_data *data)
 			if (check_builtins(parse->cmd[0]))
 			{
 				if (parse->out)
+				{
 					data->exit_status = exec_builtins(parse, data, parse->out->fd);
+					close(parse->out->fd);
+				}
 				else
 					data->exit_status = exec_builtins(parse, data, 1);
 			}
