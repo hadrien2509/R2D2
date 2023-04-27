@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/27 14:15:08 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/27 14:18:25 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ int	exec_builtins(t_Parse *parse, t_data *data, int fd)
 	else if (!ft_strcmp(parse->cmd[0], "cd"))
 		return (builtin_cd(data, parse->cmd[1]));
 	else if (!ft_strcmp(parse->cmd[0], "echo"))
-		return (builtin_echo(parse->cmd));
+		return (builtin_echo(fd, parse->cmd));
 	else if (!ft_strcmp(parse->cmd[0], "export"))
-		return (export(data, &parse->cmd[1]));
+		return (export(fd, data, &parse->cmd[1]));
 	else if (!ft_strcmp(parse->cmd[0], "unset"))
 		return (unset(data->env, &parse->cmd[1]));
 	else if (!ft_strcmp(parse->cmd[0], "env"))
