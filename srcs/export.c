@@ -6,19 +6,11 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 11:59:24 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/26 12:00:16 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/27 13:47:53 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static int	error_export_var(char *arg)
-{
-	ft_putstr_fd("export: '", 2);
-	ft_putstr_fd(arg, 2);
-	ft_putstr_fd("': not a valid identifier\n", 2);
-	return (1);
-}
 
 int	export_var(t_data *data, char *arg)
 {
@@ -28,11 +20,11 @@ int	export_var(t_data *data, char *arg)
 	result = 0;
 	value = arg;
 	if (!(*arg == '_') && !ft_isalpha(*arg))
-		return (error_export_var(arg));
+		return (print_error("export", "not a valid identifier", arg, 1));
 	while (*value && *value != '=')
 	{
 		if (!(*value == '_') && !ft_isalnum(*value))
-			return (error_export_var(arg));
+			return (print_error("export", "not a valid identifier", arg, 1));
 		value++;
 	}
 	value = ft_strchr(arg, '=');
