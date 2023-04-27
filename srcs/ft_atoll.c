@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi_long_long.c                                :+:      :+:    :+:   */
+/*   ft_atoll.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -27,7 +27,7 @@ static int	check_overflow(long long result, const char *str)
 ** @param result a pointer to the result of the conversion
 ** @return a pointer to the result if successful, NULL otherwise
 */
-long long int	*ft_atoi_long_long(const char *str, long long int *result)
+long long int	*ft_atoll(const char *str, long long int *result)
 {
 	int	sign;
 

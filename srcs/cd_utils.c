@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:00:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/27 10:22:49 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/18 13:24:26 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,14 +116,14 @@ static char	*ft_tilde(t_env *env, char *path)
 ** @param relative_path the relative path to get the absolute path for
 ** @return the absolute path or NULL if an error occurred
 */
-char	*get_absolute_path(t_env *env, char *pwd, char *relative_path)
+char	*get_absolute_path(t_env *env, char *curr_path, char *relative_path)
 {
 	char	**parts;
 	char	*path;
-	char	*curr_path;
 
-	curr_path = ft_strdup(pwd);
-	if (!relative_path || relative_path[0] == '~')
+	if (!relative_path)
+		relative_path = ft_tilde(env, NULL);
+	if (relative_path[0] == '~')
 		relative_path = ft_tilde(env, relative_path);
 	if (!relative_path)
 		return (NULL);
@@ -136,6 +136,8 @@ char	*get_absolute_path(t_env *env, char *pwd, char *relative_path)
 			ft_putstr_fd("cd: OLDPWD not set\n", 2);
 		return (path);
 	}
+	if (relative_path[0] == '/')
+		curr_path = ft_strdup("");
 	parts = ft_split(relative_path, '/');
 	path = build_absolute_path(curr_path, parts);
 	ft_free_split(parts);

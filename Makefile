@@ -6,7 +6,7 @@
 #    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/04/26 11:59:55 by sde-smed         ###   ########.fr        #
+#    Updated: 2023/04/27 12:37:32 by sde-smed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRCS = main.c\
 		env_get.c\
 		here_doc.c\
 		split_command.c\
-		ft_atoi_long_long.c\
+		ft_atoll.c\
 		export.c
 
 SRCS_DIR = srcs
