@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:15:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/19 15:59:32 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/27 14:03:00 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	sort_list(t_env **head)
 ** of environment variables
 ** @return 0 if successful, 1 otherwise
 */
-int	export_print(t_env *old_head)
+int	export_print(int fd, t_env *old_head)
 {
 	t_env	*head;
 
@@ -138,9 +138,19 @@ int	export_print(t_env *old_head)
 	while (head)
 	{
 		if (head->value)
-			printf("declare -x %s=\"%s\"\n", head->name, head->value);
+		{
+			ft_putstr_fd("declare -x ", fd);
+			ft_putstr_fd(head->name, fd);
+			ft_putstr_fd("=\"", fd);
+			ft_putstr_fd(head->value, fd);
+			ft_putstr_fd("\"\n", fd);
+		}
 		else
-			printf("declare -x %s\n", head->name);
+		{
+			ft_putstr_fd("declare -x ", fd);
+			ft_putstr_fd(head->name, fd);
+			ft_putstr_fd("\n", fd);
+		}
 		head = head->next;
 	}
 	ft_envclear(&head);

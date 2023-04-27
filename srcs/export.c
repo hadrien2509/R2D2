@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 11:59:24 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/27 13:47:53 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/27 14:03:26 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ int	export_var(t_data *data, char *arg)
 ** @param var the variable name and value separated by "="
 ** @return 0 if successful, 1 otherwise
 */
-int	export(t_data *data, char **args)
+int	export(int fd, t_data *data, char **args)
 {
 	int	i;
 	int	result;
 
 	i = -1;
 	if (!args[0])
-		return (export_print(data->env));
+		return (export_print(fd, data->env));
 	while (args[++i])
 	{
 		result = export_var(data, args[i]);

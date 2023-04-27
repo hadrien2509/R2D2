@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:08:12 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/24 12:06:04 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/27 13:58:51 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 ** @param command the array of strings to print
 ** @return void
 */
-static void	print_arguments(char **command)
+static void	print_arguments(int fd, char **command)
 {
 	int	i;
 
 	i = 0;
 	while (command[i])
 	{
-		printf("%s", command[i]);
+		ft_putstr_fd(command[i], fd);
 		if (command[++i])
-			printf(" ");
+			ft_putstr_fd(" ", fd);
 	}
 }
 
@@ -54,7 +54,7 @@ static int	check_only_n_chars(const char *str)
 ** @param command the array of strings representing the arguments of the command
 ** @return 0 if successful, -1 otherwise
 */
-int	builtin_echo(char **command)
+int	builtin_echo(int fd, char **command)
 {
 	int	i;
 	int	has_n_option;
@@ -75,7 +75,7 @@ int	builtin_echo(char **command)
 		}
 	}
 	if (command[i])
-		print_arguments(&command[i]);
+		print_arguments(fd, &command[i]);
 	if (has_n_option != 1)
 		printf("\n");
 	return (0);
