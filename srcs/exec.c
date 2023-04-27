@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/27 13:03:46 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/27 13:53:01 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ int	exec_cmd(t_Parse *parse, t_data *data)
 	int	result;
 
 	result = 0;
-	parse->in = ft_lstlastinout(parse->in);
-	parse->out = ft_lstlastinout(parse->out);
 	child = fork();
 	result = execute(parse, data, child);
 	if (parse->out)
@@ -56,7 +54,7 @@ int	exec_cmd(t_Parse *parse, t_data *data)
 	return (result);
 }
 
-int	exec_builtins(t_Parse *parse, t_data *data)
+int	exec_builtins(t_Parse *parse, t_data *data, int fd)
 {
 	if (!ft_strcmp(parse->cmd[0], "pwd"))
 	{
@@ -90,8 +88,15 @@ void	exec_line(t_Parse *parse, t_data *data)
 	{
 		if (parse->cmd && parse->cmd[0])
 		{
+			parse->in = ft_lstlastinout(parse->in);
+			parse->out = ft_lstlastinout(parse->out);
 			if (check_builtins(parse->cmd[0]))
-				data->exit_status = exec_builtins(parse, data);
+			{
+				if (parse->out)
+					data->exit_status = exec_builtins(parse, data, parse->out);
+				else
+					data->exit_status = exec_builtins(parse, data, 1);
+			}
 			else
 				data->exit_status = exec_cmd(parse, data);
 		}
