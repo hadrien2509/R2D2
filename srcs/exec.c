@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/27 10:31:05 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/27 13:03:46 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	exec_builtins(t_Parse *parse, t_data *data)
 	else if (!ft_strcmp(parse->cmd[0], "unset"))
 		return (unset(data->env, &parse->cmd[1]));
 	else if (!ft_strcmp(parse->cmd[0], "env"))
-		return (print_env(data->env));
+		return (print_env(parse->out->fd, data->env));
 	else if (!ft_strcmp(parse->cmd[0], "exit"))
 		return (ft_exit(data, &parse->cmd[1]));
 	return (0);
