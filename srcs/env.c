@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:52:28 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/27 12:46:42 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/27 12:54:29 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	del_env(t_env *env, const char *name)
 ** @param env the environment variables list
 ** @return 0 if successful, -1 otherwise
 */
-int	print_env(t_env *env)
+int	print_env(int fd, t_env *env)
 {
 	t_env	*elem;
 
@@ -116,7 +116,12 @@ int	print_env(t_env *env)
 	while (elem)
 	{
 		if (elem->value)
-			printf("%s=%s\n", elem->name, elem->value);
+		{
+			ft_putstr_fd(elem->name, fd);
+			ft_putstr_fd("=", fd);
+			ft_putstr_fd(elem->value, fd);
+			ft_putstr_fd("\n", fd);
+		}
 		elem = elem->next;
 	}
 	return (0);

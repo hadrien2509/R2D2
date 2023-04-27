@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/27 12:37:32 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/27 12:55:05 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int					check_command(char **command, t_data *data);
 void				signal_handler(int signal);
 int					set_env(t_data *data, const char *var, const char *new_val);
 char				*get_env(t_env *env, const char *var);
-int					print_env(t_env *env);
+int					print_env(int fd, t_env *env);
 int					builtin_cd(t_data *data, char *str);
 int					builtin_echo(char **command);
 int					unset(t_env *env, char **names);
