@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/27 12:55:05 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/27 13:39:42 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void				ft_envclear(t_env **lst);
 t_env				*ft_strarr_to_env(t_data *data, char **strarr);
 char				*get_absolute_path(t_env *env, char *path, char *r_path);
 long long int		*ft_atoll(const char *str, long long int *result);
+int					print_error(char *builtin, char *str, char *cmd, int value);
 
 /* ************************************************************************** */
 /*                             Parsing                                        */

@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:25:03 by samy              #+#    #+#             */
-/*   Updated: 2023/04/27 13:03:55 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/27 13:49:31 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,18 @@ int	builtin_cd(t_data *data, char *str)
 	char	*path;
 
 	path = ft_strdup(data->pwd);
+	if (!path)
+		return (42);
 	path = get_absolute_path(data->env, path, str);
 	if (!path || access(path, F_OK) != 0)
 	{
-		ft_putstr_fd("cd: ", 2);
 		if (str[0] == '-')
 		{
-			str[2] = 0;
-			ft_putstr_fd(str, 2);
-			ft_putstr_fd(": invalid option\ncd: usage: cd [-L|-P] [dir]\n", 2);
+			if (str[1] != '\0')
+				print_error("cd", "invalid option", str, 1);
 			return (1);
 		}
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		return (1);
+		return (print_error("cd", "No such file or directory", str, 1));
 	}
 	if (chdir(path))
 		return (1);
@@ -72,19 +70,13 @@ int	ft_exit(t_data *data, char **args)
 	if (elem == 0)
 		exit(data->exit_status);
 	else if (elem != 1)
-	{
-		ft_putstr_fd("exit: too many arguments\n", 2);
-		exit(1);
-	}
+		exit(print_error("exit", "too many arguments", NULL, 1));
 	value = ft_atoll(args[0], &result);
 	if (!ft_str_is_numeric(args[0]) || !value)
 	{
 		if (ft_strcmp(args[0], "-9223372036854775808") == 0)
 			exit(0);
-		ft_putstr_fd("exit: ", 2);
-		ft_putstr_fd(args[0], 2);
-		ft_putstr_fd(": numeric argument required\n", 2);
-		exit(-1);
+		exit(print_error("exit", "numeric argument required", args[0], -1));
 	}
 	exit((unsigned char)result);
 }

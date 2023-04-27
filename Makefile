@@ -6,7 +6,7 @@
 #    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/04/27 12:37:32 by sde-smed         ###   ########.fr        #
+#    Updated: 2023/04/27 13:40:45 by sde-smed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,8 @@ SRCS = main.c\
 		here_doc.c\
 		split_command.c\
 		ft_atoll.c\
-		export.c
+		export.c\
+		put_error.c
 
 SRCS_DIR = srcs
 OBJS_DIR = objs

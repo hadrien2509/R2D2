@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:00:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/18 13:24:26 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/27 13:36:04 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ char	*get_absolute_path(t_env *env, char *curr_path, char *relative_path)
 			return (NULL);
 		path = get_env(env, "OLDPWD");
 		if (!path)
-			ft_putstr_fd("cd: OLDPWD not set\n", 2);
+			print_error("cd", "OLDPWD not set", NULL, 0);
 		return (path);
 	}
 	if (relative_path[0] == '/')

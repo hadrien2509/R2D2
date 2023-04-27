@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/18 12:35:15 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/27 13:45:49 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,7 @@ int	exec(char **args, t_data *data)
 	if (binary_path)
 		binary_path = get_absolute_path(data->env, data->pwd, binary_path);
 	if (!binary_path)
-	{
-		ft_putstr_fd(PROMPT, 2);
-		ft_putstr_fd(args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		return (127);
-	}
+		return (print_error(args[0], "command not found", NULL, 127));
 	env_list = env_list_to_tab(data->env_size, data->env);
 	result = fork_and_execute(args, binary_path, env_list);
 	free(env_list);
@@ -134,11 +129,7 @@ int	exec(char **args, t_data *data)
 }
 
 /*
-** Determines the type of the given command and executes it accordingly.
-** @param command an array of strings containing the command and its arguments
-** @param data a struct containing the shell's data
-** @return the exit status of the command
-*/
+
 int	check_command(char **command, t_data *data)
 {
 	if (!command[0])
@@ -160,3 +151,4 @@ int	check_command(char **command, t_data *data)
 	else
 		return (exec(command, data));
 }
+*/
