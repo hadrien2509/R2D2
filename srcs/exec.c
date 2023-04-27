@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/27 14:18:25 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/27 14:19:58 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ int	exec_builtins(t_Parse *parse, t_data *data, int fd)
 {
 	if (!ft_strcmp(parse->cmd[0], "pwd"))
 	{
-		ft_putstr_fd(data->pwd, parse->out->fd);
-		write(parse->out->fd, "\n", 1);
+		ft_putstr_fd(data->pwd, fd);
+		write(fd, "\n", 1);
 		return (0); //Ajouter une condition ici
 	}
 	else if (!ft_strcmp(parse->cmd[0], "cd"))
