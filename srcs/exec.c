@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/27 13:53:01 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/27 14:03:46 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,9 @@ int	exec_builtins(t_Parse *parse, t_data *data, int fd)
 {
 	if (!ft_strcmp(parse->cmd[0], "pwd"))
 	{
-		if (parse->out)
-		{
-			ft_putstr_fd(data->pwd, parse->out->fd);
-			write(parse->out->fd, "\n", 1);
-			return (0); //Ajouter une condition ici
-		}
-		else
-			return ((printf("%s\n", data->pwd) == 0));
+		ft_putstr_fd(data->pwd, parse->out->fd);
+		write(parse->out->fd, "\n", 1);
+		return (0); //Ajouter une condition ici
 	}
 	else if (!ft_strcmp(parse->cmd[0], "cd"))
 		return (builtin_cd(data, parse->cmd[1]));
@@ -76,7 +71,7 @@ int	exec_builtins(t_Parse *parse, t_data *data, int fd)
 	else if (!ft_strcmp(parse->cmd[0], "unset"))
 		return (unset(data->env, &parse->cmd[1]));
 	else if (!ft_strcmp(parse->cmd[0], "env"))
-		return (print_env(parse->out->fd, data->env));
+		return (print_env(fd, data->env));
 	else if (!ft_strcmp(parse->cmd[0], "exit"))
 		return (ft_exit(data, &parse->cmd[1]));
 	return (0);
@@ -93,7 +88,7 @@ void	exec_line(t_Parse *parse, t_data *data)
 			if (check_builtins(parse->cmd[0]))
 			{
 				if (parse->out)
-					data->exit_status = exec_builtins(parse, data, parse->out);
+					data->exit_status = exec_builtins(parse, data, parse->out->fd);
 				else
 					data->exit_status = exec_builtins(parse, data, 1);
 			}
