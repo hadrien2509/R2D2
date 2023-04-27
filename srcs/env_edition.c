@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 10:25:54 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/27 10:42:39 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/27 12:46:44 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	ft_envclear(t_env **lst)
 		*lst = tmp;
 	}
 }
+
 /*
 ** Allocates and initializes a new environment variable node
 ** with a copy of a given string.
@@ -52,30 +53,21 @@ t_env	*ft_envnew(const char *name, const char *value)
 		free(new);
 		return (NULL);
 	}
-	new->value = ft_strdup(value);
-	if (!new->value)
+	if (value)
 	{
-		free(new->name);
-		free(new);
-		return (NULL);
+		new->value = ft_strdup(value);
+		if (!new->value)
+		{
+			free(new->name);
+			free(new);
+			return (NULL);
+		}
 	}
+	else
+		value = NULL;
 	new->next = NULL;
 	return (new);
 }
-
-/*
-** Frees an environment variable node and its associated memory.
-** @param node the node to free
-*/
-void	ft_envdel(t_env *node)
-{
-	if (!node)
-		return ;
-	free(node->name);
-	free(node->value);
-	free(node);
-}
-
 
 /*
 ** Adds a new environment variable node at the end of a linked list.
