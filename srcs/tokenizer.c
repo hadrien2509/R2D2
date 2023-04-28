@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/27 18:46:36 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/28 10:59:47 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ int	cmd_pipes_tokenizer(t_list **elem, t_Token **new, t_data *data, int *arg_nee
 		cmd->arg_nb++;
 	}
 	else
-	{
+	{// check si get_cmd_path == 0
 		*new = ft_lstnewtoken(0, get_cmd_path((*elem)->content, data));
 		*arg_need = 1;
 		cmd = *new;
