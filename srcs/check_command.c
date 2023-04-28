@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:39:50 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/28 10:53:35 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/28 12:04:31 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	*get_cmd_path(char *arg, t_data *data)
 	{
 		free(path);
 		print_error(arg, "command not found", NULL, 0);
+		data->exit_status = 127;
 	}
 	return (path);
 }

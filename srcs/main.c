@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/28 11:13:35 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/28 11:52:13 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	main(int argc, char *argv[], char *envp[])
 		parse = parse_command(token);
 		if (data.exit_status == 0)
 			parse_fd(token, parse, &data);
-		if (data.exit_status != 130)
+		if (data.exit_status == 0)
 			exec_line(parse, &data);
 		free(data.line);
 	}
