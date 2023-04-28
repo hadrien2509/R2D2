@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/28 12:04:52 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/28 15:45:08 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,14 @@ int	complete_pipe(t_list **elem)
 	int		len;
 	int		pid;
 	int		status;
+	int		end[2];
 
 	i = 0;
 	status = 0;
 	write(1, "> ", 2);
 	if ((pid = fork()) == -1)
 		exit(1);
+	pipe(end);
 	if (pid == 0)
 	{
 		if (signal(SIGINT, SIG_DFL) == SIG_ERR)
@@ -109,20 +111,25 @@ int	complete_pipe(t_list **elem)
 		str_nonl = malloc(sizeof(char) * len);
 		if (!str_nonl)
 			return (-1);
-		str_nonl[len] = '\0';
+		str_nonl[len - 1] = '\0';
 		while (str[i] != '\n' && str[i])
 		{
 			str_nonl[i] = str[i];
 			i++;
 		}
+		ft_putstr_fd(str_nonl, end[1]);
+		exit(0);
 	}
-	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		exit(ERROR);
 	if (waitpid(pid, &status, 0) == -1)
 		return (1);
-	if (signal(SIGINT, signal_handler) == SIG_ERR)
+	if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
 		exit(ERROR);
-	new = ft_lstnew(str_nonl);
+	printf("1 %d 0 %d\n", end[1], end[0]);
+	close(end[1]);
+	new = ft_lstnew(get_next_line(end[0]));
+	close(end[0]);
 	ft_lstadd_back(elem, new);
 	return (status);
 }
@@ -154,7 +161,7 @@ int	cmd_pipes_tokenizer(t_list **elem, t_Token **new, t_data *data,
 		if (check == 258)
 			return (258);
 		if (check == 130)
-			return (1);
+			return (130);
 	}
 	else if (*arg_need == 1)
 	{
