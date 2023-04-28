@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:15:44 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/26 15:42:50 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/04/28 11:24:40 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static int	here_doc(t_Inout *new)
 	int		status;
 
 	status = 0;
-	if((pid = fork()) == -1)
+	if ((pid = fork()) == -1)
 		exit(1);
 	if (pid == 0)
 	{
-	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
-		exit(ERROR);
+		if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+			exit(ERROR);
 		while (1)
 		{
 			write(1, "heredoc> ", 9);
@@ -53,8 +53,8 @@ static int	here_doc(t_Inout *new)
 
 int	create_heredoc(t_Inout **new, t_Inout **in, t_Token *token)
 {
-	int		end[2];
-	int		status;
+	int	end[2];
+	int	status;
 
 	pipe(end);
 	*new = ft_lstnewinout(*new);

@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 10:25:54 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/27 12:48:47 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/28 11:28:15 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int	init_data(t_data *data, char **env)
 	data->env = ft_strarr_to_env(data, env);
 	if (!data->env)
 		return (1);
+	set_env(data, "OLDPWD", NULL);
 	shlvl = get_env(data->env, "SHLVL");
 	if (shlvl)
 		shell_lvl = ft_atoi(shlvl);

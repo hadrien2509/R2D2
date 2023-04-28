@@ -6,14 +6,14 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/28 10:59:47 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/04/28 11:19:39 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 void	syntax_error(int error, char *str)
-{	
+{
 	if (error == 258)
 	{
 		ft_putstr_fd("syntax error near unexpected token `", 2);
@@ -96,7 +96,7 @@ int	complete_pipe(t_list **elem)
 	i = 0;
 	status = 0;
 	write(1, "> ", 2);
-	if((pid = fork()) == -1)
+	if ((pid = fork()) == -1)
 		exit(1);
 	if (pid == 0)
 	{
@@ -129,7 +129,7 @@ int	complete_pipe(t_list **elem)
 
 int	check_after_pipe(t_list **elem)
 {
-	int		error;
+	int	error;
 
 	error = 0;
 	if ((*elem)->next == 0)
@@ -140,7 +140,8 @@ int	check_after_pipe(t_list **elem)
 	return (error);
 }
 
-int	cmd_pipes_tokenizer(t_list **elem, t_Token **new, t_data *data, int *arg_need)
+int	cmd_pipes_tokenizer(t_list **elem, t_Token **new, t_data *data,
+		int *arg_need)
 {
 	static t_Token	*cmd;
 	int				check;
@@ -161,7 +162,7 @@ int	cmd_pipes_tokenizer(t_list **elem, t_Token **new, t_data *data, int *arg_nee
 		cmd->arg_nb++;
 	}
 	else
-	{// check si get_cmd_path == 0
+	{ // check si get_cmd_path == 0
 		*new = ft_lstnewtoken(0, get_cmd_path((*elem)->content, data));
 		*arg_need = 1;
 		cmd = *new;
