@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/28 15:45:08 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/02 17:20:01 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,15 @@ int	complete_pipe(t_list **elem)
 
 	i = 0;
 	status = 0;
-	write(1, "> ", 2);
+	pipe(end);
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+		exit(ERROR);
 	if ((pid = fork()) == -1)
 		exit(1);
-	pipe(end);
 	if (pid == 0)
 	{
-		if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+		write(1, "> ", 2);
+		if (signal(SIGINT, &signal_handler_child) == SIG_ERR)
 			exit(ERROR);
 		str = get_next_line(0);
 		if (!str)
@@ -118,18 +120,24 @@ int	complete_pipe(t_list **elem)
 			i++;
 		}
 		ft_putstr_fd(str_nonl, end[1]);
-		exit(0);
+		close(end[1]);
+		close(end[0]);
+		exit(status);
 	}
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
 		exit(ERROR);
 	if (waitpid(pid, &status, 0) == -1)
 		return (1);
 	if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
 		exit(ERROR);
-	printf("1 %d 0 %d\n", end[1], end[0]);
+	if (signal(SIGINT, &signal_handler) == SIG_ERR)
+		exit(ERROR);
 	close(end[1]);
-	new = ft_lstnew(get_next_line(end[0]));
+	str = get_next_line(end[0]);
 	close(end[0]);
+	if (!str)
+		return (status);
+	new = ft_lstnew(str);
 	ft_lstadd_back(elem, new);
 	return (status);
 }

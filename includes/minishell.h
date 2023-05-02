@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/27 14:03:35 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/02 17:07:11 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char				**env_list_to_tab(size_t env_size, t_env *envlst);
 int					init_data(t_data *data, char **env);
 int					check_command(char **command, t_data *data);
 void				signal_handler(int signal);
+void				signal_handler_child(int signal);
 int					set_env(t_data *data, const char *var, const char *new_val);
 char				*get_env(t_env *env, const char *var);
 int					print_env(int fd, t_env *env);
