@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/02 17:07:11 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/10 18:51:34 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@ typedef struct s_data
 	int				exit_status;
 	t_list			*split;
 }					t_data;
+
+typedef struct s_handle
+{
+	t_data			*data;
+	t_list			**first;
+	char			**command;
+	int				*is_simple_quote;
+}					t_handle;
 
 char				**env_list_to_tab(size_t env_size, t_env *envlst);
 int					init_data(t_data *data, char **env);

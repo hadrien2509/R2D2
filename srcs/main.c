@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/02 17:06:48 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:55:41 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,11 @@ int	main(int argc, char *argv[], char *envp[])
 		add_history(data.line);
 		token = 0;
 		data.split = split_command(&data, data.line);
+		/*
+		printf("\n");
+		print_list(data.split);
+		printf("\n");
+		*/
 		data.exit_status = create_tokens(&data, &token);
 		parse = parse_command(token);
 		if (data.exit_status == 0)
