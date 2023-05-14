@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/12 15:09:22 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/14 14:41:20 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <termios.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include <dirent.h>
 # include <sys/stat.h>
 # include "token.h"
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/27 13:45:49 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/14 14:43:52 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,86 +69,3 @@ char	*get_binary_path(t_env *env, char *name)
 	ft_free_split(path_list);
 	return (binary_path);
 }
-
-/*
-** Forks and executes the given command in the child process.
-** @param args an array of strings containing the command and its arguments
-** @param binary_path the path to the binary for the command
-** @param env_list an array of strings containing the environment variables
-** @return the exit status of the command
-*/
-static int	fork_and_execute(char **args, char *binary_path, char **env_list)
-{
-	int	pid;
-	int	result;
-
-	pid = fork();
-	if (pid == -1)
-		return (1);
-	if (pid == 0)
-	{
-		if (execve(binary_path, args, env_list) == -1)
-		{
-			free(binary_path);
-			free(env_list);
-			perror("execve");
-			exit(1);
-		}
-	}
-	free(binary_path);
-	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
-		exit(ERROR);
-	if (waitpid(pid, &result, 0) == -1)
-		return (1);
-	if (signal(SIGINT, signal_handler) == SIG_ERR)
-		exit(ERROR);
-	return (result);
-}
-
-/*
-** Executes the given command.
-** @param args an array of strings containing the command and its arguments
-** @param data a struct containing the shell's data
-** @return the exit status of the command
-*/
-int	exec(char **args, t_data *data)
-{
-	char	*binary_path;
-	char	**env_list;
-	int		result;
-
-	binary_path = get_binary_path(data->env, args[0]);
-	if (binary_path)
-		binary_path = get_absolute_path(data->env, data->pwd, binary_path);
-	if (!binary_path)
-		return (print_error(args[0], "command not found", NULL, 127));
-	env_list = env_list_to_tab(data->env_size, data->env);
-	result = fork_and_execute(args, binary_path, env_list);
-	free(env_list);
-	return (result);
-}
-
-/*
-
-int	check_command(char **command, t_data *data)
-{
-	if (!command[0])
-		return (0);
-	else if (!ft_strcmp(command[0], "pwd"))
-		return ((printf("%s\n", data->pwd) == 0));
-	else if (!ft_strcmp(command[0], "cd"))
-		return (builtin_cd(data, command[1]));
-	else if (!ft_strcmp(command[0], "echo"))
-		return (builtin_echo(command));
-	else if (!ft_strcmp(command[0], "export"))
-		return (export(data, &command[1]));
-	else if (!ft_strcmp(command[0], "unset"))
-		return (unset(data->env, &command[1]));
-	else if (!ft_strcmp(command[0], "env"))
-		return (print_env(data->env));
-	else if (!ft_strcmp(command[0], "exit"))
-		return (ft_exit(data, &command[1]));
-	else
-		return (exec(command, data));
-}
-*/
