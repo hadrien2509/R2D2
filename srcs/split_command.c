@@ -6,37 +6,11 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:41:13 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/10 18:50:51 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/12 15:15:03 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-/*
-** Add a command to a linked list.
-** @param handle a pointer to a t_handle structure containing the necessary data.
-** @param str a string containing the command to add.
-** @return void.
-*/
-void	add_command_to_list(t_handle *handle, char *str)
-{
-	t_list	*elem;
-
-	if (!ft_isempty(str))
-	{
-		if (!*(handle->is_simple_quote))
-			str = replace_env_variables(handle->data, str);
-		if (ft_isempty(str))
-			return ;
-		elem = ft_lstnew(ft_strdup(str));
-		if (!elem)
-			return ;
-		if (!*(handle->first))
-			*(handle->first) = elem;
-		else
-			ft_lstadd_back(handle->first, elem);
-	}
-}
 
 /*
 ** Get the next quoted string in a command.
@@ -47,8 +21,7 @@ void	add_command_to_list(t_handle *handle, char *str)
 ** @param command a pointer to a pointer to the command string.
 ** @return a pointer to the next position in the command string.
 */
-static char	*get_next_quote(t_data *data, char *ptr, int is_simple_quote,
-		char **command)
+static char	*get_next_quote(t_data *data, char *ptr, int is_quote, char **cmd)
 {
 	char	quote;
 	char	*tmp;
@@ -65,59 +38,15 @@ static char	*get_next_quote(t_data *data, char *ptr, int is_simple_quote,
 		*tmp = '\0';
 		if (quote == '"')
 			ptr = replace_env_variables(data, ptr);
-		if (!is_simple_quote)
-			*command = replace_env_variables(data, *command);
+		if (!is_quote)
+			*cmd = replace_env_variables(data, *cmd);
 		if (tmp != ptr)
-			*command = ft_strjoin(*command, ptr);
+			*cmd = ft_strjoin(*cmd, ptr);
 		tmp++;
-		size = ft_strlen(*command);
-		*command = ft_strjoin(*command, tmp);
+		size = ft_strlen(*cmd);
+		*cmd = ft_strjoin(*cmd, tmp);
 	}
-	return (*command + size);
-}
-
-/*
-** Handle special characters: '>', '<' and '|'.
-** @param ptr a pointer to the current character in the command string.
-** @param handle a pointer to a t_handle structure containing the necessary data.
-** @return a pointer to the next character in the command string.
-*/
-char	*handle_special_chars(char *ptr, t_handle *handle)
-{
-	char	*tmp;
-	char	c;
-
-	tmp = ptr;
-	c = *ptr;
-	*(ptr) = '\0';
-	add_command_to_list(handle, *(handle->command));
-	*ptr = c;
-	while (*ptr == '>' || *ptr == '<' || *ptr == '|')
-		ptr++;
-	c = *ptr;
-	*(ptr) = '\0';
-	add_command_to_list(handle, tmp);
-	*(ptr) = c;
-	*(handle->is_simple_quote) = 0;
-	*(handle->command) = ptr;
-	return (ptr);
-}
-
-/*
-** Handle spaces in the command string.
-** @param ptr a pointer to the current character in the command string.
-** @param handle a pointer to a t_handle structure containing the necessary data.
-** @return a pointer to the next character in the command string.
-*/
-char	*handle_spaces(char *ptr, t_handle *handle)
-{
-	while (ft_is_space(*ptr))
-		ptr++;
-	*(ptr - 1) = '\0';
-	add_command_to_list(handle, *(handle->command));
-	*(handle->is_simple_quote) = 0;
-	*(handle->command) = ptr;
-	return (ptr);
+	return (*cmd + size);
 }
 
 /*

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:43:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/25 14:51:26 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/12 14:56:41 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	redirec(t_Parse *parse)
+int	redirec(t_Parse *parse)
 {
 	char	*line;
 
@@ -27,4 +27,5 @@ void	redirec(t_Parse *parse)
 		}
 		parse->out = parse->out->next;
 	}
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:39:50 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/28 12:04:31 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/12 15:04:19 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,13 @@ char	*get_cmd_path(char *arg, t_data *data)
 		path = get_binary_path(data->env, arg);
 	if (path)
 		path = get_absolute_path(data->env, data->pwd, path);
-	if (!path | (access(path, F_OK) != 0))
+	if (!path)
+		print_error(arg, "command not found", NULL, 0);
+	else if (access(path, F_OK) != 0)
 	{
 		free(path);
-		print_error(arg, "command not found", NULL, 0);
-		data->exit_status = 127;
+		path = NULL;
+		print_error(arg, "No such file or directory", NULL, 0);
 	}
 	return (path);
 }

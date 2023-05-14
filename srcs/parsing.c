@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/26 19:26:16 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/14 14:34:26 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	status;
 
 int	init_cmd_array(t_Parse **new, t_Parse **cmd, t_Token *token, int *i)
 {
@@ -20,7 +18,7 @@ int	init_cmd_array(t_Parse **new, t_Parse **cmd, t_Token *token, int *i)
 	{
 		(*new)->cmd = malloc(sizeof(char *) * (token->arg_nb + 2));
 		if (!(*new)->cmd)
-			return (42);
+			return (-1);
 		(*new)->cmd[token->arg_nb + 1] = NULL;
 		(*new)->cmd[++(*i)] = token->value;
 	}
@@ -30,6 +28,8 @@ int	init_cmd_array(t_Parse **new, t_Parse **cmd, t_Token *token, int *i)
 	{
 		ft_lstaddcmd_back(cmd, *new);
 		*new = ft_lstnewcmd();
+		if (!(*new))
+			return (-1);
 		*i = -1;
 	}
 	return (0);
@@ -40,47 +40,66 @@ t_Parse	*parse_command(t_Token *token)
 	t_Parse	*new;
 	t_Parse	*cmd;
 	int		i;
+	int		check;
 
 	i = -1;
 	cmd = 0;
 	new = ft_lstnewcmd();
+	if (!new)
+		return (NULL);
 	while (token)
 	{
-		init_cmd_array(&new, &cmd, token, &i);
+		check = init_cmd_array(&new, &cmd, token, &i);
+		if (check == -1)
+			return (NULL);
 		token = token->next;
 	}
 	ft_lstaddcmd_back(&cmd, new);
 	return (cmd);
 }
 
-void	create_file(t_Inout	**new, t_Inout **inout, t_Token *token)
+int	create_file(t_Inout **new, t_Inout **inout, t_Token *token)
 {
+	char	*name;
+
+	name = token->value;
 	if (token->type == 2)
 	{
+		if (is_directory(name))
+			return (print_error("minishell", "is a directory", name, 1));
+		if (is_file(name) == 0)
+			return (print_error("minishell", "No such file or directory", name, 1));
+		if (can_read(name) == 0)
+			return (print_error("minishell", "Permission denied", name, 1));
 		*new = ft_lstnewinout(*new);
-		(*new)->fd = open(token->value, O_RDONLY);
-		(*new)->value = token->value;
+		(*new)->fd = open(name, O_RDONLY);
+		(*new)->value = name;
 		ft_lstaddinout_back(inout, *new);
 	}
 	else if (token->type == 3)
 	{
+		if (is_file(name) && !can_write(name))
+			return (print_error("minishell", "Permission denied", name, 1));
 		*new = ft_lstnewinout(*new);
-		(*new)->fd = open(token->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		(*new)->value = token->value;
+		(*new)->fd = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		(*new)->value = name;
 		ft_lstaddinout_back(inout, *new);
 	}
 	else
-	{	
+	{
+		if (is_file(name) && !can_write(name))
+			return (print_error("minishell", "Permission denied", name, 1));
 		*new = ft_lstnewinout(*new);
-		(*new)->fd = open(token->value, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		(*new)->value = token->value;
+		(*new)->fd = open(name, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		(*new)->value = name;
 		ft_lstaddinout_back(inout, *new);
 	}
+	return (0);
 }
 
-void	set_pipes(t_Inout	**new, t_Parse *cmd, t_Inout **in, t_Inout **out)
+void	set_pipes(t_Inout **new, t_Parse *cmd, t_Inout **in, t_Inout **out)
 {
-	int			end[2];
+	int	end[2];
 
 	pipe(end);
 	*new = ft_lstnewinout(*new);
@@ -95,7 +114,7 @@ void	set_pipes(t_Inout	**new, t_Parse *cmd, t_Inout **in, t_Inout **out)
 	ft_lstaddinout_back(in, *new);
 }
 
-void	parse_fd(t_Token *token, t_Parse *cmd, t_data *data)
+int	parse_fd(t_Token *token, t_Parse *cmd, t_data *data)
 {
 	t_Inout	*new;
 	t_Inout	*in;
@@ -108,7 +127,10 @@ void	parse_fd(t_Token *token, t_Parse *cmd, t_data *data)
 	while (token)
 	{
 		if (token->type == 2)
-			create_file(&new, &in, token);
+		{
+			if (create_file(&new, &in, token))
+				return (1);
+		}
 		if (token->type == 3 || token->type == 6)
 			create_file(&new, &out, token);
 		else if (token->type == 5)
@@ -119,9 +141,10 @@ void	parse_fd(t_Token *token, t_Parse *cmd, t_data *data)
 			cmd = cmd->next;
 		}
 		if (data->exit_status == 130)
-			return ;
+			return (0);
 		token = token->next;
 	}
 	cmd->in = in;
 	cmd->out = out;
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/09 23:55:41 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/14 14:32:52 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	signal_handler_child(int signal)
 	if (signal == SIGINT)
 	{
 		write(1, "\n", 1);
-		exit (130);
+		exit(130);
 	}
 }
 
@@ -72,22 +72,21 @@ int	main(int argc, char *argv[], char *envp[])
 			printf("exit\n");
 			return (0);
 		}
-		//if (ft_nb_split(data.command) > 0)
-		add_history(data.line);
+		if (!ft_isempty(data.line))
+			add_history(data.line);
 		token = 0;
 		data.split = split_command(&data, data.line);
-		/*
-		printf("\n");
-		print_list(data.split);
-		printf("\n");
-		*/
 		data.exit_status = create_tokens(&data, &token);
 		parse = parse_command(token);
+		if (!parse)
+			exit(1);
 		if (data.exit_status == 0)
-			parse_fd(token, parse, &data);
+			data.exit_status = parse_fd(token, parse, &data);
 		if (data.exit_status == 0)
 			exec_line(parse, &data);
 		free(data.line);
+		if (data.exit_status == 42)
+			exit (1);
 	}
 	tcsetattr(STDIN_FILENO, 0, &save);
 	return (0);

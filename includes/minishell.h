@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/10 18:51:34 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/12 15:09:22 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <termios.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <dirent.h>
+# include <sys/stat.h>
 # include "token.h"
 
 # define ERROR 1
@@ -56,49 +58,58 @@ typedef struct s_handle
 	int				*is_simple_quote;
 }					t_handle;
 
-char				**env_list_to_tab(size_t env_size, t_env *envlst);
-int					init_data(t_data *data, char **env);
-int					check_command(char **command, t_data *data);
-void				signal_handler(int signal);
-void				signal_handler_child(int signal);
-int					set_env(t_data *data, const char *var, const char *new_val);
-char				*get_env(t_env *env, const char *var);
-int					print_env(int fd, t_env *env);
-int					builtin_cd(t_data *data, char *str);
-int					builtin_echo(int fd, char **command);
-int					unset(t_env *env, char **names);
-int					export(int fd, t_data *data, char **args);
-int					ft_exit(t_data *data, char **args);
-int					export_print(int fd, t_env *old_head);
-t_env				*get_last(t_env *env);
-void				ft_envadd_back(t_env **alst, t_env *new);
-t_env				*ft_envnew(const char *name, const char *value);
-int					del_elem(t_env *prev, t_env *to_del);
-int					del_env(t_env *env, const char *var);
-t_env				*find_env_node(t_env *env, const char *arg);
-t_env				*get_previous(t_env *env, t_env *current);
-void				ft_envclear(t_env **lst);
-t_env				*ft_strarr_to_env(t_data *data, char **strarr);
-char				*get_absolute_path(t_env *env, char *path, char *r_path);
-long long int		*ft_atoll(const char *str, long long int *result);
-int					print_error(char *builtin, char *str, char *cmd, int value);
+char			**env_list_to_tab(size_t env_size, t_env *envlst);
+int				init_data(t_data *data, char **env);
+int				check_command(char **command, t_data *data);
+void			signal_handler(int signal);
+void			signal_handler_child(int signal);
+int				set_env(t_data *data, const char *var, const char *new_val);
+char			*get_env(t_env *env, const char *var);
+int				print_env(int fd, t_env *env);
+int				builtin_cd(t_data *data, char *str);
+int				builtin_echo(int fd, char **command);
+int				unset(t_env *env, char **names);
+int				export(int fd, t_data *data, char **args);
+int				ft_exit(t_data *data, char **args);
+int				export_print(int fd, t_env *old_head);
+t_env			*get_last(t_env *env);
+void			ft_envadd_back(t_env **alst, t_env *new);
+t_env			*ft_envnew(const char *name, const char *value);
+int				del_elem(t_env *prev, t_env *to_del);
+int				del_env(t_env *env, const char *var);
+t_env			*find_env_node(t_env *env, const char *arg);
+t_env			*get_previous(t_env *env, t_env *current);
+void			ft_envclear(t_env **lst);
+t_env			*ft_strarr_to_env(t_data *data, char **strarr);
+char			*get_absolute_path(t_env *env, char *path, char *r_path);
+long long int	*ft_atoll(const char *str, long long int *result);
+int				print_error(char *builtin, char *str, char *cmd, int value);
+int				is_directory(char *cmd);
+int				can_execute(char *file);
+int				is_file(char *cmd);
+int				can_read(char *file);
+int				can_write(char *file);
 
+char			*handle_quotes(t_data *data, char *ptr, char **cmd, int *quote);
+char			*handle_spaces(char *ptr, t_handle *handle);
+char			*handle_special_chars(char *ptr, t_handle *handle);
+void			add_command_to_list(t_handle *handle, char *str);
 /* ************************************************************************** */
 /*                             Parsing                                        */
 /* ************************************************************************** */
 
-int					create_tokens(t_data *data, t_Token **token);
-t_Parse				*parse_command(t_Token *token);
-void				parse_fd(t_Token *token, t_Parse *cmd, t_data *data);
-void				exec_line(t_Parse *parse, t_data *data);
-char				*get_binary_path(t_env *env, char *name);
-int					create_heredoc(t_Inout **new, t_Inout **in, t_Token *token);
-char				*replace_env_variables(t_data *data, char *command);
-char				*get_cmd_path(char *arg, t_data *data);
-int					check_builtins(char *arg);
-void				redirec(t_Parse *parse);
-char				*find_env_variable(char **str);
-char				*replace_env_variables(t_data *data, char *command);
-t_list				*split_command(t_data *data, char *command);
+int				create_tokens(t_data *data, t_Token **token);
+t_Parse			*parse_command(t_Token *token);
+int				parse_fd(t_Token *token, t_Parse *cmd, t_data *data);
+void			exec_line(t_Parse *parse, t_data *data);
+char			*get_binary_path(t_env *env, char *name);
+int				create_heredoc(t_Inout **new, t_Inout **in, t_Token *token);
+char			*replace_env_variables(t_data *data, char *command);
+char			*get_cmd_path(char *arg, t_data *data);
+int				check_builtins(char *arg);
+int				redirec(t_Parse *parse);
+char			*find_env_variable(char **str);
+char			*replace_env_variables(t_data *data, char *command);
+t_list			*split_command(t_data *data, char *command);
 
 #endif

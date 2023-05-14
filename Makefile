@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
+#    By: samy <samy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/04/27 13:40:45 by sde-smed         ###   ########.fr        #
+#    Updated: 2023/05/12 14:59:50 by samy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,9 @@ SRCS = main.c\
 		split_command.c\
 		ft_atoll.c\
 		export.c\
-		put_error.c
+		put_error.c\
+		check_file.c\
+		split_command_utils.c
 
 SRCS_DIR = srcs
 OBJS_DIR = objs

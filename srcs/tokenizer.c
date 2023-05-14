@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/09 17:28:12 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/11 11:59:16 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,8 @@ int	cmd_pipes_tokenizer(t_list **elem, t_Token **new, t_data *data,
 	else
 	{
 		*new = ft_lstnewtoken(0, get_cmd_path((*elem)->content, data));
+		if (!(*new)->value)
+			return (127);
 		*arg_need = 1;
 		cmd = *new;
 	}
@@ -200,6 +202,8 @@ int	create_tokens(t_data *data, t_Token **token)
 		check = redirec_tokenizer(&elem, &new);
 		if (check == 0)
 			check = cmd_pipes_tokenizer(&elem, &new, data, &arg_need);
+		if (check == 127)
+			return (127);
 		if (check == 130)
 			return (1);
 		if (check == 258)

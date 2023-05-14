@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:08:12 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/28 10:38:59 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/11 12:20:56 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,9 @@ static int	check_only_n_chars(const char *str)
 	char	*tmp;
 
 	tmp = (char *)str;
-	while (*tmp)
-	{
-		if (*tmp++ != 'n' && !*(tmp))
+	while (*++tmp)
+		if (*tmp != 'n')
 			return (-1);
-	}
 	return (1);
 }
 
@@ -67,7 +65,7 @@ int	builtin_echo(int fd, char **command)
 		return (1);
 	while (command[i] && tmp != -1 && command[i][0] == '-')
 	{
-		tmp = check_only_n_chars(&command[i][1]);
+		tmp = check_only_n_chars(&command[i][0]);
 		if (tmp == 1)
 		{
 			has_n_option = 1;

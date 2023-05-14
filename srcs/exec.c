@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/28 10:36:45 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/14 14:34:36 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+//check si il faut pas free des trucs quand il y a une error de sig
 int	execute(t_Parse *parse, t_data *data, int pid)
 {
 	int		result;
@@ -26,6 +27,8 @@ int	execute(t_Parse *parse, t_data *data, int pid)
 		if (parse->out)
 			dup2(parse->out->fd, 1);
 		env_list = env_list_to_tab(data->env_size, data->env);
+		if (!env_list)
+			exit(42);
 		if (execve(parse->cmd[0], parse->cmd, env_list) == -1)
 		{
 			perror("execve");
@@ -43,10 +46,16 @@ int	execute(t_Parse *parse, t_data *data, int pid)
 
 int	exec_cmd(t_Parse *parse, t_data *data)
 {
-	int	child;
-	int	result;
+	int		child;
+	int		result;
+	char	*cmd;
 
+	cmd = parse->cmd[0];
 	result = 0;
+	if (is_directory(cmd))
+		return (print_error("minishell", "is a directory", cmd, 126));
+	if (!can_execute(cmd))
+		return (print_error("minishell", "Permission denied", cmd, 126));
 	child = fork();
 	result = execute(parse, data, child);
 	if (parse->out)
@@ -54,13 +63,14 @@ int	exec_cmd(t_Parse *parse, t_data *data)
 	return (result);
 }
 
+// 69 -> Ajouter une condition ici
 int	exec_builtins(t_Parse *parse, t_data *data, int fd)
 {
 	if (!ft_strcmp(parse->cmd[0], "pwd"))
 	{
 		ft_putstr_fd(data->pwd, fd);
 		write(fd, "\n", 1);
-		return (0); //Ajouter une condition ici
+		return (0);
 	}
 	else if (!ft_strcmp(parse->cmd[0], "cd"))
 		return (builtin_cd(data, parse->cmd[1]));
@@ -77,6 +87,9 @@ int	exec_builtins(t_Parse *parse, t_data *data, int fd)
 	return (0);
 }
 
+//110 => printf("exit status = %d\n", data->exit_status);
+// if (parse->cmd && parse->out && parse->out->next)
+// 	redirec(parse);
 void	exec_line(t_Parse *parse, t_data *data)
 {
 	while (parse)
@@ -89,7 +102,8 @@ void	exec_line(t_Parse *parse, t_data *data)
 			{
 				if (parse->out)
 				{
-					data->exit_status = exec_builtins(parse, data, parse->out->fd);
+					data->exit_status = exec_builtins(parse, data,
+							parse->out->fd);
 					close(parse->out->fd);
 				}
 				else
@@ -98,8 +112,6 @@ void	exec_line(t_Parse *parse, t_data *data)
 			else
 				data->exit_status = exec_cmd(parse, data);
 		}
-		// if (parse->cmd && parse->out && parse->out->next)
-		// 	redirec(parse);
 		parse = parse->next;
 	}
 }
