@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/15 11:32:08 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/15 11:50:23 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ int	create_file(t_Inout **new, t_Inout **inout, t_Token *token)
 	{
 		*new = ft_lstnewinout(*new);
 		(*new)->fd = open(name, O_RDONLY);
+		if ((*new)->fd == -1)
+		{
+			perror(name);
+			return (-1);
+		}
 		(*new)->value = name;
 		ft_lstaddinout_back(inout, *new);
 	}
@@ -74,6 +79,11 @@ int	create_file(t_Inout **new, t_Inout **inout, t_Token *token)
 	{
 		*new = ft_lstnewinout(*new);
 		(*new)->fd = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if ((*new)->fd == -1)
+		{
+			perror(name);
+			return (-1);
+		}
 		(*new)->value = name;
 		ft_lstaddinout_back(inout, *new);
 	}
@@ -81,6 +91,11 @@ int	create_file(t_Inout **new, t_Inout **inout, t_Token *token)
 	{
 		*new = ft_lstnewinout(*new);
 		(*new)->fd = open(name, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		if ((*new)->fd == -1)
+		{
+			perror(name);
+			return (-1);
+		}
 		(*new)->value = name;
 		ft_lstaddinout_back(inout, *new);
 	}
