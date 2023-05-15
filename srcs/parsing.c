@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/14 14:34:26 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/15 11:32:08 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,6 @@ int	create_file(t_Inout **new, t_Inout **inout, t_Token *token)
 	name = token->value;
 	if (token->type == 2)
 	{
-		if (is_directory(name))
-			return (print_error("minishell", "is a directory", name, 1));
-		if (is_file(name) == 0)
-			return (print_error("minishell", "No such file or directory", name, 1));
-		if (can_read(name) == 0)
-			return (print_error("minishell", "Permission denied", name, 1));
 		*new = ft_lstnewinout(*new);
 		(*new)->fd = open(name, O_RDONLY);
 		(*new)->value = name;
@@ -78,8 +72,6 @@ int	create_file(t_Inout **new, t_Inout **inout, t_Token *token)
 	}
 	else if (token->type == 3)
 	{
-		if (is_file(name) && !can_write(name))
-			return (print_error("minishell", "Permission denied", name, 1));
 		*new = ft_lstnewinout(*new);
 		(*new)->fd = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		(*new)->value = name;
@@ -87,8 +79,6 @@ int	create_file(t_Inout **new, t_Inout **inout, t_Token *token)
 	}
 	else
 	{
-		if (is_file(name) && !can_write(name))
-			return (print_error("minishell", "Permission denied", name, 1));
 		*new = ft_lstnewinout(*new);
 		(*new)->fd = open(name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 		(*new)->value = name;

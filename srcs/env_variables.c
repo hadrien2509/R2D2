@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:54:25 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/28 11:14:18 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/15 11:37:17 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,23 @@ char	*replace_env_variables(t_data *data, char *command)
 	while (ptr && *ptr)
 	{
 		if (!*(ptr + 1))
-		{
-			result = ft_strjoin(result, "$");
-			return (result);
-		}
+			return (ft_strjoin(result, "$"));
 		*ptr = 0;
 		ptr++;
 		result = ft_strjoin(result, command);
 		command = ptr;
 		if (ft_is_space(*ptr))
+		{
 			result = ft_strjoin(result, "$");
+			if (!result)
+				return (NULL);
+		}
 		if (*ptr == '?')
 		{
 			tmp = ft_itoa(data->exit_status);
 			result = ft_strjoin(result, tmp);
+			if (!result)
+				return (NULL);
 			command += ft_strlen(tmp);
 		}
 		else
@@ -68,11 +71,17 @@ char	*replace_env_variables(t_data *data, char *command)
 			command += ft_strlen(tmp);
 			tmp = get_env(data->env, tmp);
 			if (tmp)
+			{
 				result = ft_strjoin(result, tmp);
+				if (!result)
+					return (NULL);
+			}
 		}
 		ptr = ft_strchr(command, '$');
 		if (!ptr)
 			result = ft_strjoin(result, command);
+		if (!result)
+			return (NULL);
 	}
 	if (!ft_strcmp(result, ""))
 	{
