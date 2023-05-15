@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:00:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/27 13:36:04 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/15 11:49:36 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ static char	*ft_tilde(t_env *env, char *path)
 	if (path)
 	{
 		new_path = ft_strjoin(home, &path[1]);
+		if(!new_path)
+			return (NULL);
 		free(path);
 	}
 	else

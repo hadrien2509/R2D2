@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:54:25 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/15 11:37:17 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/15 11:50:48 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ char	*replace_env_variables(t_data *data, char *command)
 		*ptr = 0;
 		ptr++;
 		result = ft_strjoin(result, command);
+		if (!result)
+			return (NULL);
 		command = ptr;
 		if (ft_is_space(*ptr))
 		{

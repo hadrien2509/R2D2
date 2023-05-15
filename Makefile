@@ -6,7 +6,7 @@
 #    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/05/15 11:22:45 by sde-smed         ###   ########.fr        #
+#    Updated: 2023/05/15 13:12:30 by sde-smed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ READLINE_INC = -I $(READLINE_PATH)/include
 LIBFT_LIB =  -L ./libft -lft
 LIB = $(READLINE_LIB) $(LIBFT_LIB)
 LIBFT	= libft/
-FLAGS = -Wall -Wextra -Werror 
+FLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 INCLUDES = -I includes/ $(READLINE_INC) -I $(LIBFT)
 AR = ar rcs
 RM = rm -f

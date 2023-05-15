@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:58:19 by samy              #+#    #+#             */
-/*   Updated: 2023/05/12 15:02:15 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/15 13:50:41 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ char	*handle_special_chars(char *ptr, t_handle *handle)
 	*(ptr) = '\0';
 	add_command_to_list(handle, *(handle->command));
 	*ptr = c;
-	while (*ptr == '>' || *ptr == '<' || *ptr == '|')
+	ptr++;
+	if (c != '|' && *ptr == c)
 		ptr++;
 	c = *ptr;
 	*(ptr) = '\0';
