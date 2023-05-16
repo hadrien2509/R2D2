@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenstruct.c                                      :+:      :+:    :+:   */
+/*   token_struct.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:38:29 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/25 11:38:52 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/16 10:54:59 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_Token	*ft_lstnewtoken(int type, char *value)
 {
 	t_Token	*new_lst;
 
-	new_lst = malloc(sizeof(t_Token));
+	new_lst = malloc(sizeof(t_Token));// LEAKS
 	if (!new_lst)
 		return (0);
 	new_lst->type = type;

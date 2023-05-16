@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:36:52 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/15 11:54:02 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/16 10:53:07 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_Inout	*ft_lstnewinout(t_Inout *prev)
 {
 	t_Inout	*new_inout;
 
-	new_inout = malloc(sizeof(t_Inout));
+	new_inout = malloc(sizeof(t_Inout)); // LEAKS
 	if (!new_inout)
 		return (0);
 	new_inout->fd = 0;

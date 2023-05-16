@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 10:25:54 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/15 11:54:07 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/16 10:47:14 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_env	*ft_envnew(const char *name, const char *value)
 		}
 	}
 	else
-		value = NULL;
+		new->value = NULL;
 	new->next = NULL;
 	return (new);
 }
