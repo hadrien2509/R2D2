@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/15 13:40:36 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/16 10:56:07 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,24 @@ int	check_after_redirec(void *str)
 	error = 0;
 	if (str == 0)
 		error = 258;
-	else if (ft_strcmp(str, "|") == 0)
+	else if (ft_strncmp(str, "|", 1) == 0)
 	{
 		str = "|";
 		error = 258;
 	}
-	else if (ft_strcmp(str, "<<") == 0)
+	else if (ft_strncmp(str, "<<", 2) == 0)
 	{
 		str = "<<";
 		error = 258;
 	}
-	else if (ft_strcmp(str, ">>") == 0)
+	else if (ft_strncmp(str, ">>", 2) == 0)
 	{
 		str = ">>";
 		error = 258;
 	}
-	else if (ft_strcmp(str, "<") == 0)
+	else if (ft_strncmp(str, "<", 1) == 0)
 		error = 258;
-	else if (ft_strcmp(str, ">") == 0)
+	else if (ft_strncmp(str, ">", 1) == 0)
 		error = 258;
 	syntax_error(error, str);
 	return (error);

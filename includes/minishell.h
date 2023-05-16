@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/14 14:41:20 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/15 13:28:08 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void			add_command_to_list(t_handle *handle, char *str);
 
 int				create_tokens(t_data *data, t_Token **token);
 t_Parse			*parse_command(t_Token *token);
-int				parse_fd(t_Token *token, t_Parse *cmd, t_data *data);
+int				parse_fd(t_Token *token, t_Parse *cmd);
 void			exec_line(t_Parse *parse, t_data *data);
 char			*get_binary_path(t_env *env, char *name);
 int				create_heredoc(t_Inout **new, t_Inout **in, t_Token *token);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/15 14:54:28 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/16 10:54:00 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,30 +60,46 @@ t_Parse	*parse_command(t_Token *token)
 
 int	create_file(t_Inout **new, t_Inout **inout, t_Token *token)
 {
+	char	*name;
+
+	name = token->value;
 	if (token->type == 2)
 	{
 		*new = ft_lstnewinout(*new);
-		(*new)->fd = open(token->value, O_RDONLY);
-		(*new)->value = token->value;
+		(*new)->fd = open(name, O_RDONLY);
+		if ((*new)->fd == -1)
+		{
+			perror(name);
+			return (-1);
+		}
+		(*new)->value = name;
 		ft_lstaddinout_back(inout, *new);
 	}
 	else if (token->type == 3)
 	{
 		*new = ft_lstnewinout(*new);
-		(*new)->fd = open(token->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		(*new)->value = token->value;
+		(*new)->fd = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if ((*new)->fd == -1)
+		{
+			perror(name);
+			return (-1);
+		}
+		(*new)->value = name;
 		ft_lstaddinout_back(inout, *new);
 	}
 	else
 	{
 		*new = ft_lstnewinout(*new);
-		(*new)->fd = open(token->value, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		(*new)->value = token->value;
+		(*new)->fd = open(name, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		if ((*new)->fd == -1)
+		{
+			perror(name);
+			return (-1);
+		}
+		(*new)->value = name;
 		ft_lstaddinout_back(inout, *new);
 	}
-	if ((*new)->fd == -1)
-		perror(token->value);
-	return ((*new)->fd);
+	return (0);
 }
 
 void	set_pipes(t_Inout **new, t_Parse *cmd, t_Inout **in, t_Inout **out)
@@ -103,7 +119,7 @@ void	set_pipes(t_Inout **new, t_Parse *cmd, t_Inout **in, t_Inout **out)
 	ft_lstaddinout_back(in, *new);
 }
 
-int	parse_fd(t_Token *token, t_Parse *cmd)
+int	parse_fd(t_Token *token, t_Parse *cmd, t_data *data)
 {
 	t_Inout	*new;
 	t_Inout	*in;
@@ -117,24 +133,20 @@ int	parse_fd(t_Token *token, t_Parse *cmd)
 	{
 		if (token->type == 2)
 		{
-			if (create_file(&new, &in, token) == -1)
+			if (create_file(&new, &in, token))
 				return (1);
 		}
-		else if (token->type == 3 || token->type == 6)
-		{
-			if (create_file(&new, &out, token) == -1)
-				return (1);
-		}
+		if (token->type == 3 || token->type == 6)
+			create_file(&new, &out, token);
 		else if (token->type == 5)
-		{
-			if (create_heredoc(&new, &in, token) == 130)
-				return (130);
-		}
+			data->exit_status = create_heredoc(&new, &in, token);
 		else if (token->type == 4)
 		{
 			set_pipes(&new, cmd, &in, &out);
 			cmd = cmd->next;
 		}
+		if (data->exit_status == 130)
+			return (0);
 		token = token->next;
 	}
 	cmd->in = in;
