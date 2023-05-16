@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_edition.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 10:25:54 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/16 10:47:14 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/16 22:34:05 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,29 @@ void	ft_envclear(t_env **lst)
 	}
 }
 
-/*
-** Allocates and initializes a new environment variable node
-** with a copy of a given string.
-** @param var the string to copy
-** @return a pointer to the new node, or NULL if the allocation fails
-*/
+int	allocate_memory(t_env *new, const char *name, const char *value)
+{
+	new->name = ft_strdup(name);
+	if (!new->name)
+	{
+		free(new);
+		return (0);
+	}
+	if (value)
+	{
+		new->value = ft_strdup(value);
+		if (!new->value)
+		{
+			free(new->name);
+			free(new);
+			return (0);
+		}
+	}
+	else
+		new->value = NULL;
+	return (1);
+}
+
 t_env	*ft_envnew(const char *name, const char *value)
 {
 	t_env	*new;
@@ -47,24 +64,8 @@ t_env	*ft_envnew(const char *name, const char *value)
 	new = (t_env *)malloc(sizeof(t_env));
 	if (!new)
 		return (NULL);
-	new->name = ft_strdup(name);
-	if (!new->name)
-	{
-		free(new);
+	if (!allocate_memory(new, name, value))
 		return (NULL);
-	}
-	if (value)
-	{
-		new->value = ft_strdup(value);
-		if (!new->value)
-		{
-			free(new->name);
-			free(new);
-			return (NULL);
-		}
-	}
-	else
-		new->value = NULL;
 	new->next = NULL;
 	return (new);
 }
@@ -90,37 +91,6 @@ void	ft_envadd_back(t_env **alst, t_env *new)
 	while (last->next)
 		last = last->next;
 	last->next = new;
-}
-
-/*
-** Initializes the data struct with a newly created linked list of environment
-** variables from a null-terminated string array.
-** @param data a pointer to the data struct to initialize
-** @param env the null-terminated string array to copy from
-** @return 0 if successful, -1 if the allocation fails
-*/
-int	init_data(t_data *data, char **env)
-{
-	int		shell_lvl;
-	char	*shlvl;
-
-	shell_lvl = 0;
-	data->exit_status = 0;
-	data->env = ft_strarr_to_env(data, env);
-	if (!data->env)
-		return (1);
-	set_env(data, "OLDPWD", NULL);
-	shlvl = get_env(data->env, "SHLVL");
-	if (shlvl)
-		shell_lvl = ft_atoi(shlvl);
-	if (shell_lvl < 0)
-		set_env(data, "SHLVL", "0");
-	else
-		set_env(data, "SHLVL", ft_itoa(++shell_lvl));
-	data->pwd = get_env(data->env, "PWD");
-	if (!data->pwd)
-		return (1);
-	return (0);
 }
 
 /*

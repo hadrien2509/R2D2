@@ -6,13 +6,21 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/14 14:34:36 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/16 22:09:54 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 //check si il faut pas free des trucs quand il y a une error de sig
+void	handle_io(t_Parse *parse)
+{
+	if (parse->in)
+		dup2(parse->in->fd, 0);
+	if (parse->out)
+		dup2(parse->out->fd, 1);
+}
+
 int	execute(t_Parse *parse, t_data *data, int pid)
 {
 	int		result;
@@ -22,10 +30,7 @@ int	execute(t_Parse *parse, t_data *data, int pid)
 		return (1);
 	if (pid == 0)
 	{
-		if (parse->in)
-			dup2(parse->in->fd, 0);
-		if (parse->out)
-			dup2(parse->out->fd, 1);
+		handle_io(parse);
 		env_list = env_list_to_tab(data->env_size, data->env);
 		if (!env_list)
 			exit(42);

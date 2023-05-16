@@ -3,24 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   split_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:41:13 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/15 11:13:10 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/16 23:06:17 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
-** Get the next quoted string in a command.
-** @param data a pointer to a data structure.
-** @param ptr a pointer to the current position in the command string.
-** @param is_simple_quote a flag indicating whether
-**the current quote is a single quote.
-** @param command a pointer to a pointer to the command string.
-** @return a pointer to the next position in the command string.
-*/
+static int	handle_string_concatenation(char **cmd, char *ptr, char *tmp)
+{
+	int	size;
+
+	size = 0;
+	if (tmp != ptr)
+	{
+		*cmd = ft_strjoin(*cmd, ptr);
+		if (!*cmd)
+			return (-1);
+	}
+	tmp++;
+	size = ft_strlen(*cmd);
+	*cmd = ft_strjoin(*cmd, tmp);
+	if (!*cmd)
+		return (-1);
+	return (size);
+}
+
 static char	*get_next_quote(t_data *data, char *ptr, int is_quote, char **cmd)
 {
 	char	quote;
@@ -40,16 +50,8 @@ static char	*get_next_quote(t_data *data, char *ptr, int is_quote, char **cmd)
 			ptr = replace_env_variables(data, ptr);
 		if (!is_quote)
 			*cmd = replace_env_variables(data, *cmd);
-		if (tmp != ptr)
-		{
-			*cmd = ft_strjoin(*cmd, ptr);
-			if (!*cmd)
-				return (NULL);
-		}
-		tmp++;
-		size = ft_strlen(*cmd);
-		*cmd = ft_strjoin(*cmd, tmp);
-		if (!*cmd)
+		size = handle_string_concatenation(cmd, ptr, tmp);
+		if (size == -1)
 			return (NULL);
 	}
 	return (*cmd + size);

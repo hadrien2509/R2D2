@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:25:03 by samy              #+#    #+#             */
-/*   Updated: 2023/05/16 10:06:00 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/16 22:02:34 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	builtin_cd(t_data *data, char *str)
 		}
 		return (print_error("cd", "No such file or directory", str, 1));
 	}
-	if(!is_directory(path))
+	if (!is_directory(path))
 		return (print_error("cd", "Not a directory", str, 1));
 	if (chdir(path))
 		return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:00:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/15 11:49:36 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/16 22:28:01 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ static char	*ft_tilde(t_env *env, char *path)
 	if (path)
 	{
 		new_path = ft_strjoin(home, &path[1]);
-		if(!new_path)
+		if (!new_path)
 			return (NULL);
 		free(path);
 	}

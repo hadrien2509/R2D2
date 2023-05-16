@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:54:25 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/15 11:50:48 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/16 23:07:05 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@ char	*find_env_variable(char **str)
 	return (result);
 }
 
+int	ft_join_asign(char **result, char *str)
+{
+	*result = ft_strjoin(*result, str);
+	if (!*result)
+		return (0);
+	return (1);
+}
+
 char	*replace_env_variables(t_data *data, char *command)
 {
 	char	*tmp;
@@ -49,21 +57,16 @@ char	*replace_env_variables(t_data *data, char *command)
 			return (ft_strjoin(result, "$"));
 		*ptr = 0;
 		ptr++;
-		result = ft_strjoin(result, command);
-		if (!result)
+		if (!ft_join_asign(&result, command))
 			return (NULL);
 		command = ptr;
 		if (ft_is_space(*ptr))
-		{
-			result = ft_strjoin(result, "$");
-			if (!result)
+			if (!ft_join_asign(&result, "$"))
 				return (NULL);
-		}
 		if (*ptr == '?')
 		{
 			tmp = ft_itoa(data->exit_status);
-			result = ft_strjoin(result, tmp);
-			if (!result)
+			if (!ft_join_asign(&result, tmp))
 				return (NULL);
 			command += ft_strlen(tmp);
 		}
@@ -73,17 +76,13 @@ char	*replace_env_variables(t_data *data, char *command)
 			command += ft_strlen(tmp);
 			tmp = get_env(data->env, tmp);
 			if (tmp)
-			{
-				result = ft_strjoin(result, tmp);
-				if (!result)
+				if (!ft_join_asign(&result, tmp))
 					return (NULL);
-			}
 		}
 		ptr = ft_strchr(command, '$');
 		if (!ptr)
-			result = ft_strjoin(result, command);
-		if (!result)
-			return (NULL);
+			if (!ft_join_asign(&result, command))
+				return (NULL);
 	}
 	if (!ft_strcmp(result, ""))
 	{

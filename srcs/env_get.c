@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 12:19:41 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/16 18:07:56 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/16 22:34:53 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,35 @@ t_env	*get_last(t_env *env)
 	while (env->next)
 		env = env->next;
 	return (env);
+}
+
+/*
+** Initializes the data struct with a newly created linked list of environment
+** variables from a null-terminated string array.
+** @param data a pointer to the data struct to initialize
+** @param env the null-terminated string array to copy from
+** @return 0 if successful, -1 if the allocation fails
+*/
+int	init_data(t_data *data, char **env)
+{
+	int		shell_lvl;
+	char	*shlvl;
+
+	shell_lvl = 0;
+	data->exit_status = 0;
+	data->env = ft_strarr_to_env(data, env);
+	if (!data->env)
+		return (1);
+	set_env(data, "OLDPWD", NULL);
+	shlvl = get_env(data->env, "SHLVL");
+	if (shlvl)
+		shell_lvl = ft_atoi(shlvl);
+	if (shell_lvl < 0)
+		set_env(data, "SHLVL", "0");
+	else
+		set_env(data, "SHLVL", ft_itoa(++shell_lvl));
+	data->pwd = get_env(data->env, "PWD");
+	if (!data->pwd)
+		return (1);
+	return (0);
 }
