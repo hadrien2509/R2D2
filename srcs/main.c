@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/15 14:53:04 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/18 13:33:13 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	main(int argc, char *argv[], char *envp[])
 		free(data.line);
 		if (data.exit_status == 42)
 			exit (1);
+			// free token
 	}
 	tcsetattr(STDIN_FILENO, 0, &save);
 	return (0);

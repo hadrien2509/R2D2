@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:41:13 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/16 23:06:17 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/18 13:40:40 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ static char	*get_next_quote(t_data *data, char *ptr, int is_quote, char **cmd)
 	if (*tmp == quote)
 	{
 		*tmp = '\0';
-		if (quote == '"')
+		if (quote == '"' && !ft_isempty(ptr))
 			ptr = replace_env_variables(data, ptr);
-		if (!is_quote)
+		if (!is_quote && !ft_isempty(*cmd))
 			*cmd = replace_env_variables(data, *cmd);
 		size = handle_string_concatenation(cmd, ptr, tmp);
 		if (size == -1)
