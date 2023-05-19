@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/19 12:11:04 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/19 12:39:15 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,10 +167,8 @@ int	cmd_pipes_tokenizer(t_list **elem, t_Token **new, t_data *data,
 		*new = ft_lstnewtoken(4, (*elem)->content);
 		*arg_need = 0;
 		check = check_after_pipe(elem);
-		if (check == 258)
-			return (258);
-		if (check == 130)
-			return (130);
+		if (check == 258 || check == 130)
+			return (check);
 	}
 	else if (*arg_need == 1)
 	{
