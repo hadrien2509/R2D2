@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:15:44 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/28 11:24:40 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/19 11:39:21 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,12 @@ static int	here_doc(t_Inout *new)
 	char	*line;
 	int		pid;
 	int		status;
+	int		cmp;
 
 	status = 0;
-	if ((pid = fork()) == -1)
+	cmp = 0;
+	pid = fork();
+	if (pid == -1)
 		exit(1);
 	if (pid == 0)
 	{
@@ -33,7 +36,8 @@ static int	here_doc(t_Inout *new)
 			if (!line)
 				exit(1);
 			len = ft_strlen(line) - 1;
-			if (len == ft_strlen(new->value) && !ft_strncmp(line, new->value, len))
+			cmp = ft_strncmp(line, new->value, len);
+			if (len == ft_strlen(new->value) && !cmp)
 				break ;
 			write(new->fd, line, ft_strlen(line));
 			free(line);

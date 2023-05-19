@@ -6,17 +6,18 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:38:29 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/16 10:54:59 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/19 11:41:52 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// LEAKS
 t_Token	*ft_lstnewtoken(int type, char *value)
 {
 	t_Token	*new_lst;
 
-	new_lst = malloc(sizeof(t_Token));// LEAKS
+	new_lst = malloc(sizeof(t_Token));
 	if (!new_lst)
 		return (0);
 	new_lst->type = type;

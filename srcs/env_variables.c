@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:54:25 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/18 14:52:58 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/19 11:29:29 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,21 @@ static char	*extract_env_name(t_data *data, char *result, char *ptr, char **tmp)
 {
 	char	*env;
 
-	if (ft_is_space(*ptr))
-		if (!ft_join_and_asign(&result, "$"))
-			return (NULL);
 	if (*ptr == '?')
 	{
 		*tmp = ft_itoa(data->exit_status);
 		if (!ft_join_and_asign(&result, *tmp))
 			return (NULL);
 	}
-	else
+	else if (ft_isalpha(*ptr) || *ptr == '_' || *ptr == '-')
 	{
 		*tmp = find_env_variable(&ptr);
 		env = get_env(data->env, *tmp);
 		if (env && !ft_join_and_asign(&result, env))
 			return (NULL);
 	}
+	else if (!ft_join_and_asign(&result, "$"))
+		return (NULL);
 	return (result);
 }
 

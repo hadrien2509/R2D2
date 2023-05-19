@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   tokenizer_del.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/16 10:56:07 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/19 11:44:41 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
+/*
 void	syntax_error(int error, char *str)
 {
 	if (error == 258)
@@ -214,3 +214,4 @@ int	create_tokens(t_data *data, t_Token **token)
 	ft_lstclear(&elem, 0);
 	return (0);
 }
+*/
