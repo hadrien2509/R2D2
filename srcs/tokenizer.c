@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/19 11:44:05 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/19 12:11:04 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,18 @@ int	cmd_pipes_tokenizer(t_list **elem, t_Token **new, t_data *data,
 	return (0);
 }
 
+static void	del(void *elem_to_del)
+{
+	t_list	*elem;
+
+	elem = (t_list *)elem_to_del;
+	if(elem)
+	{
+		free(elem->content);
+		free(elem);
+	}
+}
+
 int	create_tokens(t_data *data, t_Token **token)
 {
 	t_Token	*new;
@@ -212,6 +224,6 @@ int	create_tokens(t_data *data, t_Token **token)
 		elem = elem->next;
 		ft_lstaddtoken_back(token, new);
 	}
-	ft_lstclear(&elem, 0);
+	ft_lstclear(&elem, *del);
 	return (0);
 }
