@@ -6,18 +6,12 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:25:03 by samy              #+#    #+#             */
-/*   Updated: 2023/05/16 22:02:34 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/21 12:17:48 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
-** Deletes an environment variable.
-** @param env the environment variables list
-** @param arg the name of the variable to delete
-** @return 0 if successful, 1 otherwise
-*/
 int	unset(t_env *env, char **names)
 {
 	int	i;
@@ -28,13 +22,6 @@ int	unset(t_env *env, char **names)
 	return (0);
 }
 
-/*
-** Changes the current working directory.
-** @param env the shell's environment variables
-** @param pwd the current path
-** @param str the path to change to
-** @return 0 if successful, 1 otherwise
-*/
 int	builtin_cd(t_data *data, char *str)
 {
 	char	*path;
@@ -59,6 +46,7 @@ int	builtin_cd(t_data *data, char *str)
 		return (1);
 	set_env(data, "OLDPWD", data->pwd);
 	set_env(data, "PWD", path);
+	free(path);
 	return (0);
 }
 

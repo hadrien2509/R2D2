@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:52:28 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/16 10:00:48 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/21 11:20:42 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static int	update_env(t_env *elem, const char *value, const char *name)
 	if (value)
 	{
 		elem->value = ft_strdup(value);
-		if (!elem->name)
+		if (!elem->value)
 		{
-			free(elem->value);
+			free(elem->name);
 			free(elem);
 			return (1);
 		}

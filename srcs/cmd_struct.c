@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_struct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:37:34 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/16 10:41:47 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/21 14:50:48 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_Parse	*ft_lstnewcmd(void)
+t_parse	*ft_lstnewcmd(void)
 {
-	t_Parse	*new_lst;
+	t_parse	*new_lst;
 
-	new_lst = malloc(sizeof(t_Parse));
+	new_lst = malloc(sizeof(t_parse));
 	if (!new_lst)
 		return (0);
 	new_lst->arg_nb = 0;
@@ -27,18 +27,16 @@ t_Parse	*ft_lstnewcmd(void)
 	return (new_lst);
 }
 
-t_Parse	*ft_lstlastcmd(t_Parse *lst)
+t_parse	*ft_lstlastcmd(t_parse *lst)
 {
 	while (lst && lst->next)
-	{
 		lst = lst->next;
-	}
 	return (lst);
 }
 
-void	ft_lstaddcmd_back(t_Parse **lst, t_Parse *new)
+void	ft_lstaddcmd_back(t_parse **lst, t_parse *new)
 {
-	t_Parse	*last;
+	t_parse	*last;
 
 	if (*lst)
 	{

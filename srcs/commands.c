@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/14 14:43:52 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/21 14:57:58 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@
 static char	*check_binary_path(char *path, char *name)
 {
 	char	*binary_path;
-	char	*temp;
+	char	*tmp;
 
-	temp = ft_strjoin(path, "/");
-	if (!temp)
+	tmp = ft_strjoin(path, "/");
+	if (!tmp)
 		return (NULL);
-	binary_path = ft_strjoin(temp, name);
-	free(temp);
+	binary_path = ft_strjoin(tmp, name);
+	free(tmp);
 	if (!binary_path)
 		return (NULL);
 	if (access(binary_path, F_OK) == 0)

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing_del.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/16 10:54:00 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/21 14:47:09 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	init_cmd_array(t_Parse **new, t_Parse **cmd, t_Token *token, int *i)
+int	init_cmd_array(t_parse **new, t_parse **cmd, t_Token *token, int *i)
 {
 	if (token->type == 0)
 	{
@@ -26,7 +26,7 @@ int	init_cmd_array(t_Parse **new, t_Parse **cmd, t_Token *token, int *i)
 		(*new)->cmd[++(*i)] = token->value;
 	else if (token->type == 4)
 	{
-		ft_lstaddcmd_back(cmd, *new);
+		ft_lstadd_back(cmd, *new);
 		*new = ft_lstnewcmd();
 		if (!(*new))
 			return (-1);
@@ -35,10 +35,10 @@ int	init_cmd_array(t_Parse **new, t_Parse **cmd, t_Token *token, int *i)
 	return (0);
 }
 
-t_Parse	*parse_command(t_Token *token)
+t_parse	*parse_command(t_Token *token)
 {
-	t_Parse	*new;
-	t_Parse	*cmd;
+	t_parse	*new;
+	t_parse	*cmd;
 	int		i;
 	int		check;
 
@@ -54,7 +54,7 @@ t_Parse	*parse_command(t_Token *token)
 			return (NULL);
 		token = token->next;
 	}
-	ft_lstaddcmd_back(&cmd, new);
+	ft_lstadd_back(&cmd, new);
 	return (cmd);
 }
 
@@ -102,7 +102,7 @@ int	create_file(t_Inout **new, t_Inout **inout, t_Token *token)
 	return (0);
 }
 
-void	set_pipes(t_Inout **new, t_Parse *cmd, t_Inout **in, t_Inout **out)
+void	set_pipes(t_Inout **new, t_parse *cmd, t_Inout **in, t_Inout **out)
 {
 	int	end[2];
 
@@ -119,7 +119,7 @@ void	set_pipes(t_Inout **new, t_Parse *cmd, t_Inout **in, t_Inout **out)
 	ft_lstaddinout_back(in, *new);
 }
 
-int	parse_fd(t_Token *token, t_Parse *cmd, t_data *data)
+int	parse_fd(t_Token *token, t_parse *cmd, t_data *data)
 {
 	t_Inout	*new;
 	t_Inout	*in;

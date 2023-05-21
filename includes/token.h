@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 17:58:46 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/04/25 11:52:19 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/21 14:05:56 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_Parse
 	t_Inout			*in;
 	t_Inout			*out;
 	struct s_Parse	*next;
-}					t_Parse;
+}					t_parse;
 
 t_Token	*ft_lstnewtoken(int type, char *value);
 t_Token	*ft_lstlasttoken(t_Token *lst);
@@ -60,8 +60,8 @@ t_Inout	*ft_lstnewinout(t_Inout *prev);
 t_Inout	*ft_lstlastinout(t_Inout *lst);
 void	ft_lstaddinout_back(t_Inout **lst, t_Inout *new);
 
-t_Parse	*ft_lstnewcmd(void);
-t_Parse	*ft_lstlastcmd(t_Parse *lst);
-void	ft_lstaddcmd_back(t_Parse **lst, t_Parse *new);
+t_parse	*ft_lstnewcmd(void);
+t_parse	*ft_lstlastcmd(t_parse *lst);
+void	ft_lstaddcmd_back(t_parse **lst, t_parse *new);
 
 #endif

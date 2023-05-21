@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/19 10:57:03 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/21 14:05:56 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(int argc, char *argv[], char *envp[])
 	struct termios	save;
 	t_data			data;
 	t_Token			*token;
-	t_Parse			*parse;
+	t_parse			*parse;
 
 	data.envtab = envp;
 	(void)argc;

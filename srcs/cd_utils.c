@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:00:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/16 22:28:01 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/21 22:45:34 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,17 @@ static char	*ft_dirname(char *path)
 static char	*join_paths(char *current_path, char *part)
 {
 	char	*tmp;
-	char	*new_path;
 
 	tmp = current_path;
-	current_path = ft_strjoin(current_path, "/");
-	free(tmp);
-	if (!current_path)
-		return (NULL);
-	tmp = ft_strjoin(current_path, part);
+	tmp = ft_strjoin(current_path, "/");
 	free(current_path);
 	if (!tmp)
 		return (NULL);
-	new_path = tmp;
-	return (new_path);
+	current_path = ft_strjoin(tmp, part);
+	free(tmp);
+	if (!current_path)
+		return (NULL);
+	return (current_path);
 }
 
 /*
@@ -93,13 +91,19 @@ static char	*build_absolute_path(char *current_path, char **parts)
 	return (current_path);
 }
 
+/*
+** Expands the tilde (~) in a path to the user's home directory.
+** @param env the environment variables
+** @param path the path to expand
+** @return the expanded path or NULL if an error occurred
+*/
 static char	*ft_tilde(t_env *env, char *path)
 {
 	char	*home;
 	char	*new_path;
 
 	home = get_env(env, "HOME");
-	if (path)
+	if (!ft_isempty(home) && path && path[0] == '~')
 	{
 		new_path = ft_strjoin(home, &path[1]);
 		if (!new_path)

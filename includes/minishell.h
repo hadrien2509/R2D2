@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/15 13:28:08 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/21 14:05:56 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,15 +98,15 @@ void			add_command_to_list(t_handle *handle, char *str);
 /* ************************************************************************** */
 
 int				create_tokens(t_data *data, t_Token **token);
-t_Parse			*parse_command(t_Token *token);
-int				parse_fd(t_Token *token, t_Parse *cmd);
-void			exec_line(t_Parse *parse, t_data *data);
+t_parse			*parse_command(t_Token *token);
+int				parse_fd(t_Token *token, t_parse *cmd);
+void			exec_line(t_parse *parse, t_data *data);
 char			*get_binary_path(t_env *env, char *name);
 int				create_heredoc(t_Inout **new, t_Inout **in, t_Token *token);
 char			*replace_env_variables(t_data *data, char *command);
 char			*get_cmd_path(char *arg, t_data *data);
 int				check_builtins(char *arg);
-int				redirec(t_Parse *parse);
+int				redirec(t_parse *parse);
 char			*find_env_variable(char **str);
 char			*replace_env_variables(t_data *data, char *command);
 t_list			*split_command(t_data *data, char *command);

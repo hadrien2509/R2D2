@@ -6,14 +6,14 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/16 22:09:54 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/21 14:05:56 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 //check si il faut pas free des trucs quand il y a une error de sig
-void	handle_io(t_Parse *parse)
+void	handle_io(t_parse *parse)
 {
 	if (parse->in)
 		dup2(parse->in->fd, 0);
@@ -21,7 +21,7 @@ void	handle_io(t_Parse *parse)
 		dup2(parse->out->fd, 1);
 }
 
-int	execute(t_Parse *parse, t_data *data, int pid)
+int	execute(t_parse *parse, t_data *data, int pid)
 {
 	int		result;
 	char	**env_list;
@@ -49,7 +49,7 @@ int	execute(t_Parse *parse, t_data *data, int pid)
 	return (result);
 }
 
-int	exec_cmd(t_Parse *parse, t_data *data)
+int	exec_cmd(t_parse *parse, t_data *data)
 {
 	int		child;
 	int		result;
@@ -69,7 +69,7 @@ int	exec_cmd(t_Parse *parse, t_data *data)
 }
 
 // 69 -> Ajouter une condition ici
-int	exec_builtins(t_Parse *parse, t_data *data, int fd)
+int	exec_builtins(t_parse *parse, t_data *data, int fd)
 {
 	if (!ft_strcmp(parse->cmd[0], "pwd"))
 	{
@@ -95,7 +95,7 @@ int	exec_builtins(t_Parse *parse, t_data *data, int fd)
 //110 => printf("exit status = %d\n", data->exit_status);
 // if (parse->cmd && parse->out && parse->out->next)
 // 	redirec(parse);
-void	exec_line(t_Parse *parse, t_data *data)
+void	exec_line(t_parse *parse, t_data *data)
 {
 	while (parse)
 	{

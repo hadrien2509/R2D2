@@ -6,13 +6,13 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:43:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/12 14:56:41 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/21 14:05:56 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	redirec(t_Parse *parse)
+int	redirec(t_parse *parse)
 {
 	char	*line;
 

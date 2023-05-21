@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/19 12:39:15 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/21 22:45:13 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ static void	del(void *elem_to_del)
 	t_list	*elem;
 
 	elem = (t_list *)elem_to_del;
-	if(elem)
+	if (elem)
 	{
 		free(elem->content);
 		free(elem);

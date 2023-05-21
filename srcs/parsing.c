@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/15 14:54:28 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/21 14:50:08 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	init_cmd_array(t_Parse **new, t_Parse **cmd, t_Token *token, int *i)
+int	init_cmd_array(t_parse **new, t_parse **cmd, t_Token *token, int *i)
 {
 	if (token->type == 0)
 	{
@@ -35,10 +35,10 @@ int	init_cmd_array(t_Parse **new, t_Parse **cmd, t_Token *token, int *i)
 	return (0);
 }
 
-t_Parse	*parse_command(t_Token *token)
+t_parse	*parse_command(t_Token *token)
 {
-	t_Parse	*new;
-	t_Parse	*cmd;
+	t_parse	*new;
+	t_parse	*cmd;
 	int		i;
 	int		check;
 
@@ -86,7 +86,7 @@ int	create_file(t_Inout **new, t_Inout **inout, t_Token *token)
 	return ((*new)->fd);
 }
 
-void	set_pipes(t_Inout **new, t_Parse *cmd, t_Inout **in, t_Inout **out)
+void	set_pipes(t_Inout **new, t_parse *cmd, t_Inout **in, t_Inout **out)
 {
 	int	end[2];
 
@@ -103,7 +103,7 @@ void	set_pipes(t_Inout **new, t_Parse *cmd, t_Inout **in, t_Inout **out)
 	ft_lstaddinout_back(in, *new);
 }
 
-int	parse_fd(t_Token *token, t_Parse *cmd)
+int	parse_fd(t_Token *token, t_parse *cmd)
 {
 	t_Inout	*new;
 	t_Inout	*in;

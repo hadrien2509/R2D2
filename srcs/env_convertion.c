@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_convertion.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 12:18:10 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/16 10:46:22 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/21 12:07:22 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,6 @@ char	**env_list_to_tab(size_t env_size, t_env *first)
 		}
 		node = node->next;
 	}
-	env[i] = NULL;
+	env[i - 1] = NULL;
 	return (env);
 }
