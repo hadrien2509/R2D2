@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:41:13 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/18 13:40:40 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/22 10:49:46 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static char	*get_next_quote(t_data *data, char *ptr, int is_quote, char **cmd)
 ** the current quote is a single quote.
 ** @return a pointer to the next character in the command string.
 */
-char	*handle_quotes(t_data *data, char *ptr, char **command,
+static char	*handle_quotes(t_data *data, char *ptr, char **command,
 		int *is_simple_quote)
 {
 	char	c;

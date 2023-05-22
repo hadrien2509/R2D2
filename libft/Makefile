@@ -6,7 +6,7 @@
 #    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/04 11:24:14 by samy              #+#    #+#              #
-#    Updated: 2023/05/15 11:02:28 by sde-smed         ###   ########.fr        #
+#    Updated: 2023/05/22 10:35:34 by sde-smed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,8 @@ SRC = 	ft_atoi.c\
 		ft_str_is_numeric.c\
 		ft_is_quote.c\
 		ft_is_space.c\
-		ft_isempty.c
+		ft_isempty.c\
+		ft_join_and_asign.c
 
 SRCS = $(SRC) $(PRINTF) $(GNL)
 OBJ = $(SRCS:.c=.o)

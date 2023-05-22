@@ -3,85 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/21 22:45:13 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/22 10:23:42 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	syntax_error(int error, char *str)
-{
-	if (error == 258)
-	{
-		ft_putstr_fd("syntax error near unexpected token `", 2);
-		if (!str)
-			str = "newline";
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd("'\n", 2);
-	}
-}
-
-int	check_after_redirec(void *str)
-{
-	int	error;
-
-	error = 0;
-	if (str == 0)
-		error = 258;
-	else if (ft_strcmp(str, "|") == 0)
-	{
-		str = "|";
-		error = 258;
-	}
-	else if (ft_strcmp(str, "<<") == 0)
-	{
-		str = "<<";
-		error = 258;
-	}
-	else if (ft_strcmp(str, ">>") == 0)
-	{
-		str = ">>";
-		error = 258;
-	}
-	else if (ft_strcmp(str, "<") == 0)
-		error = 258;
-	else if (ft_strcmp(str, ">") == 0)
-		error = 258;
-	syntax_error(error, str);
-	return (error);
-}
-
-int	redirec_tokenizer(t_list **elem, t_Token **new)
-{
-	int		redirec;
-	char	*str;
-
-	if (!(*elem)->next)
-		str = 0;
-	else
-		str = (*elem)->next->content;
-	redirec = 1;
-	if (ft_strcmp((*elem)->content, "<<") == 0)
-		*new = ft_lstnewtoken(5, str);
-	else if (ft_strcmp((*elem)->content, ">>") == 0)
-		*new = ft_lstnewtoken(6, str);
-	else if (ft_strcmp((*elem)->content, "<") == 0)
-		*new = ft_lstnewtoken(2, str);
-	else if (ft_strcmp((*elem)->content, ">") == 0)
-		*new = ft_lstnewtoken(3, str);
-	else
-		redirec = 0;
-	if (redirec == 1)
-	{
-		(*elem) = (*elem)->next;
-		if (check_after_redirec(str) == 258)
-			return (258);
-	}
-	return (redirec);
-}
 
 int	complete_pipe(t_list **elem)
 {

@@ -6,13 +6,13 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 11:59:24 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/04/27 14:03:26 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/22 10:43:17 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	export_var(t_data *data, char *arg)
+static int	export_var(t_data *data, char *arg)
 {
 	int		result;
 	char	*value;
@@ -38,12 +38,6 @@ int	export_var(t_data *data, char *arg)
 	return (result);
 }
 
-/*
-** Adds or updates an environment variable.
-** @param env the environment variables list
-** @param var the variable name and value separated by "="
-** @return 0 if successful, 1 otherwise
-*/
 int	export(int fd, t_data *data, char **args)
 {
 	int	i;

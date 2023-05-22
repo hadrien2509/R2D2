@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/21 14:50:08 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/22 10:48:26 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	init_cmd_array(t_parse **new, t_parse **cmd, t_Token *token, int *i)
+static int	init_cmd_array(t_parse **new, t_parse **cmd, t_Token *token, int *i)
 {
 	if (token->type == 0)
 	{
@@ -58,7 +58,7 @@ t_parse	*parse_command(t_Token *token)
 	return (cmd);
 }
 
-int	create_file(t_Inout **new, t_Inout **inout, t_Token *token)
+static int	create_file(t_Inout **new, t_Inout **inout, t_Token *token)
 {
 	if (token->type == 2)
 	{
@@ -86,7 +86,7 @@ int	create_file(t_Inout **new, t_Inout **inout, t_Token *token)
 	return ((*new)->fd);
 }
 
-void	set_pipes(t_Inout **new, t_parse *cmd, t_Inout **in, t_Inout **out)
+static void	set_pipes(t_Inout **new, t_parse *cmd, t_Inout **in, t_Inout **out)
 {
 	int	end[2];
 

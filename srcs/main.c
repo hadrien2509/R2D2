@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/21 14:05:56 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/22 10:46:22 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,6 @@ void	signal_handler_child(int signal)
 	}
 }
 
-// print a chained list of t_list
-void	print_list(t_list *list)
-{
-	while (list)
-	{
-		ft_putstr_fd(list->content, 1);
-		ft_putstr_fd("\n", 1);
-		list = list->next;
-	}
-}
-
-			// free token
 int	main(int argc, char *argv[], char *envp[])
 {
 	struct termios	curr;

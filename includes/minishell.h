@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/21 14:05:56 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/22 10:53:19 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ int				can_execute(char *file);
 int				is_file(char *cmd);
 int				can_read(char *file);
 int				can_write(char *file);
-
-char			*handle_quotes(t_data *data, char *ptr, char **cmd, int *quote);
 char			*handle_spaces(char *ptr, t_handle *handle);
 char			*handle_special_chars(char *ptr, t_handle *handle);
 void			add_command_to_list(t_handle *handle, char *str);
@@ -107,8 +105,9 @@ char			*replace_env_variables(t_data *data, char *command);
 char			*get_cmd_path(char *arg, t_data *data);
 int				check_builtins(char *arg);
 int				redirec(t_parse *parse);
-char			*find_env_variable(char **str);
 char			*replace_env_variables(t_data *data, char *command);
 t_list			*split_command(t_data *data, char *command);
+void			syntax_error(int error, char *str);
+int				redirec_tokenizer(t_list **elem, t_Token **new);
 
 #endif

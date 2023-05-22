@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:15:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/16 10:59:01 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/22 10:41:48 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static t_env	*copy_env_list(t_env *head)
 ** @param b the second variable to swap
 ** @return void
 */
-void	swap(t_env *a, t_env *b)
+static void	swap(t_env *a, t_env *b)
 {
 	char	*tmp;
 
@@ -95,7 +95,7 @@ void	swap(t_env *a, t_env *b)
 ** @param head a pointer to the head of the linked list to sort
 ** @return void
 */
-void	sort_list(t_env **head)
+static void	sort_list(t_env **head)
 {
 	int		swapped;
 	t_env	*ptr1;

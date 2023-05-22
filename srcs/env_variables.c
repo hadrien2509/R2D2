@@ -6,13 +6,13 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:54:25 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/19 11:29:29 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/22 10:34:20 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*find_env_variable(char **str)
+static char	*find_env_variable(char **str)
 {
 	char	*result;
 	char	*command;
@@ -31,14 +31,6 @@ char	*find_env_variable(char **str)
 	if (c)
 		*command = c;
 	return (result);
-}
-
-int	ft_join_and_asign(char **result, char *str)
-{
-	*result = ft_strjoin(*result, str);
-	if (!*result)
-		return (0);
-	return (1);
 }
 
 static char	*extract_env_name(t_data *data, char *result, char *ptr, char **tmp)
