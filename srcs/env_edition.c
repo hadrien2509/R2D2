@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 10:25:54 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/23 13:55:50 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/23 14:03:44 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_env	*ft_envnew(const char *name, const char *value)
 /*
 ** Adds a new environment variable node at the end of a linked list.
 ** @param list the address of a pointer to the first node of the list,
-	or NULL if the list is empty
+** or NULL if the list is empty
 ** @param new a pointer to the new node to add
 */
 void	ft_envadd_back(t_env **list, t_env *new)
@@ -96,7 +96,7 @@ void	ft_envadd_back(t_env **list, t_env *new)
 /*
 ** Deletes the given node in a linked list and frees its memory.
 ** @param prev the previous node of the node to be deleted,
-	NULL if the node to be deleted is the head
+** NULL if the node to be deleted is the head
 ** @param to_del the node to be deleted
 ** @return 0 if successful, 1 if the node to be deleted is NULL
 */
