@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 17:58:46 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/21 14:05:56 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/23 12:41:29 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef struct s_Parse
 	char			**cmd;
 	t_Inout			*in;
 	t_Inout			*out;
+	int				pipe_in;
+	int				pipe_out;
 	struct s_Parse	*next;
 }					t_parse;
 

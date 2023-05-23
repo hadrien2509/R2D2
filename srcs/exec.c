@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/21 14:05:56 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/23 13:57:21 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,13 @@ void	handle_io(t_parse *parse)
 {
 	if (parse->in)
 		dup2(parse->in->fd, 0);
+	else if (parse->pipe_in)
+		dup2(parse->pipe_in, 0);
+	printf("%d\n", parse->pipe_out);
 	if (parse->out)
 		dup2(parse->out->fd, 1);
+	else if (parse->pipe_out)
+		dup2(parse->pipe_out, 1);
 }
 
 int	execute(t_parse *parse, t_data *data, int pid)
@@ -63,8 +68,8 @@ int	exec_cmd(t_parse *parse, t_data *data)
 		return (print_error("minishell", "Permission denied", cmd, 126));
 	child = fork();
 	result = execute(parse, data, child);
-	if (parse->out)
-		close(parse->out->fd);
+	if (parse->pipe_out)
+		close(parse->pipe_out);
 	return (result);
 }
 
@@ -106,17 +111,19 @@ void	exec_line(t_parse *parse, t_data *data)
 			if (check_builtins(parse->cmd[0]))
 			{
 				if (parse->out)
-				{
 					data->exit_status = exec_builtins(parse, data,
 							parse->out->fd);
-					close(parse->out->fd);
-				}
+				else if (parse->pipe_out)
+					data->exit_status = exec_builtins(parse, data,
+							parse->pipe_out);
 				else
 					data->exit_status = exec_builtins(parse, data, 1);
 			}
 			else
 				data->exit_status = exec_cmd(parse, data);
 		}
+		if (parse->pipe_out)
+			close(parse->pipe_out);
 		parse = parse->next;
 	}
 }

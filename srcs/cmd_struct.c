@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_struct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:37:34 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/21 14:50:48 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/23 13:16:54 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ t_parse	*ft_lstnewcmd(void)
 	new_lst->arg_nb = 0;
 	new_lst->in = 0;
 	new_lst->out = 0;
+	new_lst->pipe_in = 0;
+	new_lst->pipe_out = 0;
 	new_lst->cmd = 0;
 	new_lst->next = 0;
 	return (new_lst);

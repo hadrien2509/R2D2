@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/22 10:48:26 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/23 13:19:25 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,21 +86,14 @@ static int	create_file(t_Inout **new, t_Inout **inout, t_Token *token)
 	return ((*new)->fd);
 }
 
-static void	set_pipes(t_Inout **new, t_parse *cmd, t_Inout **in, t_Inout **out)
+static void	set_pipes(t_parse *cmd)
 {
 	int	end[2];
 
 	pipe(end);
-	*new = ft_lstnewinout(*new);
-	(*new)->fd = end[1];
-	ft_lstaddinout_back(out, *new);
-	cmd->out = *out;
-	cmd->in = *in;
-	*in = 0;
-	*out = 0;
-	*new = ft_lstnewinout(*new);
-	(*new)->fd = end[0];
-	ft_lstaddinout_back(in, *new);
+	cmd->pipe_out = end[1];
+	cmd = cmd->next;
+	cmd->pipe_in = end[0];
 }
 
 int	parse_fd(t_Token *token, t_parse *cmd)
@@ -118,12 +111,12 @@ int	parse_fd(t_Token *token, t_parse *cmd)
 		if (token->type == 2)
 		{
 			if (create_file(&new, &in, token) == -1)
-				return (1);
+				cmd->cmd = 0;
 		}
 		else if (token->type == 3 || token->type == 6)
 		{
 			if (create_file(&new, &out, token) == -1)
-				return (1);
+				cmd->cmd = 0;
 		}
 		else if (token->type == 5)
 		{
@@ -132,7 +125,7 @@ int	parse_fd(t_Token *token, t_parse *cmd)
 		}
 		else if (token->type == 4)
 		{
-			set_pipes(&new, cmd, &in, &out);
+			set_pipes(cmd);
 			cmd = cmd->next;
 		}
 		token = token->next;
