@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/23 14:18:04 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/23 15:51:55 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	execute(t_parse *parse, t_data *data, int pid)
 		env_list = env_list_to_tab(data->env_size, data->env);
 		if (!env_list)
 			exit(42);
+		printf("%d, %d\n", parse->pipe_in, parse->pipe_out);
 		if (execve(parse->cmd[0], parse->cmd, env_list) == -1)
 		{
 			perror("execve");
