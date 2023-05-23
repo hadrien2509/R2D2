@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:08:12 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/11 12:20:56 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/23 14:02:11 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,6 @@ int	builtin_echo(int fd, char **command)
 	if (command[i])
 		print_arguments(fd, &command[i]);
 	if (has_n_option != 1)
-		printf("\n");
+		ft_putstr_fd("\n", fd);
 	return (0);
 }

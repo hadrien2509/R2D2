@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_get.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 12:19:41 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/16 22:34:53 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/23 14:02:24 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ int	init_data(t_data *data, char **env)
 	shell_lvl = 0;
 	data->exit_status = 0;
 	data->env = ft_strarr_to_env(data, env);
-	if (!data->env)
-		return (1);
 	set_env(data, "OLDPWD", NULL);
 	shlvl = get_env(data->env, "SHLVL");
 	if (shlvl)

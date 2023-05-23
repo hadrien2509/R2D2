@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_edition.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 10:25:54 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/16 22:34:05 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/23 13:55:50 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,22 +72,22 @@ t_env	*ft_envnew(const char *name, const char *value)
 
 /*
 ** Adds a new environment variable node at the end of a linked list.
-** @param alst the address of a pointer to the first node of the list,
+** @param list the address of a pointer to the first node of the list,
 	or NULL if the list is empty
 ** @param new a pointer to the new node to add
 */
-void	ft_envadd_back(t_env **alst, t_env *new)
+void	ft_envadd_back(t_env **list, t_env *new)
 {
 	t_env	*last;
 
-	if (!alst)
+	if (!list)
 		return ;
-	if (!*alst)
+	if (!*list)
 	{
-		*alst = new;
+		*list = new;
 		return ;
 	}
-	last = *alst;
+	last = *list;
 	while (last->next)
 		last = last->next;
 	last->next = new;

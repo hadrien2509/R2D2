@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/22 10:46:22 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/22 11:11:02 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ int	main(int argc, char *argv[], char *envp[])
 	curr.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, 0, &curr);
 	if (signal(SIGINT, signal_handler) == SIG_ERR)
-		return (ERROR);
+		return (print_error("error", "handle signal failed", NULL, 1));
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-		return (ERROR);
+		return (print_error("error", "ignore signal failed", NULL, 1));
 	if (init_data(&data, envp))
-		return (ERROR);
+		return (print_error("error", "init_data failed", NULL, 1));
 	while (1)
 	{
 		data.line = readline(PROMPT);

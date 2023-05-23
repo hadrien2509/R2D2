@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/22 10:58:14 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/23 13:09:27 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,10 @@ int				can_write(char *file);
 char			*handle_spaces(char *ptr, t_handle *handle);
 char			*handle_special_chars(char *ptr, t_handle *handle);
 void			add_command_to_list(t_handle *handle, char *str);
+/* ************************************************************************** */
+/*                             Parsing                                        */
+/* ************************************************************************** */
+
 int				create_tokens(t_data *data, t_Token **token);
 t_parse			*parse_command(t_Token *token);
 int				parse_fd(t_Token *token, t_parse *cmd);

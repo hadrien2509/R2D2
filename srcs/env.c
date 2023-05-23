@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:52:28 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/21 11:20:42 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/23 13:58:40 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ int	set_env(t_data *data, const char *name, const char *value)
 		if (!data->pwd)
 			return (42);
 	}
-	while (elem)
+	while (data->env)
 	{
-		if (!ft_strcmp(elem->name, name))
-			return (update_env(elem, value, name));
-		elem = elem->next;
+		if (!ft_strcmp(data->env->name, name))
+			return (update_env(data->env, value, name));
+		data->env = data->env->next;
 	}
-	elem = get_last(data->env);
-	ft_envadd_back(&elem, ft_envnew(name, value));
+	data->env = get_last(data->env);
+	ft_envadd_back(&data->env, ft_envnew(name, value));
 	if (value)
 		data->env_size++;
 	return (0);
