@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/23 14:25:48 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/23 15:38:44 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	main(int argc, char *argv[], char *envp[])
 		data.split = split_command(&data, data.line);
 		data.exit_status = create_tokens(&data, &token);
 		if (data.exit_status == 0)
-		{	
+		{
 			parse = parse_command(token);
 			if (!parse)
 				exit(1);
@@ -78,7 +78,7 @@ int	main(int argc, char *argv[], char *envp[])
 			exec_line(parse, &data);
 		free(data.line);
 		if (data.exit_status == 42)
-			exit (1);
+			exit(1);
 	}
 	tcsetattr(STDIN_FILENO, 0, &save);
 	return (0);
