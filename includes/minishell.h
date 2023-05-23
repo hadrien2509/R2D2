@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/23 13:09:27 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/23 14:24:44 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,12 @@ void			add_command_to_list(t_handle *handle, char *str);
 /*                             Parsing                                        */
 /* ************************************************************************** */
 
-int				create_tokens(t_data *data, t_Token **token);
-t_parse			*parse_command(t_Token *token);
-int				parse_fd(t_Token *token, t_parse *cmd);
+int				create_tokens(t_data *data, t_token **token);
+t_parse			*parse_command(t_token *token);
+int				parse_fd(t_token *token, t_parse *cmd, t_data *data);
 void			exec_line(t_parse *parse, t_data *data);
 char			*get_binary_path(t_env *env, char *name);
-int				create_heredoc(t_Inout **new, t_Inout **in, t_Token *token);
+int				create_heredoc(t_Inout **new, t_Inout **in, t_token *token);
 char			*replace_env_variables(t_data *data, char *command);
 char			*get_cmd_path(char *arg, t_data *data);
 int				check_builtins(char *arg);
@@ -108,6 +108,6 @@ int				redirec(t_parse *parse);
 char			*replace_env_variables(t_data *data, char *command);
 t_list			*split_command(t_data *data, char *command);
 void			syntax_error(int error, char *str);
-int				redirec_tokenizer(t_list **elem, t_Token **new);
+int				redirec_tokenizer(t_list **elem, t_token **new);
 
 #endif

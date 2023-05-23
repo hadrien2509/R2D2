@@ -6,13 +6,13 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/23 13:19:25 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/23 14:56:31 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	init_cmd_array(t_parse **new, t_parse **cmd, t_Token *token, int *i)
+static int	init_cmd_array(t_parse **new, t_parse **cmd, t_token *token, int *i)
 {
 	if (token->type == 0)
 	{
@@ -35,7 +35,7 @@ static int	init_cmd_array(t_parse **new, t_parse **cmd, t_Token *token, int *i)
 	return (0);
 }
 
-t_parse	*parse_command(t_Token *token)
+t_parse	*parse_command(t_token *token)
 {
 	t_parse	*new;
 	t_parse	*cmd;
@@ -58,7 +58,7 @@ t_parse	*parse_command(t_Token *token)
 	return (cmd);
 }
 
-static int	create_file(t_Inout **new, t_Inout **inout, t_Token *token)
+static int	create_file(t_Inout **new, t_Inout **inout, t_token *token)
 {
 	if (token->type == 2)
 	{
@@ -96,27 +96,37 @@ static void	set_pipes(t_parse *cmd)
 	cmd->pipe_in = end[0];
 }
 
-int	parse_fd(t_Token *token, t_parse *cmd)
+int	parse_fd(t_token *token, t_parse *cmd, t_data *data)
 {
 	t_Inout	*new;
 	t_Inout	*in;
 	t_Inout	*out;
+	int		error;
 
 	in = 0;
 	out = 0;
 	cmd->in = 0;
 	cmd->out = 0;
+	error = 0;
 	while (token)
 	{
-		if (token->type == 2)
+		if (token->type == 2 && error == 0)
 		{
 			if (create_file(&new, &in, token) == -1)
+			{
 				cmd->cmd = 0;
+				data->exit_status = 1;
+				error = 1;
+			}
 		}
-		else if (token->type == 3 || token->type == 6)
+		else if ((token->type == 3 || token->type == 6) && error == 0)
 		{
 			if (create_file(&new, &out, token) == -1)
+			{
 				cmd->cmd = 0;
+				data->exit_status = 1;
+				error = 1;
+			}
 		}
 		else if (token->type == 5)
 		{
@@ -125,6 +135,7 @@ int	parse_fd(t_Token *token, t_parse *cmd)
 		}
 		else if (token->type == 4)
 		{
+			error = 0;
 			set_pipes(cmd);
 			cmd = cmd->next;
 		}
@@ -132,5 +143,5 @@ int	parse_fd(t_Token *token, t_parse *cmd)
 	}
 	cmd->in = in;
 	cmd->out = out;
-	return (0);
+	return (error);
 }

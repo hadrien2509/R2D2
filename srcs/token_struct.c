@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   token_struct.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:38:29 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/19 11:41:52 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/23 14:24:44 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 // LEAKS
-t_Token	*ft_lstnewtoken(int type, char *value)
+t_token	*ft_lstnewtoken(int type, char *value)
 {
-	t_Token	*new_lst;
+	t_token	*new_lst;
 
-	new_lst = malloc(sizeof(t_Token));
+	new_lst = malloc(sizeof(t_token));
 	if (!new_lst)
 		return (0);
 	new_lst->type = type;
@@ -27,7 +27,7 @@ t_Token	*ft_lstnewtoken(int type, char *value)
 	return (new_lst);
 }
 
-t_Token	*ft_lstlasttoken(t_Token *lst)
+t_token	*ft_lstlasttoken(t_token *lst)
 {
 	while (lst && lst->next)
 	{
@@ -36,9 +36,9 @@ t_Token	*ft_lstlasttoken(t_Token *lst)
 	return (lst);
 }
 
-void	ft_lstaddtoken_back(t_Token **lst, t_Token *new)
+void	ft_lstaddtoken_back(t_token **lst, t_token *new)
 {
-	t_Token	*last;
+	t_token	*last;
 
 	if (*lst)
 	{

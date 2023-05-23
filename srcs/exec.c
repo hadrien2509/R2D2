@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/23 13:57:21 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/23 14:18:04 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	handle_io(t_parse *parse)
 		dup2(parse->in->fd, 0);
 	else if (parse->pipe_in)
 		dup2(parse->pipe_in, 0);
-	printf("%d\n", parse->pipe_out);
 	if (parse->out)
 		dup2(parse->out->fd, 1);
 	else if (parse->pipe_out)

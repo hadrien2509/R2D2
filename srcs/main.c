@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/22 11:11:02 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/23 14:25:48 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char *argv[], char *envp[])
 	struct termios	curr;
 	struct termios	save;
 	t_data			data;
-	t_Token			*token;
+	t_token			*token;
 	t_parse			*parse;
 
 	data.envtab = envp;
@@ -73,7 +73,7 @@ int	main(int argc, char *argv[], char *envp[])
 				exit(1);
 		}
 		if (data.exit_status == 0)
-			data.exit_status = parse_fd(token, parse);
+			data.exit_status = parse_fd(token, parse, &data);
 		if (data.exit_status == 0)
 			exec_line(parse, &data);
 		free(data.line);

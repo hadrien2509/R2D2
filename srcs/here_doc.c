@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:15:44 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/19 11:39:21 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/23 14:24:44 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	here_doc(t_Inout *new)
 	return (status);
 }
 
-int	create_heredoc(t_Inout **new, t_Inout **in, t_Token *token)
+int	create_heredoc(t_Inout **new, t_Inout **in, t_token *token)
 {
 	int	end[2];
 	int	status;

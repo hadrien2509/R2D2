@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/22 10:23:42 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/23 14:24:44 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ int	check_after_pipe(t_list **elem)
 	return (error);
 }
 
-int	cmd_pipes_tokenizer(t_list **elem, t_Token **new, t_data *data,
+int	cmd_pipes_tokenizer(t_list **elem, t_token **new, t_data *data,
 		int *arg_need)
 {
-	static t_Token	*cmd;
+	static t_token	*cmd;
 	int				check;
 
 	if (ft_strcmp((*elem)->content, "|") == 0)
@@ -127,9 +127,9 @@ static void	del(void *elem_to_del)
 	}
 }
 
-int	create_tokens(t_data *data, t_Token **token)
+int	create_tokens(t_data *data, t_token **token)
 {
-	t_Token	*new;
+	t_token	*new;
 	int		check;
 	int		arg_need;
 	t_list	*elem;

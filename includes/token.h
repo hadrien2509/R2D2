@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 17:58:46 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/23 12:41:29 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/23 14:24:44 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@ typedef enum s_TokenType
 	TOKEN_APPEND_OUTPUT,
 	TOKEN_BACKGROUND,
 	TOKEN_END
-}					t_TokenType;
+}					t_tokenType;
 
 typedef struct s_Token
 {
-	t_TokenType		type;
+	t_tokenType		type;
 	char			*value;
 	int				arg_nb;
 	struct s_Token	*prev;
 	struct s_Token	*next;
-}					t_Token;
+}					t_token;
 
 typedef struct s_Inout
 {
@@ -54,9 +54,9 @@ typedef struct s_Parse
 	struct s_Parse	*next;
 }					t_parse;
 
-t_Token	*ft_lstnewtoken(int type, char *value);
-t_Token	*ft_lstlasttoken(t_Token *lst);
-void	ft_lstaddtoken_back(t_Token **lst, t_Token *new);
+t_token	*ft_lstnewtoken(int type, char *value);
+t_token	*ft_lstlasttoken(t_token *lst);
+void	ft_lstaddtoken_back(t_token **lst, t_token *new);
 
 t_Inout	*ft_lstnewinout(t_Inout *prev);
 t_Inout	*ft_lstlastinout(t_Inout *lst);
