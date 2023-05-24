@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/23 14:56:31 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/24 19:54:18 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,10 @@ int	parse_fd(t_token *token, t_parse *cmd, t_data *data)
 		{
 			error = 0;
 			set_pipes(cmd);
+			cmd->in = in;
+			cmd->out = out;
+			in = 0;
+			out = 0;
 			cmd = cmd->next;
 		}
 		token = token->next;
