@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:41:13 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/23 15:48:18 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/24 11:42:10 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,6 @@ static char	*get_next_quote(t_data *data, char *ptr, int is_quote, char **cmd)
 	return (*cmd + size);
 }
 
-/*
-** Handle quotes in the command string.
-** @param data a pointer to a data structure.
-** @param ptr a pointer to the current character in the command string.
-** @param command a pointer to a pointer to the command string.
-** @param is_simple_quote a pointer to a flag indicating whether
-** the current quote is a single quote.
-** @return a pointer to the next character in the command string.
-*/
 static char	*handle_quotes(t_data *data, char *ptr, char **command,
 		int *is_simple_quote)
 {
@@ -78,12 +69,15 @@ static char	*handle_quotes(t_data *data, char *ptr, char **command,
 	return (ptr);
 }
 
-/*
-** Split a command into a linked list of commands.
-** @param data a pointer to a data structure.
-** @param command a string containing the command to split.
-** @return a pointer to the linked list of commands.
-*/
+void	init_handle(t_handle *handle, t_data *data, t_list **first,
+		char **command)
+{
+	handle->data = data;
+	handle->first = first;
+	handle->command = command;
+	handle->is_simple_quote = NULL;
+}
+
 t_list	*split_command(t_data *data, char *command)
 {
 	t_list		*first;
@@ -94,11 +88,9 @@ t_list	*split_command(t_data *data, char *command)
 	first = NULL;
 	ptr = command;
 	is_simple_quote = 0;
-	handle.data = data;
-	handle.first = &first;
-	handle.command = &command;
+	init_handle(&handle, data, &first, &command);
 	handle.is_simple_quote = &is_simple_quote;
-	while (ptr && *ptr)
+	while (ptr && *ptr && *ptr != '#')
 	{
 		if (*ptr == '>' || *ptr == '<' || *ptr == '|')
 			ptr = handle_special_chars(ptr, &handle);
@@ -109,6 +101,8 @@ t_list	*split_command(t_data *data, char *command)
 		else
 			ptr++;
 	}
+	if (ptr && *ptr == '#')
+		*ptr = '\0';
 	add_command_to_list(&handle, command);
 	return (first);
 }
