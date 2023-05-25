@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:25:03 by samy              #+#    #+#             */
-/*   Updated: 2023/05/21 12:17:48 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/25 12:27:07 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ int	ft_exit(t_data *data, char **args)
 
 	elem = ft_nb_split(args);
 	if (elem == 0)
+	{
+		ft_putstr_fd("exit\n", 2);
 		exit(data->exit_status);
+	}
 	else if (elem != 1)
 		exit(print_error("exit", "too many arguments", NULL, 1));
 	value = ft_atoll(args[0], &result);

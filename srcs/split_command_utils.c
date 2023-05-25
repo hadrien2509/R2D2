@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:58:19 by samy              #+#    #+#             */
-/*   Updated: 2023/05/23 15:48:23 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/25 13:55:21 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 ** @param str a string containing the command to add.
 ** @return void.
 */
-void	add_command_to_list(t_handle *handle, char *str)
+void	add_command_to_list(t_handle *handle, char *str, int replace_env)
 {
 	t_list	*elem;
 
 	if (!ft_isempty(str))
 	{
-		if (!*(handle->is_simple_quote))
+		if (replace_env)
 			str = replace_env_variables(handle->data, str);
 		if (ft_isempty(str))
 			return ;
@@ -52,16 +52,15 @@ char	*handle_special_chars(char *ptr, t_handle *handle)
 	tmp = ptr;
 	c = *ptr;
 	*(ptr) = '\0';
-	add_command_to_list(handle, *(handle->command));
+	add_command_to_list(handle, *(handle->command), 1);
 	*ptr = c;
 	ptr++;
 	if (c != '|' && *ptr == c)
 		ptr++;
 	c = *ptr;
 	*(ptr) = '\0';
-	add_command_to_list(handle, tmp);
+	add_command_to_list(handle, tmp, 1);
 	*(ptr) = c;
-	*(handle->is_simple_quote) = 0;
 	*(handle->command) = ptr;
 	return (ptr);
 }
@@ -77,8 +76,7 @@ char	*handle_spaces(char *ptr, t_handle *handle)
 	while (ft_is_space(*ptr))
 		ptr++;
 	*(ptr - 1) = '\0';
-	add_command_to_list(handle, *(handle->command));
-	*(handle->is_simple_quote) = 0;
+	add_command_to_list(handle, *(handle->command), 1);
 	*(handle->command) = ptr;
 	return (ptr);
 }

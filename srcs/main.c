@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/23 15:38:44 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/24 11:49:01 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,13 @@ void	signal_handler_child(int signal)
 		exit(130);
 	}
 }
+void init_signal (void)
+{
+	if (signal(SIGINT, signal_handler) == SIG_ERR)
+		exit(print_error("error", "handle signal failed", NULL, 1));
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+		exit(print_error("error", "ignore signal failed", NULL, 1));
+}
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -47,10 +54,6 @@ int	main(int argc, char *argv[], char *envp[])
 	tcgetattr(STDIN_FILENO, &save);
 	curr.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, 0, &curr);
-	if (signal(SIGINT, signal_handler) == SIG_ERR)
-		return (print_error("error", "handle signal failed", NULL, 1));
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-		return (print_error("error", "ignore signal failed", NULL, 1));
 	if (init_data(&data, envp))
 		return (print_error("error", "init_data failed", NULL, 1));
 	while (1)

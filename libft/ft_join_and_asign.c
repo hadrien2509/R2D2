@@ -14,8 +14,11 @@
 
 int	ft_join_and_asign(char **result, char *str)
 {
-	*result = ft_strjoin(*result, str);
-	if (!*result)
+	char *tmp;
+	tmp = ft_strjoin(*result, str);
+	if (!tmp)
 		return (0);
+	free(*result);
+	*result = tmp;
 	return (1);
 }

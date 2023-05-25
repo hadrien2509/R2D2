@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/23 14:24:44 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/25 13:55:13 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct s_handle
 	t_data			*data;
 	t_list			**first;
 	char			**command;
-	int				*is_simple_quote;
 }					t_handle;
 
 char			**env_list_to_tab(size_t env_size, t_env *envlst);
@@ -90,7 +89,7 @@ int				can_read(char *file);
 int				can_write(char *file);
 char			*handle_spaces(char *ptr, t_handle *handle);
 char			*handle_special_chars(char *ptr, t_handle *handle);
-void			add_command_to_list(t_handle *handle, char *str);
+void			add_command_to_list(t_handle *handle, char *str, int replace_env);
 /* ************************************************************************** */
 /*                             Parsing                                        */
 /* ************************************************************************** */
