@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:54:25 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/24 22:38:02 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/26 12:22:23 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,17 @@ static char	*extract_env_name(t_data *data, char *result, char *ptr, char **tmp)
 	if (*ptr == '?')
 	{
 		*tmp = ft_itoa(data->exit_status);
-		if (!ft_join_and_asign(&result, *tmp))
+		if (!ft_join_and_assign(&result, *tmp))
 			return (NULL);
 	}
 	else if (ft_isalpha(*ptr) || *ptr == '_' || *ptr == '-')
 	{
 		*tmp = find_env_variable(&ptr);
 		env = get_env(data->env, *tmp);
-		if (env && !ft_join_and_asign(&result, env))
+		if (env && !ft_join_and_assign(&result, env))
 			return (NULL);
 	}
-	else if (!ft_join_and_asign(&result, "$"))
+	else if (!ft_join_and_assign(&result, "$"))
 		return (NULL);
 	return (result);
 }
@@ -65,7 +65,7 @@ char	*set_env_variable(t_data *data, char *command, char *ptr)
 	{
 		tmp = NULL;
 		*(ptr++) = 0;
-		if (!ft_join_and_asign(&result, command))
+		if (!ft_join_and_assign(&result, command))
 			return (NULL);
 		command = ptr;
 		result = extract_env_name(data, result, ptr, &tmp);
@@ -75,7 +75,7 @@ char	*set_env_variable(t_data *data, char *command, char *ptr)
 			command += ft_strlen(tmp);
 		ptr = ft_strchr(command, '$');
 		if (!ptr)
-			if (!ft_join_and_asign(&result, command))
+			if (!ft_join_and_assign(&result, command))
 				return (NULL);
 	}
 	return (result);
@@ -88,17 +88,12 @@ char	*replace_env_variables(t_data *data, char *command)
 
 	ptr = ft_strchr(command, '$');
 	if (!ptr || !*(ptr))
-		return (command);
+		return (ft_strdup(command));
 	if (ptr != command && *(ptr - 1) && *(ptr - 1) == '\\')
 		if (ptr != command || !*(ptr - 2) || *(ptr - 2) != '\\')
-			return (++command);
+			return (ft_strdup(++command));
 	if (!*(ptr + 1))
-		return (command);
+		return (ft_strdup("$"));
 	result = set_env_variable(data, command, ptr);
-	if (result && !ft_strcmp(result, ""))
-	{
-		free(result);
-		return (NULL);
-	}
 	return (result);
 }

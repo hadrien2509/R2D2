@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/24 11:49:01 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/26 13:01:19 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	signal_handler_child(int signal)
 		exit(130);
 	}
 }
-void init_signal (void)
+
+void	init_signal(void)
 {
 	if (signal(SIGINT, signal_handler) == SIG_ERR)
 		exit(print_error("error", "handle signal failed", NULL, 1));

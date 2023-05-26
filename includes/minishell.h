@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/25 13:55:13 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/26 00:58:51 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_handle
 {
 	t_data			*data;
 	t_list			**first;
-	char			**command;
+	char			*command;
 }					t_handle;
 
 char			**env_list_to_tab(size_t env_size, t_env *envlst);
@@ -89,7 +89,7 @@ int				can_read(char *file);
 int				can_write(char *file);
 char			*handle_spaces(char *ptr, t_handle *handle);
 char			*handle_special_chars(char *ptr, t_handle *handle);
-void			add_command_to_list(t_handle *handle, char *str, int replace_env);
+void			add_command_to_list(t_handle *handle, char *str);
 /* ************************************************************************** */
 /*                             Parsing                                        */
 /* ************************************************************************** */
