@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 10:23:15 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/23 14:24:44 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/26 16:19:00 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,8 @@ int	redirec_tokenizer(t_list **elem, t_token **new)
 	int		redirec;
 	char	*str;
 
-	if (!(*elem)->next)
-		str = 0;
-	else
+	str = 0;
+	if ((*elem)->next)
 		str = (*elem)->next->content;
 	redirec = 1;
 	if (ft_strcmp((*elem)->content, "<<") == 0)
@@ -74,6 +73,7 @@ int	redirec_tokenizer(t_list **elem, t_token **new)
 		redirec = 0;
 	if (redirec == 1)
 	{
+		free((*elem)->content);
 		(*elem) = (*elem)->next;
 		if (check_after_redirec(str) == 258)
 			return (258);

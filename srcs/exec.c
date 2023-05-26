@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/24 20:02:48 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/26 19:57:03 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	execute(t_parse *parse, t_data *data, int pid)
 		return (1);
 	if (signal(SIGINT, signal_handler) == SIG_ERR)
 		exit(ERROR);
-	return (result);
+	return (result / 256);
 }
 
 int	exec_cmd(t_parse *parse, t_data *data)

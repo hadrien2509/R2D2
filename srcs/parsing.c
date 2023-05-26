@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/24 19:54:18 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/26 19:50:39 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,24 +63,25 @@ static int	create_file(t_Inout **new, t_Inout **inout, t_token *token)
 	if (token->type == 2)
 	{
 		*new = ft_lstnewinout(*new);
+		if (!(*new))
+			return (-1);
 		(*new)->fd = open(token->value, O_RDONLY);
-		(*new)->value = token->value;
-		ft_lstaddinout_back(inout, *new);
 	}
 	else if (token->type == 3)
 	{
 		*new = ft_lstnewinout(*new);
+		if (!(*new))
+			return (-1);
 		(*new)->fd = open(token->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		(*new)->value = token->value;
-		ft_lstaddinout_back(inout, *new);
 	}
 	else
 	{
 		*new = ft_lstnewinout(*new);
+		if (!(*new))
+			return (-1);
 		(*new)->fd = open(token->value, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		(*new)->value = token->value;
-		ft_lstaddinout_back(inout, *new);
 	}
+	ft_lstaddinout_back(inout, *new);
 	if ((*new)->fd == -1)
 		perror(token->value);
 	return ((*new)->fd);
@@ -143,6 +144,8 @@ int	parse_fd(t_token *token, t_parse *cmd, t_data *data)
 			out = 0;
 			cmd = cmd->next;
 		}
+		if (token->type == 2 || token->type == 3 || token->type == 6 || token->type == 4)
+			free(token->value);
 		token = token->next;
 	}
 	cmd->in = in;

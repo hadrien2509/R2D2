@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inout_struct.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:36:52 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/19 10:56:32 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/26 17:59:38 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_Inout	*ft_lstnewinout(t_Inout *prev)
 	if (!new_inout)
 		return (0);
 	new_inout->fd = 0;
+	new_inout->value = 0;
 	new_inout->next = 0;
 	new_inout->prev = prev;
 	return (new_inout);

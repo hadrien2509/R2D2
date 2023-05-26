@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/23 14:24:44 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/25 16:30:29 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ int	cmd_pipes_tokenizer(t_list **elem, t_token **new, t_data *data,
 
 	if (ft_strcmp((*elem)->content, "|") == 0)
 	{
-		*new = ft_lstnewtoken(4, (*elem)->content);
+		free((*elem)->content);
+		*new = ft_lstnewtoken(4, NULL);
 		*arg_need = 0;
 		check = check_after_pipe(elem);
 		if (check == 258 || check == 130)

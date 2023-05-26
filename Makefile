@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+         #
+#    By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/05/24 10:49:24 by sde-smed         ###   ########.fr        #
+#    Updated: 2023/05/26 17:56:11 by hgeissle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,6 @@ NAME = minishell
 
 SRCS = main.c\
 		parsing.c\
-		redirections.c\
 		tokenizer.c\
 		exec.c\
 		token_struct.c\
@@ -48,7 +47,7 @@ READLINE_INC = -I $(READLINE_PATH)/include
 LIBFT_LIB =  -L ./libft -lft
 LIB = $(READLINE_LIB) $(LIBFT_LIB)
 LIBFT	= libft/
-FLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+FLAGS = -Wall -Wextra -Werror 
 INCLUDES = -I includes/ $(READLINE_INC) -I $(LIBFT)
 AR = ar rcs
 RM = rm -f
