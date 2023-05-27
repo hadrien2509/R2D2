@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/25 16:30:29 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/27 16:12:18 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,7 @@ static void	del(void *elem_to_del)
 
 	elem = (t_list *)elem_to_del;
 	if (elem)
-	{
-		free(elem->content);
 		free(elem);
-	}
 }
 
 int	create_tokens(t_data *data, t_token **token)

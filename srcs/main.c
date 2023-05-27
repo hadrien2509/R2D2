@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/26 15:51:20 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/27 18:27:17 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	shell(t_data *data, t_token *token, t_parse *parse)
 		add_history(data->line);
 	token = 0;
 	data->split = split_command(data, data->line);
+	free(data->line);
 	data->exit_status = create_tokens(data, &token);
 	if (data->exit_status == 0)
 	{
@@ -63,7 +64,7 @@ void	shell(t_data *data, t_token *token, t_parse *parse)
 		data->exit_status = parse_fd(token, parse, data);
 	if (data->exit_status == 0)
 		exec_line(parse, data);
-	free(data->line);
+	free_parse(parse);
 	if (data->exit_status == 42)
 		exit(1);
 }

@@ -6,13 +6,14 @@
 #    By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/05/26 17:56:11 by hgeissle         ###   ########.fr        #
+#    Updated: 2023/05/27 17:56:07 by hgeissle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 SRCS = main.c\
+		free.c\
 		parsing.c\
 		tokenizer.c\
 		exec.c\

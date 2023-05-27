@@ -6,45 +6,48 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:15:44 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/23 14:24:44 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/27 18:40:19 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	here_doc(t_Inout *new)
+static void	heredoc_process(t_Inout *new)
 {
-	size_t	len;
 	char	*line;
-	int		pid;
-	int		status;
+	size_t	len;
 	int		cmp;
 
+	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+		exit(ERROR);
+	while (1)
+	{
+		write(1, "heredoc> ", 9);
+		line = get_next_line(0);
+		if (!line)
+			exit(1);
+		len = ft_strlen(line) - 1;
+		cmp = ft_strncmp(line, new->value, len);
+		if (len == ft_strlen(new->value) && !cmp)
+			break ;
+		write(new->fd, line, ft_strlen(line));
+		free(line);
+	}
+	free(line);
+	exit(0);
+}
+
+static int	here_doc(t_Inout *new)
+{
+	int		pid;
+	int		status;
+
 	status = 0;
-	cmp = 0;
 	pid = fork();
 	if (pid == -1)
 		exit(1);
 	if (pid == 0)
-	{
-		if (signal(SIGINT, SIG_DFL) == SIG_ERR)
-			exit(ERROR);
-		while (1)
-		{
-			write(1, "heredoc> ", 9);
-			line = get_next_line(0);
-			if (!line)
-				exit(1);
-			len = ft_strlen(line) - 1;
-			cmp = ft_strncmp(line, new->value, len);
-			if (len == ft_strlen(new->value) && !cmp)
-				break ;
-			write(new->fd, line, ft_strlen(line));
-			free(line);
-		}
-		free(line);
-		exit(status);
-	}
+		heredoc_process(new);
 	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
 		exit(ERROR);
 	if (waitpid(pid, &status, 0) == -1)
