@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/30 01:08:02 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 01:13:47 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*get_binary_path(t_env *env, char *name)
 	free(path_env);
 	if (!ft_nb_split(path_list))
 	{
-		if(path_list)
+		if (path_list)
 			ft_free_split(path_list);
 		return (NULL);
 	}
