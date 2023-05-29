@@ -3,22 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 13:34:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/21 14:57:58 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/29 10:51:48 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
-** Search for the binary path of the given command name
-** in the specified directory.
-** @param path the path to the directory to search in
-** @param name the name of the command to search for
-** @return the binary path if found, NULL otherwise
-*/
 static char	*check_binary_path(char *path, char *name)
 {
 	char	*binary_path;
@@ -37,12 +30,6 @@ static char	*check_binary_path(char *path, char *name)
 	return (NULL);
 }
 
-/*
-** Returns the binary path of the given command name.
-** @param env a linked list of environment variables
-** @param name the name of the command to search for
-** @return the binary path if found, NULL otherwise
-*/
 char	*get_binary_path(t_env *env, char *name)
 {
 	char	**path_list;

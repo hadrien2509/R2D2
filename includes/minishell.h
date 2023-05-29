@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/27 18:27:03 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/29 12:45:44 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,7 @@ t_list			*split_command(t_data *data, char *command);
 void			syntax_error(int error, char *str);
 int				redirec_tokenizer(t_list **elem, t_token **new);
 void			free_parse(t_parse *parse);
-
+int				cmd_pipes_tokenizer(t_list **elem, t_token **new,
+					t_data *data, int *arg_need);
+int				complete_pipe(t_list **elem);
 #endif

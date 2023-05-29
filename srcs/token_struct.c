@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   token_struct.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:38:29 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/23 14:24:44 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/29 12:10:36 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// LEAKS
 t_token	*ft_lstnewtoken(int type, char *value)
 {
 	t_token	*new_lst;

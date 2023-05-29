@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:15:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/22 10:41:48 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/29 10:53:44 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,6 @@ static t_env	*copy_env(t_env *node)
 	return (new_node);
 }
 
-/*
-** Copies a linked list of environment variables.
-** @param head the head of the linked list to copy
-** @return a pointer to the head of the new linked list
-*/
 static t_env	*copy_env_list(t_env *head)
 {
 	t_env	*new_head;
@@ -72,12 +67,6 @@ static t_env	*copy_env_list(t_env *head)
 	return (new_head);
 }
 
-/*
-** Swaps the values of two environment variables.
-** @param a the first variable to swap
-** @param b the second variable to swap
-** @return void
-*/
 static void	swap(t_env *a, t_env *b)
 {
 	char	*tmp;
@@ -90,11 +79,6 @@ static void	swap(t_env *a, t_env *b)
 	b->value = tmp;
 }
 
-/*
-** Sorts a linked list of environment variables in ascending order.
-** @param head a pointer to the head of the linked list to sort
-** @return void
-*/
 static void	sort_list(t_env **head)
 {
 	int		swapped;
@@ -122,13 +106,6 @@ static void	sort_list(t_env **head)
 	}
 }
 
-/*
-** Prints the values of all exportable environment variables
-** in the specified format.
-** @param old_head a pointer to the head of the linked list
-** of environment variables
-** @return 0 if successful, 1 otherwise
-*/
 int	export_print(int fd, t_env *old_head)
 {
 	t_env	*head;

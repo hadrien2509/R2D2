@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/27 18:27:17 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/29 10:33:36 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ int	main(int argc, char *argv[], char *envp[])
 	while (1)
 		shell(&data, token, parse);
 	tcsetattr(STDIN_FILENO, 0, &save);
+	system("leaks minishell");
 	return (0);
 }

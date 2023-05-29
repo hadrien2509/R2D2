@@ -6,17 +6,12 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:08:12 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/23 14:02:11 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/29 13:15:47 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
-** Prints the echo.
-** @param command the array of strings to print
-** @return void
-*/
 static void	print_arguments(int fd, char **command)
 {
 	int	i;
@@ -30,11 +25,6 @@ static void	print_arguments(int fd, char **command)
 	}
 }
 
-/*
-** Checks if the string is composed only of 'n' characters.
-** @param str the string to check
-** @return 1 if the string is composed only of 'n' characters, -1 otherwise
-*/
 static int	check_only_n_chars(const char *str)
 {
 	char	*tmp;
@@ -46,12 +36,6 @@ static int	check_only_n_chars(const char *str)
 	return (1);
 }
 
-/*
-** The built-in echo command prints its arguments separated by a space,
-** with a newline character at the end, unless the -n option is specified.
-** @param command the array of strings representing the arguments of the command
-** @return 0 if successful, -1 otherwise
-*/
 int	builtin_echo(int fd, char **command)
 {
 	int	i;
@@ -63,7 +47,7 @@ int	builtin_echo(int fd, char **command)
 	tmp = 0;
 	if (!command)
 		return (1);
-	while (command[i] && tmp != -1 && command[i][0] == '-')
+	while (command[i] && tmp != -1 && command[i][0] == '-' && command[i][1])
 	{
 		tmp = check_only_n_chars(&command[i][0]);
 		if (tmp == 1)

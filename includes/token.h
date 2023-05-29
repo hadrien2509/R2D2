@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 17:58:46 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/26 17:57:32 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/29 12:44:05 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_Inout
 	char			*value;
 	struct s_Inout	*prev;
 	struct s_Inout	*next;
-}				t_Inout;
+}					t_Inout;
 
 typedef struct s_Parse
 {
@@ -54,16 +54,16 @@ typedef struct s_Parse
 	struct s_Parse	*next;
 }					t_parse;
 
-t_token	*ft_lstnewtoken(int type, char *value);
-t_token	*ft_lstlasttoken(t_token *lst);
-void	ft_lstaddtoken_back(t_token **lst, t_token *new);
+t_token				*ft_lstnewtoken(int type, char *value);
+t_token				*ft_lstlasttoken(t_token *lst);
+void				ft_lstaddtoken_back(t_token **lst, t_token *new);
 
-t_Inout	*ft_lstnewinout(t_Inout *prev);
-t_Inout	*ft_lstlastinout(t_Inout *lst);
-void	ft_lstaddinout_back(t_Inout **lst, t_Inout *new);
+t_Inout				*ft_lstnewinout(t_Inout *prev);
+t_Inout				*ft_lstlastinout(t_Inout *lst);
+void				ft_lstaddinout_back(t_Inout **lst, t_Inout *new);
 
-t_parse	*ft_lstnewcmd(void);
-t_parse	*ft_lstlastcmd(t_parse *lst);
-void	ft_lstaddcmd_back(t_parse **lst, t_parse *new);
+t_parse				*ft_lstnewcmd(void);
+t_parse				*ft_lstlastcmd(t_parse *lst);
+void				ft_lstaddcmd_back(t_parse **lst, t_parse *new);
 
 #endif

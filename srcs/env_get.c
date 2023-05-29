@@ -6,18 +6,12 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 12:19:41 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/23 14:34:09 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/29 10:53:05 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
-** Searches for the node with the given variable name in a linked list.
-** @param env the linked list to search in
-** @param arg the variable name to search for
-** @return the node containing the variable name, NULL if not found
-*/
 t_env	*find_env_node(t_env *env, const char *name)
 {
 	t_env	*current;
@@ -34,12 +28,6 @@ t_env	*find_env_node(t_env *env, const char *name)
 	return (NULL);
 }
 
-/*
-** Returns the previous node of the given node in a linked list.
-** @param env the linked list to search in
-** @param current the current node to find the previous node of
-** @return the previous node, NULL if the given node is the head or not found
-*/
 t_env	*get_previous(t_env *env, t_env *current)
 {
 	t_env	*previous;
@@ -54,12 +42,6 @@ t_env	*get_previous(t_env *env, t_env *current)
 	return (previous);
 }
 
-/*
-** Gets the last node of a linked list.
-** @param env a pointer to the first node of the list,
-	or NULL if the list is empty
-** @return a pointer to the last node of the list, or NULL if the list is empty
-*/
 t_env	*get_last(t_env *env)
 {
 	if (!env)
@@ -69,13 +51,6 @@ t_env	*get_last(t_env *env)
 	return (env);
 }
 
-/*
-** Initializes the data struct with a newly created linked list of environment
-** variables from a null-terminated string array.
-** @param data a pointer to the data struct to initialize
-** @param env the null-terminated string array to copy from
-** @return 0 if successful, -1 if the allocation fails
-*/
 int	init_data(t_data *data, char **env)
 {
 	int		shell_lvl;

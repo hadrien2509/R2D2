@@ -6,16 +6,12 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 10:25:54 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/23 14:03:44 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/29 10:52:53 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
-** Clears the linked list containing environment variables.
-** @param lst the address of a pointer to the first node of the list
-*/
 void	ft_envclear(t_env **lst)
 {
 	t_env	*tmp;
@@ -70,12 +66,6 @@ t_env	*ft_envnew(const char *name, const char *value)
 	return (new);
 }
 
-/*
-** Adds a new environment variable node at the end of a linked list.
-** @param list the address of a pointer to the first node of the list,
-** or NULL if the list is empty
-** @param new a pointer to the new node to add
-*/
 void	ft_envadd_back(t_env **list, t_env *new)
 {
 	t_env	*last;
@@ -93,13 +83,6 @@ void	ft_envadd_back(t_env **list, t_env *new)
 	last->next = new;
 }
 
-/*
-** Deletes the given node in a linked list and frees its memory.
-** @param prev the previous node of the node to be deleted,
-** NULL if the node to be deleted is the head
-** @param to_del the node to be deleted
-** @return 0 if successful, 1 if the node to be deleted is NULL
-*/
 int	del_elem(t_env *prev, t_env *to_del)
 {
 	if (to_del == NULL)

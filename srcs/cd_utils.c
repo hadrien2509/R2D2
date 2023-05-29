@@ -3,20 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:00:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/21 22:45:34 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/29 10:50:38 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
-** Returns the parent directory name of a path.
-** @param path the path to extract the parent directory name from
-** @return the parent directory name of the path
-*/
 static char	*ft_dirname(char *path)
 {
 	char	*last_slash;
@@ -42,12 +37,6 @@ static char	*ft_dirname(char *path)
 	return (path);
 }
 
-/*
-** Joins two paths together by adding a '/' between them.
-** @param current_path the path to add the part to
-** @param part the part to add to the path
-** @return the joined path or NULL if an error occurred
-*/
 static char	*join_paths(char *current_path, char *part)
 {
 	char	*tmp;
@@ -64,12 +53,6 @@ static char	*join_paths(char *current_path, char *part)
 	return (current_path);
 }
 
-/*
-** Builds an absolute path from a current path and an array of parts.
-** @param current_path the current path to start building the absolute path from
-** @param parts the array of parts to add to the current path
-** @return the absolute path or NULL if an error occurred
-*/
 static char	*build_absolute_path(char *current_path, char **parts)
 {
 	char	*path;
@@ -91,12 +74,6 @@ static char	*build_absolute_path(char *current_path, char **parts)
 	return (current_path);
 }
 
-/*
-** Expands the tilde (~) in a path to the user's home directory.
-** @param env the environment variables
-** @param path the path to expand
-** @return the expanded path or NULL if an error occurred
-*/
 static char	*ft_tilde(t_env *env, char *path)
 {
 	char	*home;
@@ -115,13 +92,6 @@ static char	*ft_tilde(t_env *env, char *path)
 	return (new_path);
 }
 
-/*
-** Gets the absolute path of a relative / absolute path by joining it to
-**	the current path.
-** @param current_path the current path to use as a base for the relative path
-** @param relative_path the relative path to get the absolute path for
-** @return the absolute path or NULL if an error occurred
-*/
 char	*get_absolute_path(t_env *env, char *curr_path, char *relative_path)
 {
 	char	**parts;

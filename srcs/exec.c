@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/27 17:33:50 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/29 10:53:31 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//check si il faut pas free des trucs quand il y a une error de sig
 void	handle_io(t_parse *parse)
 {
 	if (parse->in)
@@ -72,7 +71,6 @@ int	exec_cmd(t_parse *parse, t_data *data)
 	return (result);
 }
 
-// 69 -> Ajouter une condition ici
 int	exec_builtins(t_parse *parse, t_data *data, int fd)
 {
 	if (!ft_strcmp(parse->cmd[0], "pwd"))
@@ -96,9 +94,6 @@ int	exec_builtins(t_parse *parse, t_data *data, int fd)
 	return (0);
 }
 
-//110 => printf("exit status = %d\n", data->exit_status);
-// if (parse->cmd && parse->out && parse->out->next)
-// 	redirec(parse);
 void	exec_line(t_parse *parse, t_data *data)
 {
 	while (parse)

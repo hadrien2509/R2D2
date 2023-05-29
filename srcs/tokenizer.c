@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/27 16:12:18 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/29 12:44:56 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,50 +72,6 @@ int	complete_pipe(t_list **elem)
 	return (status);
 }
 
-int	check_after_pipe(t_list **elem)
-{
-	int	error;
-
-	error = 0;
-	if ((*elem)->next == 0)
-		error = complete_pipe(elem);
-	if ((*elem)->next && ft_strcmp((*elem)->next->content, "|") == 0)
-		error = 258;
-	syntax_error(error, "|");
-	return (error);
-}
-
-int	cmd_pipes_tokenizer(t_list **elem, t_token **new, t_data *data,
-		int *arg_need)
-{
-	static t_token	*cmd;
-	int				check;
-
-	if (ft_strcmp((*elem)->content, "|") == 0)
-	{
-		free((*elem)->content);
-		*new = ft_lstnewtoken(4, NULL);
-		*arg_need = 0;
-		check = check_after_pipe(elem);
-		if (check == 258 || check == 130)
-			return (check);
-	}
-	else if (*arg_need == 1)
-	{
-		*new = ft_lstnewtoken(1, (*elem)->content);
-		cmd->arg_nb++;
-	}
-	else
-	{
-		*new = ft_lstnewtoken(0, get_cmd_path((*elem)->content, data));
-		if (!(*new)->value)
-			return (127);
-		*arg_need = 1;
-		cmd = *new;
-	}
-	return (0);
-}
-
 static void	del(void *elem_to_del)
 {
 	t_list	*elem;
@@ -140,12 +96,10 @@ int	create_tokens(t_data *data, t_token **token)
 		check = redirec_tokenizer(&elem, &new);
 		if (check == 0)
 			check = cmd_pipes_tokenizer(&elem, &new, data, &arg_need);
-		if (check == 127)
-			return (127);
+		if (check == 127 || check == 258 || check == 42)
+			return (check);
 		if (check == 130)
 			return (1);
-		if (check == 258)
-			return (258);
 		elem = elem->next;
 		ft_lstaddtoken_back(token, new);
 	}

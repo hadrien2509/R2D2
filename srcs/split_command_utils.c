@@ -3,21 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   split_command_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:58:19 by samy              #+#    #+#             */
-/*   Updated: 2023/05/26 13:00:58 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/29 11:00:09 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
-** Add a command to a linked list.
-** @param handle a pointer to a t_handle structure containing the necessary data.
-** @param str a string containing the command to add.
-** @return void.
-*/
 void	add_command_to_list(t_handle *handle, char *str)
 {
 	t_list	*elem;
@@ -36,12 +30,6 @@ void	add_command_to_list(t_handle *handle, char *str)
 	}
 }
 
-/*
-** Handle special characters: '>', '<' and '|'.
-** @param ptr a pointer to the current character in the command string.
-** @param handle a pointer to a t_handle structure containing the necessary data.
-** @return a pointer to the next character in the command string.
-*/
 char	*handle_special_chars(char *ptr, t_handle *handle)
 {
 	char	*tmp;
@@ -65,12 +53,6 @@ char	*handle_special_chars(char *ptr, t_handle *handle)
 	return (handle->command);
 }
 
-/*
-** Handle spaces in the command string.
-** @param ptr a pointer to the current character in the command string.
-** @param handle a pointer to a t_handle structure containing the necessary data.
-** @return a pointer to the next character in the command string.
-*/
 char	*handle_spaces(char *ptr, t_handle *handle)
 {
 	char	*old_command;

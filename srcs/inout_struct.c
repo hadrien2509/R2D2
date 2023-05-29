@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   inout_struct.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:36:52 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/26 17:59:38 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/29 10:56:50 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// LEAKS dans le malloc
 t_Inout	*ft_lstnewinout(t_Inout *prev)
 {
 	t_Inout	*new_inout;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 10:23:15 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/26 16:19:00 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/29 11:48:30 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,29 +52,35 @@ static int	check_after_redirec(void *str)
 	return (error);
 }
 
+int	check_redirec_token(t_list *elem)
+{
+	if (ft_strcmp(elem->content, "<<") == 0)
+		return (5);
+	else if (ft_strcmp(elem->content, ">>") == 0)
+		return (6);
+	else if (ft_strcmp(elem->content, "<") == 0)
+		return (2);
+	else if (ft_strcmp(elem->content, ">") == 0)
+		return (3);
+	return (0);
+}
+
 int	redirec_tokenizer(t_list **elem, t_token **new)
 {
 	int		redirec;
 	char	*str;
 
-	str = 0;
-	if ((*elem)->next)
+	str = NULL;
+	if ((*elem)->next != NULL)
 		str = (*elem)->next->content;
-	redirec = 1;
-	if (ft_strcmp((*elem)->content, "<<") == 0)
-		*new = ft_lstnewtoken(5, str);
-	else if (ft_strcmp((*elem)->content, ">>") == 0)
-		*new = ft_lstnewtoken(6, str);
-	else if (ft_strcmp((*elem)->content, "<") == 0)
-		*new = ft_lstnewtoken(2, str);
-	else if (ft_strcmp((*elem)->content, ">") == 0)
-		*new = ft_lstnewtoken(3, str);
-	else
-		redirec = 0;
-	if (redirec == 1)
+	redirec = check_redirec_token(*elem);
+	if (redirec != 0)
 	{
+		*new = ft_lstnewtoken(redirec, str);
+		if (*new == NULL)
+			return (42);
 		free((*elem)->content);
-		(*elem) = (*elem)->next;
+		*elem = (*elem)->next;
 		if (check_after_redirec(str) == 258)
 			return (258);
 	}

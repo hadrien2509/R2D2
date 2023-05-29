@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:52:28 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/23 14:08:04 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/29 12:38:40 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,6 @@ static int	update_env(t_env *elem, const char *value, const char *name)
 	return (0);
 }
 
-/*
-** Sets a value to an environment variable.
-** @param env the environment variables list
-** @param name the variable name
-** @param value the new value
-** @return 0 if successful, 1 otherwise
-*/
 int	set_env(t_data *data, const char *name, const char *value)
 {
 	t_env	*elem;
@@ -74,12 +67,6 @@ int	set_env(t_data *data, const char *name, const char *value)
 	return (0);
 }
 
-/*
-** Returns the value of an environment variable.
-** @param env the environment variables list
-** @param var the variable name
-** @return the value of the environment variable, or NULL if it is not found
-*/
 char	*get_env(t_env *env, const char *name)
 {
 	t_env	*elem;
@@ -88,18 +75,16 @@ char	*get_env(t_env *env, const char *name)
 	while (elem)
 	{
 		if (!ft_strcmp(elem->name, name))
-			return (ft_strdup(elem->value));
+		{	
+			if (elem->value)
+				return (ft_strdup(elem->value));
+			return (NULL);
+		}
 		elem = elem->next;
 	}
 	return (NULL);
 }
 
-/*
-** Deletes an environment variable from the list.
-** @param env the environment variables list
-** @param var the variable name
-** @return 0 if successful, 1 otherwise
-*/
 int	del_env(t_env *env, const char *name)
 {
 	t_env	*elem;
@@ -110,11 +95,6 @@ int	del_env(t_env *env, const char *name)
 	return (0);
 }
 
-/*
-** Prints the environment variables.
-** @param env the environment variables list
-** @return 0 if successful, -1 otherwise
-*/
 int	print_env(int fd, t_env *env)
 {
 	t_env	*elem;
