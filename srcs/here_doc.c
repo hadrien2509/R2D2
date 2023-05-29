@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:15:44 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/27 18:40:19 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/29 23:36:56 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	heredoc_process(t_Inout *new)
+static void	heredoc_process(t_in_out *new)
 {
 	char	*line;
 	size_t	len;
@@ -37,7 +37,7 @@ static void	heredoc_process(t_Inout *new)
 	exit(0);
 }
 
-static int	here_doc(t_Inout *new)
+static int	here_doc(t_in_out *new)
 {
 	int		pid;
 	int		status;
@@ -58,7 +58,7 @@ static int	here_doc(t_Inout *new)
 	return (status);
 }
 
-int	create_heredoc(t_Inout **new, t_Inout **in, t_token *token)
+int	create_heredoc(t_in_out **new, t_in_out **in, t_token *token)
 {
 	int	end[2];
 	int	status;

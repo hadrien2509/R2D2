@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/26 19:50:39 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/30 00:41:25 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_parse	*parse_command(t_token *token)
 	return (cmd);
 }
 
-static int	create_file(t_Inout **new, t_Inout **inout, t_token *token)
+int	create_file(t_in_out **new, t_in_out **inout, t_token *token)
 {
 	if (token->type == 2)
 	{
@@ -87,7 +87,7 @@ static int	create_file(t_Inout **new, t_Inout **inout, t_token *token)
 	return ((*new)->fd);
 }
 
-static void	set_pipes(t_parse *cmd)
+void	set_pipes(t_parse *cmd)
 {
 	int	end[2];
 
@@ -99,56 +99,19 @@ static void	set_pipes(t_parse *cmd)
 
 int	parse_fd(t_token *token, t_parse *cmd, t_data *data)
 {
-	t_Inout	*new;
-	t_Inout	*in;
-	t_Inout	*out;
-	int		error;
+	t_parse_fd_data	fd_data;
 
-	in = 0;
-	out = 0;
-	cmd->in = 0;
-	cmd->out = 0;
-	error = 0;
-	while (token)
+	init_parse_fd_data(&fd_data, cmd, token);
+	while (fd_data.token)
 	{
-		if (token->type == 2 && error == 0)
-		{
-			if (create_file(&new, &in, token) == -1)
-			{
-				cmd->cmd = 0;
-				data->exit_status = 1;
-				error = 1;
-			}
-		}
-		else if ((token->type == 3 || token->type == 6) && error == 0)
-		{
-			if (create_file(&new, &out, token) == -1)
-			{
-				cmd->cmd = 0;
-				data->exit_status = 1;
-				error = 1;
-			}
-		}
-		else if (token->type == 5)
-		{
-			if (create_heredoc(&new, &in, token) == 130)
-				return (130);
-		}
-		else if (token->type == 4)
-		{
-			error = 0;
-			set_pipes(cmd);
-			cmd->in = in;
-			cmd->out = out;
-			in = 0;
-			out = 0;
-			cmd = cmd->next;
-		}
-		if (token->type == 2 || token->type == 3 || token->type == 6 || token->type == 4)
-			free(token->value);
-		token = token->next;
+		if (parse_fd_token(fd_data.token, &fd_data, data))
+			return (130);
+		if (fd_data.token->type == 2 || fd_data.token->type == 3
+			|| fd_data.token->type == 6 || fd_data.token->type == 4)
+			free(fd_data.token->value);
+		fd_data.token = fd_data.token->next;
 	}
-	cmd->in = in;
-	cmd->out = out;
-	return (error);
+	fd_data.cmd->in = fd_data.in;
+	fd_data.cmd->out = fd_data.out;
+	return (fd_data.error);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 11:59:24 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/22 10:43:17 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/29 23:56:28 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	export(int fd, t_data *data, char **args)
 	i = -1;
 	if (!args[0])
 		return (export_print(fd, data->env));
-	while (args[++i])
+	while (args[++i] && fd == 1)
 	{
 		result = export_var(data, args[i]);
 		if (result)

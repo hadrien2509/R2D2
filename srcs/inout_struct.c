@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   inout_struct.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:36:52 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/29 10:56:50 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/29 23:36:56 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_Inout	*ft_lstnewinout(t_Inout *prev)
+t_in_out	*ft_lstnewinout(t_in_out *prev)
 {
-	t_Inout	*new_inout;
+	t_in_out	*new_inout;
 
-	new_inout = malloc(sizeof(t_Inout));
+	new_inout = malloc(sizeof(t_in_out));
 	if (!new_inout)
 		return (0);
 	new_inout->fd = 0;
@@ -26,7 +26,7 @@ t_Inout	*ft_lstnewinout(t_Inout *prev)
 	return (new_inout);
 }
 
-t_Inout	*ft_lstlastinout(t_Inout *lst)
+t_in_out	*ft_lstlastinout(t_in_out *lst)
 {
 	while (lst && lst->next)
 	{
@@ -35,9 +35,9 @@ t_Inout	*ft_lstlastinout(t_Inout *lst)
 	return (lst);
 }
 
-void	ft_lstaddinout_back(t_Inout **lst, t_Inout *new)
+void	ft_lstaddinout_back(t_in_out **lst, t_in_out *new)
 {
-	t_Inout	*last;
+	t_in_out	*last;
 
 	if (*lst)
 	{

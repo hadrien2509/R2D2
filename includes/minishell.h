@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/29 19:05:00 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 00:42:38 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,16 +92,12 @@ char			*handle_special_chars(char *ptr, t_handle *handle);
 void			add_command_to_list(t_handle *handle, char *str);
 void			init_handle(t_handle *handle, t_data *data, t_list **first,
 					char *command);
-/* ************************************************************************** */
-/*                             Parsing                                        */
-/* ************************************************************************** */
-
 int				create_tokens(t_data *data, t_token **token);
 t_parse			*parse_command(t_token *token);
 int				parse_fd(t_token *token, t_parse *cmd, t_data *data);
 void			exec_line(t_parse *parse, t_data *data);
 char			*get_binary_path(t_env *env, char *name);
-int				create_heredoc(t_Inout **new, t_Inout **in, t_token *token);
+int				create_heredoc(t_in_out **new, t_in_out **in, t_token *token);
 char			*replace_env_variables(t_data *data, char *command);
 char			*get_cmd_path(char *arg, t_data *data);
 int				check_builtins(char *arg);
@@ -114,4 +110,10 @@ void			free_parse(t_parse *parse);
 int				cmd_pipes_tokenizer(t_list **elem, t_token **new,
 					t_data *data, int *arg_need);
 int				complete_pipe(t_list **elem);
+int				parse_fd_token(t_token *token, t_parse_fd_data *fd_data,
+					t_data *data);
+t_parse_fd_data	*init_parse_fd_data(t_parse_fd_data *fd_data, t_parse *cmd,
+					t_token *token);
+int				create_file(t_in_out **new, t_in_out **inout, t_token *token);
+void			set_pipes(t_parse *cmd);
 #endif

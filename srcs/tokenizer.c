@@ -3,73 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/29 12:44:56 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/29 23:48:31 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	complete_pipe(t_list **elem)
+static int	exec_child(t_pipe_data *data)
 {
-	t_list	*new;
-	char	*str;
-	char	*str_nonl;
-	int		i;
-	int		len;
-	int		pid;
-	int		status;
-	int		end[2];
+	int			i;
 
 	i = 0;
-	status = 0;
-	pipe(end);
+	write(1, "> ", 2);
+	if (signal(SIGINT, &signal_handler_child) == SIG_ERR)
+		exit(ERROR);
+	data->str = get_next_line(0);
+	if (!data->str)
+		exit (-1);
+	data->len = ft_strlen(data->str);
+	data->str_nonl = malloc(sizeof(char) * data->len);
+	if (!data->str_nonl)
+		exit (-1);
+	data->str_nonl[data->len - 1] = '\0';
+	while (data->str[i] != '\n' && data->str[i])
+	{
+		data->str_nonl[i] = data->str[i];
+		i++;
+	}
+	ft_putstr_fd(data->str_nonl, data->end[1]);
+	close(data->end[1]);
+	close(data->end[0]);
+	exit(data->status);
+}
+
+void	set_signal(void)
+{
+	if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
+		exit(ERROR);
+	if (signal(SIGINT, &signal_handler) == SIG_ERR)
+		exit(ERROR);
+}
+
+int	complete_pipe(t_list **elem)
+{
+	t_list		*new;
+	t_pipe_data	data;
+	int			pid;
+
+	data.status = 0;
+	pipe(data.end);
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		exit(ERROR);
 	pid = fork();
 	if (pid == -1)
 		exit(1);
-	if (pid == 0)
-	{
-		write(1, "> ", 2);
-		if (signal(SIGINT, &signal_handler_child) == SIG_ERR)
-			exit(ERROR);
-		str = get_next_line(0);
-		if (!str)
-			return (-1);
-		len = ft_strlen(str);
-		str_nonl = malloc(sizeof(char) * len);
-		if (!str_nonl)
-			return (-1);
-		str_nonl[len - 1] = '\0';
-		while (str[i] != '\n' && str[i])
-		{
-			str_nonl[i] = str[i];
-			i++;
-		}
-		ft_putstr_fd(str_nonl, end[1]);
-		close(end[1]);
-		close(end[0]);
-		exit(status);
-	}
+	else if (pid == 0)
+		exec_child(&data);
 	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
 		exit(ERROR);
-	if (waitpid(pid, &status, 0) == -1)
+	if (waitpid(pid, &data.status, 0) == -1)
 		return (1);
-	if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
-		exit(ERROR);
-	if (signal(SIGINT, &signal_handler) == SIG_ERR)
-		exit(ERROR);
-	close(end[1]);
-	str = get_next_line(end[0]);
-	close(end[0]);
-	if (!str)
-		return (status);
-	new = ft_lstnew(str);
+	close(data.end[1]);
+	data.str = get_next_line(data.end[0]);
+	close(data.end[0]);
+	if (!data.str)
+		return (data.status);
+	new = ft_lstnew(data.str);
 	ft_lstadd_back(elem, new);
-	return (status);
+	return (data.status);
 }
 
 static void	del(void *elem_to_del)

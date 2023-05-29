@@ -6,7 +6,7 @@
 #    By: samy <samy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/05/29 14:49:07 by samy             ###   ########.fr        #
+#    Updated: 2023/05/30 00:41:57 by samy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ SRCS = main.c\
 		check_file.c\
 		split_command_utils.c\
 		tokenizer_utils.c\
-		tokenizer_pipes.c
+		tokenizer_pipes.c\
+		parse_fd.c
 
 SRCS_DIR = srcs
 OBJS_DIR = objs
