@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:00:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/29 10:50:38 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/29 15:11:09 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,11 @@ static char	*join_paths(char *current_path, char *part)
 	char	*tmp;
 
 	tmp = current_path;
-	tmp = ft_strjoin(current_path, "/");
-	free(current_path);
+	if (ft_strcmp(current_path, "/"))
+	{
+		tmp = ft_strjoin(current_path, "/");
+		free(current_path);
+	}
 	if (!tmp)
 		return (NULL);
 	current_path = ft_strjoin(tmp, part);
@@ -59,6 +62,8 @@ static char	*build_absolute_path(char *current_path, char **parts)
 	int		i;
 
 	i = -1;
+	if (!parts[0])
+		return (ft_strdup("/"));
 	while (parts[++i])
 	{
 		if (!ft_strcmp(parts[i], ".."))
@@ -97,9 +102,7 @@ char	*get_absolute_path(t_env *env, char *curr_path, char *relative_path)
 	char	**parts;
 	char	*path;
 
-	if (!relative_path)
-		relative_path = ft_tilde(env, NULL);
-	if (relative_path[0] == '~')
+	if (!relative_path || relative_path[0] == '~')
 		relative_path = ft_tilde(env, relative_path);
 	if (!relative_path)
 		return (NULL);
