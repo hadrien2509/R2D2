@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:58:19 by samy              #+#    #+#             */
-/*   Updated: 2023/05/29 11:00:09 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/29 19:04:37 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,12 @@ char	*handle_spaces(char *ptr, t_handle *handle)
 	handle->command = ft_strdup(ptr);
 	free(old_command);
 	return (handle->command);
+}
+
+void	init_handle(t_handle *handle, t_data *data, t_list **first,
+		char *command)
+{
+	handle->data = data;
+	handle->first = first;
+	handle->command = ft_strdup(command);
 }

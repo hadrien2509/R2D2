@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:41:13 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/29 13:16:23 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/29 19:04:35 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ static char	*handle_quotes(t_data *data, char *ptr, t_handle *handle)
 		*tmp = '\0';
 		if (quote != '\'' && !ft_isempty(ptr))
 			ptr = replace_env_variables(data, ptr);
-		if (!ft_isempty(handle->command))
-			handle->command = replace_env_variables(data, handle->command);
 		size = handle_string_concatenation(handle, ptr, tmp);
 		if (size == -1)
 			return (NULL);
@@ -58,12 +56,16 @@ static char	*handle_quotes(t_data *data, char *ptr, t_handle *handle)
 	return (tmp);
 }
 
-void	init_handle(t_handle *handle, t_data *data, t_list **first,
-		char *command)
+static char	*handle_dollar_env(t_data *data, char *ptr, char c, char *tmp)
 {
-	handle->data = data;
-	handle->first = first;
-	handle->command = ft_strdup(command);
+	char	*new_ptr;
+
+	*tmp = '\0';
+	if (c == '"' || c == '\'')
+		new_ptr = ft_strdup("");
+	else
+		new_ptr = replace_env_variables(data, ptr);
+	return (new_ptr);
 }
 
 static char	*handle_dollar_sign(t_data *data, char *ptr, t_handle *handle)
@@ -78,17 +80,19 @@ static char	*handle_dollar_sign(t_data *data, char *ptr, t_handle *handle)
 	while (*tmp && (ft_isalnum(*tmp) || *tmp == '_' || *tmp == '?'))
 		tmp++;
 	c = *tmp;
-	if ((ptr + 1) && tmp == (ptr + 1))
-		return (++ptr);
 	*tmp = '\0';
-	new_ptr = replace_env_variables(data, ptr);
+	new_ptr = handle_dollar_env(data, ptr, c, tmp);
+	if (!new_ptr)
+		return (NULL);
+	*ptr = '\0';
 	*tmp = c;
-	ptr = tmp;
-	size = ft_strlen(handle->command);
-	size += ft_strlen(new_ptr);
-	if (!ft_join_and_assign(&new_ptr, ptr))
+	ptr = ft_strdup(tmp);
+	size = ft_strlen(handle->command) + ft_strlen(new_ptr);
+	if (!ptr)
 		return (NULL);
 	if (!ft_join_and_assign(&(handle->command), new_ptr))
+		return (NULL);
+	if (!ft_join_and_assign(&(handle->command), ptr))
 		return (NULL);
 	return ((handle->command + size));
 }

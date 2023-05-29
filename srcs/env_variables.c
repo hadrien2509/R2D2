@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:54:25 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/29 12:31:44 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/29 16:36:08 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ char	*replace_env_variables(t_data *data, char *command)
 			return (ft_strdup(++command));
 	if (!*(ptr + 1))
 		return (ft_strdup("$"));
-	if (*(ptr + 1) == '"')
-		return (strdup(""));
+	if (*(ptr + 1) == '"' || *(ptr + 1) == '\'')
+		return (strdup(++command));
 	result = set_env_variable(data, command, ptr);
 	return (result);
 }
