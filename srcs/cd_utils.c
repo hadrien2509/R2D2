@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:00:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/29 15:11:09 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 01:05:46 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ char	*get_absolute_path(t_env *env, char *curr_path, char *relative_path)
 	if (relative_path[0] == '/')
 		curr_path = ft_strdup("");
 	parts = ft_split(relative_path, '/');
+	if (!parts)
+		return (NULL);
 	path = build_absolute_path(curr_path, parts);
 	ft_free_split(parts);
 	return (path);

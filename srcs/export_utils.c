@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:15:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/29 10:53:44 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/30 00:56:52 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static t_env	*copy_env_list(t_env *head)
 	while (head != NULL)
 	{
 		new_node = copy_env(head);
+		if (new_node == NULL)
+			return (NULL);
 		new_node->next = NULL;
 		if (tail == NULL)
 		{

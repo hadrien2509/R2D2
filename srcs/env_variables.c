@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:54:25 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/29 16:36:08 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 01:04:25 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static char	*extract_env_name(t_data *data, char *result, char *ptr, char **tmp)
 	if (*ptr == '?')
 	{
 		*tmp = ft_itoa(data->exit_status);
+		if (*tmp)
+			return (NULL);
 		if (!ft_join_and_assign(&result, *tmp))
 			return (NULL);
 	}
