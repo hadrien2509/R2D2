@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 17:58:46 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 11:36:58 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/30 12:21:57 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ typedef struct s_in_out
 {
 	int				fd;
 	char			*value;
-	struct s_in_out	*prev;
 	struct s_in_out	*next;
 }					t_in_out;
 
@@ -75,7 +74,7 @@ typedef struct s_parse_fd_data
 
 t_token				*ft_lstnewtoken(int type, char *value);
 void				ft_lstaddtoken_back(t_token **lst, t_token *new);
-t_in_out			*ft_lstnewinout(t_in_out *prev);
+t_in_out			*ft_lstnewinout(void);
 t_in_out			*ft_lstlastinout(t_in_out *lst);
 void				ft_lstaddinout_back(t_in_out **lst, t_in_out *new);
 t_parse				*ft_lstnewcmd(void);

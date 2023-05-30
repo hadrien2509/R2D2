@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 11:34:10 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/30 18:03:06 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int		exit_status;
 
 void	signal_handler(int signal)
 {
@@ -21,6 +23,7 @@ void	signal_handler(int signal)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+	exit_status = 1;
 }
 
 void	signal_handler_child(int signal)
@@ -42,7 +45,9 @@ static void	init_signal(void)
 
 static void	shell(t_data *data, t_token *token, t_parse *parse)
 {
+	exit_status = 0;
 	data->line = readline(PROMPT);
+	data->exit_status = exit_status;
 	if (!data->line)
 	{
 		printf("exit\n");
@@ -53,20 +58,23 @@ static void	shell(t_data *data, t_token *token, t_parse *parse)
 	token = 0;
 	data->split = split_command(data, data->line);
 	free(data->line);
-	data->exit_status = create_tokens(data, &token);
-	if (data->exit_status == 0)
+	if (data->split)
 	{
-		parse = parse_command(token);
-		if (!parse)
+		data->exit_status = create_tokens(data, &token);
+		if (data->exit_status == 0)
+		{
+			parse = parse_command(token);
+			if (!parse)
+				exit(1);
+		}
+		if (data->exit_status == 0)
+			data->exit_status = parse_fd(token, parse, data);
+		if (data->exit_status == 0)
+			exec_line(parse, data);
+		free_parse(parse);
+		if (data->exit_status == 42)
 			exit(1);
 	}
-	if (data->exit_status == 0)
-		data->exit_status = parse_fd(token, parse, data);
-	if (data->exit_status == 0)
-		exec_line(parse, data);
-	free_parse(parse);
-	if (data->exit_status == 42)
-		exit(1);
 }
 
 int	main(int argc, char *argv[], char *envp[])

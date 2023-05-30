@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   inout_struct.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:36:52 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 00:57:39 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 12:22:11 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_in_out	*ft_lstnewinout(t_in_out *prev)
+t_in_out	*ft_lstnewinout(void)
 {
 	t_in_out	*new_inout;
 
@@ -22,7 +22,6 @@ t_in_out	*ft_lstnewinout(t_in_out *prev)
 	new_inout->fd = 0;
 	new_inout->value = 0;
 	new_inout->next = 0;
-	new_inout->prev = prev;
 	return (new_inout);
 }
 

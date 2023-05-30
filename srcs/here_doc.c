@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:15:44 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/29 23:36:56 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 14:40:53 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	heredoc_process(t_in_out *new)
 	size_t	len;
 	int		cmp;
 
-	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+	if (signal(SIGINT, &signal_handler_child) == SIG_ERR)
 		exit(ERROR);
 	while (1)
 	{
@@ -55,7 +55,7 @@ static int	here_doc(t_in_out *new)
 	if (signal(SIGINT, signal_handler) == SIG_ERR)
 		exit(ERROR);
 	close(new->fd);
-	return (status);
+	return (status / 256);
 }
 
 int	create_heredoc(t_in_out **new, t_in_out **in, t_token *token)
@@ -64,7 +64,7 @@ int	create_heredoc(t_in_out **new, t_in_out **in, t_token *token)
 	int	status;
 
 	pipe(end);
-	*new = ft_lstnewinout(*new);
+	*new = ft_lstnewinout();
 	(*new)->fd = end[1];
 	(*new)->value = token->value;
 	status = here_doc(*new);

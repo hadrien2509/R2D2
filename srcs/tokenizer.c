@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 11:41:19 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/30 16:18:08 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,20 @@ static int	exec_child(t_pipe_data *data)
 	int			i;
 
 	i = 0;
-	write(1, "> ", 2);
-	if (signal(SIGINT, &signal_handler_child) == SIG_ERR)
+	if (signal(SIGINT, signal_handler_child) == SIG_ERR)
 		exit(ERROR);
-	data->str = get_next_line(0);
-	if (!data->str)
-		exit (-1);
-	data->len = ft_strlen(data->str);
+	data->str = 0;
+	data->len = 1;
+	while (data->len == 1)
+	{
+		if (data->str)
+			free(data->str);
+		write(1, "> ", 2);
+		data->str = get_next_line(0);
+		if (!data->str)
+			exit (-1);
+		data->len = ft_strlen(data->str);
+	}
 	data->str_nonl = malloc(sizeof(char) * data->len);
 	if (!data->str_nonl)
 		exit (-1);
@@ -33,12 +40,12 @@ static int	exec_child(t_pipe_data *data)
 		data->str_nonl[i] = data->str[i];
 		i++;
 	}
+	free(data->str);
 	ft_putstr_fd(data->str_nonl, data->end[1]);
 	close(data->end[1]);
 	close(data->end[0]);
-	exit(data->status);
+	exit(0);
 }
-
 
 int	complete_pipe(t_list **elem)
 {
@@ -48,8 +55,6 @@ int	complete_pipe(t_list **elem)
 
 	data.status = 0;
 	pipe(data.end);
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-		exit(ERROR);
 	pid = fork();
 	if (pid == -1)
 		exit(1);
@@ -59,14 +64,16 @@ int	complete_pipe(t_list **elem)
 		exit(ERROR);
 	if (waitpid(pid, &data.status, 0) == -1)
 		return (1);
+	if (signal(SIGINT, &signal_handler) == SIG_ERR)
+		exit(ERROR);
 	close(data.end[1]);
 	data.str = get_next_line(data.end[0]);
 	close(data.end[0]);
 	if (!data.str)
-		return (data.status);
+		return (data.status / 256);
 	new = ft_lstnew(data.str);
 	ft_lstadd_back(elem, new);
-	return (data.status);
+	return (data.status / 256);
 }
 
 static void	del(void *elem_to_del)

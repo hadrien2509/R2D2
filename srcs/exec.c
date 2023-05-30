@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 11:32:17 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/30 13:05:07 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	execute(t_parse *parse, t_data *data, int pid)
 		return (1);
 	if (pid == 0)
 	{
+		if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
+			exit(ERROR);
 		handle_io(parse);
 		env_list = env_list_to_tab(data->env_size, data->env);
 		if (!env_list)
@@ -47,6 +49,10 @@ int	execute(t_parse *parse, t_data *data, int pid)
 		exit(ERROR);
 	if (waitpid(pid, &result, 0) == -1)
 		return (1);
+	if (result == SIGINT)
+		result = 130 * 256;
+	else if (result == SIGQUIT)
+		result = 131 * 256;
 	if (signal(SIGINT, signal_handler) == SIG_ERR)
 		exit(ERROR);
 	return (result / 256);

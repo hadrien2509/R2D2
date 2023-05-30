@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 00:58:35 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 14:34:07 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,21 @@ int	create_file(t_in_out **new, t_in_out **inout, t_token *token)
 {
 	if (token->type == 2)
 	{
-		*new = ft_lstnewinout(*new);
+		*new = ft_lstnewinout();
 		if (!(*new))
 			return (-1);
 		(*new)->fd = open(token->value, O_RDONLY);
 	}
 	else if (token->type == 3)
 	{
-		*new = ft_lstnewinout(*new);
+		*new = ft_lstnewinout();
 		if (!(*new))
 			return (-1);
 		(*new)->fd = open(token->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	}
 	else
 	{
-		*new = ft_lstnewinout(*new);
+		*new = ft_lstnewinout();
 		if (!(*new))
 			return (-1);
 		(*new)->fd = open(token->value, O_CREAT | O_WRONLY | O_APPEND, 0644);
@@ -105,7 +105,7 @@ int	parse_fd(t_token *token, t_parse *cmd, t_data *data)
 	while (fd_data.token)
 	{
 		if (parse_fd_token(fd_data.token, &fd_data, data))
-			return (130);
+			return (1);
 		if (fd_data.token->type == 2 || fd_data.token->type == 3
 			|| fd_data.token->type == 6 || fd_data.token->type == 4)
 			free(fd_data.token->value);
