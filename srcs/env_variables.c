@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:54:25 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 11:34:48 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/30 13:55:18 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*replace_env_variables(t_data *data, char *command)
 		if (ptr != command || !*(ptr - 2) || *(ptr - 2) != '\\')
 			return (ft_strdup(++command));
 	if (!*(ptr + 1))
-		return (ft_strdup("$"));
+		return (ft_strdup(command));
 	if (*(ptr + 1) == '"' || *(ptr + 1) == '\'')
 		return (strdup(++command));
 	result = set_env_variable(data, command, ptr);
