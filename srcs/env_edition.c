@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_edition.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 10:25:54 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/30 00:53:14 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 11:26:49 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_envclear(t_env **lst)
 	}
 }
 
-int	allocate_memory(t_env *new, const char *name, const char *value)
+static int	allocate_memory(t_env *new, const char *name, const char *value)
 {
 	new->name = ft_strdup(name);
 	if (!new->name)

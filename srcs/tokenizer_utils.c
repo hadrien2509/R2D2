@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 10:23:15 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/29 11:48:30 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/30 11:38:06 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	check_after_redirec(void *str)
 	return (error);
 }
 
-int	check_redirec_token(t_list *elem)
+static int	check_redirec_token(t_list *elem)
 {
 	if (ft_strcmp(elem->content, "<<") == 0)
 		return (5);

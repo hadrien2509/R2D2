@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:41:13 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/30 01:03:40 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 11:17:08 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ static char	*handle_dollar_sign(t_data *data, char *ptr, t_handle *handle)
 	*ptr = '\0';
 	*tmp = c;
 	ptr = ft_strdup(tmp);
-	size = ft_strlen(handle->command) + ft_strlen(new_ptr);
 	if (!ptr)
 		return (NULL);
+	size = ft_strlen(handle->command) + ft_strlen(new_ptr);
 	if (!ft_join_and_assign(&(handle->command), new_ptr))
 		return (NULL);
 	if (!ft_join_and_assign(&(handle->command), ptr))

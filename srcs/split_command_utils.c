@@ -3,49 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   split_command_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:58:19 by samy              #+#    #+#             */
-/*   Updated: 2023/05/29 19:04:37 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 11:19:02 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	add_command_to_list(t_handle *handle, char *str)
+int	add_command_to_list(t_handle *handle, char *str)
 {
 	t_list	*elem;
 
 	if (!ft_isempty(str))
 	{
 		if (ft_isempty(str))
-			return ;
+			return (42);
 		elem = ft_lstnew(ft_strdup(str));
 		if (!elem)
-			return ;
+			return (42);
 		if (!*(handle->first))
 			*(handle->first) = elem;
 		else
 			ft_lstadd_back(handle->first, elem);
 	}
+	return (0);
 }
 
 char	*handle_special_chars(char *ptr, t_handle *handle)
 {
 	char	*tmp;
 	char	c;
+	int		result;
 
 	tmp = ptr;
 	c = *ptr;
 	*(ptr) = '\0';
-	add_command_to_list(handle, handle->command);
+	result = add_command_to_list(handle, handle->command);
+	if (result)
+		return (NULL);
 	*ptr = c;
 	ptr++;
 	if (c != '|' && *ptr == c)
 		ptr++;
 	c = *ptr;
 	*(ptr) = '\0';
-	add_command_to_list(handle, tmp);
+	result = add_command_to_list(handle, tmp);
+	if (result)
+		return (NULL);
 	*(ptr) = c;
 	tmp = handle->command;
 	handle->command = ft_strdup(ptr);

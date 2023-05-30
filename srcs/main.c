@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/29 10:33:36 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/30 11:34:10 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	signal_handler_child(int signal)
 	}
 }
 
-void	init_signal(void)
+static void	init_signal(void)
 {
 	if (signal(SIGINT, signal_handler) == SIG_ERR)
 		exit(print_error("error", "handle signal failed", NULL, 1));
@@ -40,7 +40,7 @@ void	init_signal(void)
 		exit(print_error("error", "ignore signal failed", NULL, 1));
 }
 
-void	shell(t_data *data, t_token *token, t_parse *parse)
+static void	shell(t_data *data, t_token *token, t_parse *parse)
 {
 	data->line = readline(PROMPT);
 	if (!data->line)
@@ -92,6 +92,5 @@ int	main(int argc, char *argv[], char *envp[])
 	while (1)
 		shell(&data, token, parse);
 	tcsetattr(STDIN_FILENO, 0, &save);
-	system("leaks minishell");
 	return (0);
 }

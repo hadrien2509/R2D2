@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 00:42:38 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 11:18:26 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int				can_read(char *file);
 int				can_write(char *file);
 char			*handle_spaces(char *ptr, t_handle *handle);
 char			*handle_special_chars(char *ptr, t_handle *handle);
-void			add_command_to_list(t_handle *handle, char *str);
+int				add_command_to_list(t_handle *handle, char *str);
 void			init_handle(t_handle *handle, t_data *data, t_list **first,
 					char *command);
 int				create_tokens(t_data *data, t_token **token);

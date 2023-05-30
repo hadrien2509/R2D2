@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:54:25 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 01:04:25 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 11:34:48 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*extract_env_name(t_data *data, char *result, char *ptr, char **tmp)
 	if (*ptr == '?')
 	{
 		*tmp = ft_itoa(data->exit_status);
-		if (*tmp)
+		if (!*tmp)
 			return (NULL);
 		if (!ft_join_and_assign(&result, *tmp))
 			return (NULL);
@@ -57,12 +57,14 @@ static char	*extract_env_name(t_data *data, char *result, char *ptr, char **tmp)
 	return (result);
 }
 
-char	*set_env_variable(t_data *data, char *command, char *ptr)
+static char	*set_env_variable(t_data *data, char *command, char *ptr)
 {
 	char	*result;
 	char	*tmp;
 
 	result = ft_strdup("");
+	if (!result)
+		return (NULL);
 	while (ptr && *ptr)
 	{
 		tmp = NULL;

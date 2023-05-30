@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_struct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:37:34 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 00:51:54 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 11:25:39 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_parse	*ft_lstnewcmd(void)
 	return (new_lst);
 }
 
-t_parse	*ft_lstlastcmd(t_parse *lst)
+static t_parse	*ft_lstlastcmd(t_parse *lst)
 {
 	while (lst && lst->next)
 		lst = lst->next;

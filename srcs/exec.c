@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/29 23:55:36 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 11:32:17 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	handle_io(t_parse *parse)
+static void	handle_io(t_parse *parse)
 {
 	if (parse->in)
 		dup2(parse->in->fd, 0);
@@ -52,7 +52,7 @@ int	execute(t_parse *parse, t_data *data, int pid)
 	return (result / 256);
 }
 
-int	exec_cmd(t_parse *parse, t_data *data)
+static int	exec_cmd(t_parse *parse, t_data *data)
 {
 	int		child;
 	int		result;
@@ -71,7 +71,7 @@ int	exec_cmd(t_parse *parse, t_data *data)
 	return (result);
 }
 
-int	exec_builtins(t_parse *parse, t_data *data, int fd)
+static int	exec_builtins(t_parse *parse, t_data *data, int fd)
 {
 	if (!ft_strcmp(parse->cmd[0], "pwd"))
 	{

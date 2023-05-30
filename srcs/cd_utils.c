@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:00:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/30 01:05:46 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 11:09:46 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static char	*build_absolute_path(char *current_path, char **parts)
 	int		i;
 
 	i = -1;
+	if (!current_path)
+		return (NULL);
 	if (!parts[0])
 		return (ft_strdup("/"));
 	while (parts[++i])

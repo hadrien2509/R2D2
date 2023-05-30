@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_struct.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:38:29 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 00:59:21 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 11:36:24 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_token	*ft_lstnewtoken(int type, char *value)
 	return (new_lst);
 }
 
-t_token	*ft_lstlasttoken(t_token *lst)
+static t_token	*ft_lstlasttoken(t_token *lst)
 {
 	while (lst && lst->next)
 	{

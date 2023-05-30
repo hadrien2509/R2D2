@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 17:58:46 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 00:42:51 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 11:36:58 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ typedef enum s_token_type
 	TOKEN_END
 }					t_token_type;
 
-typedef struct s_Token
+typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
 	int				arg_nb;
-	struct s_Token	*prev;
-	struct s_Token	*next;
+	struct s_token	*prev;
+	struct s_token	*next;
 }					t_token;
 
 typedef struct s_in_out
@@ -74,13 +74,11 @@ typedef struct s_parse_fd_data
 }					t_parse_fd_data;
 
 t_token				*ft_lstnewtoken(int type, char *value);
-t_token				*ft_lstlasttoken(t_token *lst);
 void				ft_lstaddtoken_back(t_token **lst, t_token *new);
 t_in_out			*ft_lstnewinout(t_in_out *prev);
 t_in_out			*ft_lstlastinout(t_in_out *lst);
 void				ft_lstaddinout_back(t_in_out **lst, t_in_out *new);
 t_parse				*ft_lstnewcmd(void);
-t_parse				*ft_lstlastcmd(t_parse *lst);
 void				ft_lstaddcmd_back(t_parse **lst, t_parse *new);
 
 #endif

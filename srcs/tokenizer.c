@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 01:00:17 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/30 11:41:19 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,6 @@ static int	exec_child(t_pipe_data *data)
 	exit(data->status);
 }
 
-void	set_signal(void)
-{
-	if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
-		exit(ERROR);
-	if (signal(SIGINT, &signal_handler) == SIG_ERR)
-		exit(ERROR);
-}
 
 int	complete_pipe(t_list **elem)
 {
