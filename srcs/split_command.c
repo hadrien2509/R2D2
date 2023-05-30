@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:41:13 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/30 12:39:36 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/30 14:00:50 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static char	*handle_dollar_sign(t_data *data, char *ptr, t_handle *handle)
 		tmp++;
 	c = *tmp;
 	*tmp = '\0';
-	new_ptr = handle_dollar_env(data, ptr, c);
+	new_ptr = handle_dollar_env(data, handle->command, c);
 	if (!new_ptr)
 		return (NULL);
 	*ptr = '\0';
@@ -88,9 +88,9 @@ static char	*handle_dollar_sign(t_data *data, char *ptr, t_handle *handle)
 	ptr = ft_strdup(tmp);
 	if (!ptr)
 		return (NULL);
-	size = ft_strlen(handle->command) + ft_strlen(new_ptr);
-	if (!ft_join_and_assign(&(handle->command), new_ptr))
-		return (NULL);
+	free(handle->command);
+	handle->command = new_ptr;
+	size = ft_strlen(new_ptr);
 	if (!ft_join_and_assign(&(handle->command), ptr))
 		return (NULL);
 	return ((handle->command + size));
