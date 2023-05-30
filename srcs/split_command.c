@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:41:13 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/30 11:17:08 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/30 12:39:36 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,11 @@ static char	*handle_quotes(t_data *data, char *ptr, t_handle *handle)
 	return (tmp);
 }
 
-static char	*handle_dollar_env(t_data *data, char *ptr, char c, char *tmp)
+static char	*handle_dollar_env(t_data *data, char *ptr, char c)
 {
 	char	*new_ptr;
 
-	*tmp = '\0';
-	if (c == '"' || c == '\'')
+	if (!ft_strcmp(ptr, "$") && (c == '"' || c == '\''))
 		new_ptr = ft_strdup("");
 	else
 		new_ptr = replace_env_variables(data, ptr);
@@ -81,7 +80,7 @@ static char	*handle_dollar_sign(t_data *data, char *ptr, t_handle *handle)
 		tmp++;
 	c = *tmp;
 	*tmp = '\0';
-	new_ptr = handle_dollar_env(data, ptr, c, tmp);
+	new_ptr = handle_dollar_env(data, ptr, c);
 	if (!new_ptr)
 		return (NULL);
 	*ptr = '\0';
