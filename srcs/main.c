@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 11:34:10 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/30 12:16:13 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	shell(t_data *data, t_token *token, t_parse *parse)
 		exec_line(parse, data);
 	free_parse(parse);
 	if (data->exit_status == 42)
-		exit(1);
+		exit(print_error("error", "malloc faild", NULL, 1));
 }
 
 int	main(int argc, char *argv[], char *envp[])
