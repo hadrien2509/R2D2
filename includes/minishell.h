@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 11:18:26 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/30 12:00:13 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 # define ERROR 1
 # define SUCCESS 0
-# define PROMPT "minishell_beta-0.1$ "
+# define PROMPT "minihell🔥 "
 
 typedef struct s_env
 {
