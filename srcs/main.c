@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/31 14:47:08 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/31 19:13:35 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,12 @@ static void	shell(t_data *data, t_token *token, t_parse *parse)
 		}
 		if (data->exit_status == 0)
 			data->exit_status = parse_fd(token, parse, data);
+		free_tokens(token);
 		if (data->exit_status == 0)
 			exec_line(parse, data);
 		free_parse(parse);
 		if (data->exit_status == 42)
-			exit(print_error("error", "malloc faild", NULL, 1));
+			exit(print_error("error", "malloc failed", NULL, 1));
 	}
 }
 
