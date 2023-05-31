@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 13:05:07 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:00:59 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ int	execute(t_parse *parse, t_data *data, int pid)
 		exit(ERROR);
 	if (waitpid(pid, &result, 0) == -1)
 		return (1);
+	if (signal(SIGINT, signal_handler) == SIG_ERR)
+		exit(ERROR);
 	if (result == SIGINT)
 		result = 130 * 256;
 	else if (result == SIGQUIT)
 		result = 131 * 256;
-	if (signal(SIGINT, signal_handler) == SIG_ERR)
-		exit(ERROR);
 	return (result / 256);
 }
 

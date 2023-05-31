@@ -6,13 +6,13 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 18:08:26 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:05:40 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		exit_status;
+int		g_exit_status;
 
 void	signal_handler(int signal)
 {
@@ -23,7 +23,7 @@ void	signal_handler(int signal)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	exit_status = 1;
+	g_exit_status = 1;
 }
 
 void	signal_handler_child(int signal)
@@ -45,9 +45,12 @@ static void	init_signal(void)
 
 static void	shell(t_data *data, t_token *token, t_parse *parse)
 {
-	exit_status = 0;
 	data->line = readline(PROMPT);
-	data->exit_status = exit_status;
+	if (g_exit_status == 1)
+	{
+		data->exit_status = g_exit_status;
+		g_exit_status = 0;
+	}
 	if (!data->line)
 	{
 		printf("exit\n");
@@ -97,6 +100,7 @@ int	main(int argc, char *argv[], char *envp[])
 		return (print_error("error", "init_data failed", NULL, 1));
 	token = NULL;
 	parse = NULL;
+	g_exit_status = 0;
 	while (1)
 		shell(&data, token, parse);
 	tcsetattr(STDIN_FILENO, 0, &save);
