@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+         #
+#    By: samy <samy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/05/31 15:01:26 by hgeissle         ###   ########.fr        #
+#    Updated: 2023/05/31 20:32:01 by samy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ READLINE_INC = -I $(READLINE_PATH)/include
 LIBFT_LIB =  -L ./libft -lft
 LIB = $(READLINE_LIB) $(LIBFT_LIB)
 LIBFT	= libft/
-FLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+FLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
 INCLUDES = -I includes/ $(READLINE_INC) -I $(LIBFT)
 AR = ar rcs
 RM = rm -f

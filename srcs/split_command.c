@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:41:13 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/30 14:00:50 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/31 23:05:19 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,16 @@ static char	*handle_quotes(t_data *data, char *ptr, t_handle *handle)
 static char	*handle_dollar_env(t_data *data, char *ptr, char c)
 {
 	char	*new_ptr;
+	char	*tmp;
 
-	if (!ft_strcmp(ptr, "$") && (c == '"' || c == '\''))
-		new_ptr = ft_strdup("");
+	tmp = ptr;
+	while ((tmp + 1) && *(tmp + 1))
+		tmp++;
+	if (*tmp == '$' && (c == '"' || c == '\''))
+	{
+		*tmp = '\0';
+		new_ptr = ft_strdup(ptr);
+	}
 	else
 		new_ptr = replace_env_variables(data, ptr);
 	return (new_ptr);
@@ -105,7 +112,7 @@ t_list	*split_command(t_data *data, char *cmd)
 	first = NULL;
 	init_handle(&handle, data, &first, cmd);
 	ptr = handle.command;
-	while (ptr && *ptr && *ptr != '#')
+	while (ptr && *ptr)
 	{
 		if (*ptr == '>' || *ptr == '<' || *ptr == '|')
 			ptr = handle_special_chars(ptr, &handle);
@@ -118,8 +125,6 @@ t_list	*split_command(t_data *data, char *cmd)
 		else
 			ptr++;
 	}
-	if (ptr && *ptr && *ptr == '#')
-		*ptr = '\0';
 	add_command_to_list(&handle, handle.command);
 	free(handle.command);
 	return (first);
