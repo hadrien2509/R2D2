@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 12:00:13 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/31 17:21:29 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # define ERROR 1
 # define SUCCESS 0
 # define PROMPT "minihell🔥 "
+
+int	g_exit_status;
 
 typedef struct s_env
 {
@@ -116,4 +118,6 @@ t_parse_fd_data	*init_parse_fd_data(t_parse_fd_data *fd_data, t_parse *cmd,
 					t_token *token);
 int				create_file(t_in_out **new, t_in_out **inout, t_token *token);
 void			set_pipes(t_parse *cmd);
+int				execute(t_parse *parse, t_data *data, int pid);
+
 #endif

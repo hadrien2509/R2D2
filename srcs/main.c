@@ -6,34 +6,11 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/31 14:05:40 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:47:08 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int		g_exit_status;
-
-void	signal_handler(int signal)
-{
-	if (signal == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-	g_exit_status = 1;
-}
-
-void	signal_handler_child(int signal)
-{
-	if (signal == SIGINT)
-	{
-		write(1, "\n", 1);
-		exit(130);
-	}
-}
 
 static void	init_signal(void)
 {
@@ -43,7 +20,7 @@ static void	init_signal(void)
 		exit(print_error("error", "ignore signal failed", NULL, 1));
 }
 
-static void	shell(t_data *data, t_token *token, t_parse *parse)
+static void	prompt_line(t_data *data)
 {
 	data->line = readline(PROMPT);
 	if (g_exit_status == 1)
@@ -58,9 +35,14 @@ static void	shell(t_data *data, t_token *token, t_parse *parse)
 	}
 	if (!ft_isempty(data->line))
 		add_history(data->line);
-	token = 0;
 	data->split = split_command(data, data->line);
 	free(data->line);
+}
+
+static void	shell(t_data *data, t_token *token, t_parse *parse)
+{
+	prompt_line(data);
+	token = 0;
 	if (data->split)
 	{
 		data->exit_status = create_tokens(data, &token);

@@ -3,17 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: samy <samy@student.42.fr>                  +#+  +:+       +#+         #
+#    By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/05/30 00:44:49 by samy             ###   ########.fr        #
+#    Updated: 2023/05/31 15:01:26 by hgeissle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 SRCS = main.c\
+		signals.c\
 		free.c\
+		execute_fct.c\
 		parsing.c\
 		tokenizer.c\
 		exec.c\

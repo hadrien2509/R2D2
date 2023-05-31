@@ -6,17 +6,31 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 16:18:08 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/31 17:15:32 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	exec_child(t_pipe_data *data)
+static void	strdup_nonl(t_pipe_data *data)
 {
-	int			i;
+	int		i;
 
 	i = 0;
+	data->str_nonl = malloc(sizeof(char) * data->len);
+	if (!data->str_nonl)
+		exit (-1);
+	data->str_nonl[data->len - 1] = '\0';
+	while (data->str[i] != '\n' && data->str[i])
+	{
+		data->str_nonl[i] = data->str[i];
+		i++;
+	}
+	free(data->str);
+}
+
+static int	exec_child(t_pipe_data *data)
+{
 	if (signal(SIGINT, signal_handler_child) == SIG_ERR)
 		exit(ERROR);
 	data->str = 0;
@@ -31,16 +45,7 @@ static int	exec_child(t_pipe_data *data)
 			exit (-1);
 		data->len = ft_strlen(data->str);
 	}
-	data->str_nonl = malloc(sizeof(char) * data->len);
-	if (!data->str_nonl)
-		exit (-1);
-	data->str_nonl[data->len - 1] = '\0';
-	while (data->str[i] != '\n' && data->str[i])
-	{
-		data->str_nonl[i] = data->str[i];
-		i++;
-	}
-	free(data->str);
+	strdup_nonl(data);
 	ft_putstr_fd(data->str_nonl, data->end[1]);
 	close(data->end[1]);
 	close(data->end[0]);
