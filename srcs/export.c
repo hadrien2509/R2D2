@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 11:59:24 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/30 11:06:39 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/31 23:03:21 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ static int	export_var(t_data *data, char *arg)
 
 	result = 0;
 	value = arg;
+	if (*arg == '-')
+		return (print_error("export", "invalid option", arg, 2));
 	if (!(*arg == '_') && !ft_isalpha(*arg))
 		return (print_error("export", "not a valid identifier", arg, 1));
-	while (*value && *value != '=')
-	{
-		if (!(*value == '_') && !ft_isalnum(*value))
-			return (print_error("export", "not a valid identifier", arg, 1));
+	while (*value && *value != '=' && (*value == '_' || ft_isalnum(*value)))
 		value++;
-	}
-	value = ft_strchr(arg, '=');
+	if (value && *value && *value != '=')
+		if (*value != '+' || *(value + 1) != '=')
+			return (print_error("export", "not a valid identifier", arg, 1));
 	if (value && ++value)
 	{
 		*(value - 1) = 0;

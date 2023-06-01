@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:58:19 by samy              #+#    #+#             */
-/*   Updated: 2023/05/30 11:19:02 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/05/31 23:26:04 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ char	*handle_spaces(char *ptr, t_handle *handle)
 {
 	char	*old_command;
 
+	*ptr = 0;
+	ptr++;
 	while (ft_is_space(*ptr))
 		ptr++;
 	*(ptr - 1) = '\0';

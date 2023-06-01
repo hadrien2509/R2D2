@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:25:03 by samy              #+#    #+#             */
-/*   Updated: 2023/05/29 15:01:43 by samy             ###   ########.fr       */
+/*   Updated: 2023/05/31 23:17:42 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,28 @@
 
 int	unset(t_env *env, char **names)
 {
-	int	i;
+	int		i;
+	char	*arg;
 
 	i = -1;
+	if (names[0] && *(names[0]) == '-')
+		return (print_error("export", "invalid option", names[0], 2));
 	while (names[++i])
+	{
+		arg = names[i];
+		if (ft_isempty(arg))
+			return (1);
+		if (!(*arg == '_') && !ft_isalpha(*arg))
+			return (print_error("export", "not a valid identifier", arg, 1));
+		while (*arg)
+		{
+			if (!ft_isalnum(*arg) && *arg != '_')
+				return (print_error("export", "not a valid identifier", arg,
+						1));
+			arg++;
+		}
 		del_env(env, names[i]);
+	}
 	return (0);
 }
 
