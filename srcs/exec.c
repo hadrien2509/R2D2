@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/01 13:02:24 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:04:53 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static int	exec_cmd(t_parse *parse, t_data *data)
 		return (print_error("minishell", "is a directory", cmd, 126));
 	if (!can_execute(cmd))
 		return (print_error("minishell", "Permission denied", cmd, 126));
-	data->family++;
 	child = fork();
 	result = execute(parse, data, child);
 	if (parse->pipe_out)
@@ -55,6 +54,29 @@ static int	exec_builtins(t_parse *parse, t_data *data, int fd)
 	return (0);
 }
 
+static void	wait_process(t_data *data)
+{
+	int	result;
+
+	if (data->family)
+	{
+		while (data->family)
+		{
+			if (waitpid(*((int *)data->family->content), &result, 0) == -1)
+				exit(1);
+			data->family = data->family->next;
+		}
+		if (signal(SIGINT, signal_handler) == SIG_ERR)
+			exit(ERROR);
+		if (result == SIGINT)
+			data->exit_status = 130;
+		else if (result == SIGQUIT)
+			data->exit_status = 131;
+		else
+			data->exit_status = result / 256;
+	}
+}
+
 void	exec_line(t_parse *parse, t_data *data)
 {
 	while (parse)
@@ -81,4 +103,5 @@ void	exec_line(t_parse *parse, t_data *data)
 			close(parse->pipe_out);
 		parse = parse->next;
 	}
+	wait_process(data);
 }

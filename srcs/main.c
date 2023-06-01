@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/01 11:11:54 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:38:30 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	shell(t_data *data, t_token *token, t_parse *parse)
 {
 	prompt_line(data);
 	token = 0;
+	data->family = 0;
 	if (data->split)
 	{
 		data->exit_status = create_tokens(data, &token);

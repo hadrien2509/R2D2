@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/01 13:46:32 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:37:41 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_data
 	char			*pwd;
 	char			**envtab;
 	int				exit_status;
-	int				family;
+	t_list			*family;
 	t_list			*split;
 }					t_data;
 
@@ -99,8 +99,8 @@ t_parse			*parse_command(t_token *token);
 int				parse_fd(t_token *token, t_parse *cmd, t_data *data);
 void			exec_line(t_parse *parse, t_data *data);
 char			*get_binary_path(t_env *env, char *name);
-int				create_heredoc(t_data *data, t_in_out **new, t_in_out **in
-					, t_token *token);
+int				create_heredoc(t_data *data, t_in_out **new, t_in_out **in,
+					t_token *token);
 char			*replace_env_variables(t_data *data, char *command);
 char			*get_cmd_path(char *arg, t_data *data);
 int				check_builtins(char *arg);

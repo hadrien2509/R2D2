@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:25:03 by samy              #+#    #+#             */
-/*   Updated: 2023/06/01 13:12:09 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:35:53 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	builtin_cd(t_data *data, char *str)
 	if (!path)
 		return (42);
 	path = get_absolute_path(data->env, path, str);
-	
 	if (!path || access(path, F_OK) != 0)
 	{
 		if (str[0] == '-')
@@ -87,7 +86,8 @@ int	ft_exit_builtin(t_data *data, char **args)
 	{
 		if (ft_strcmp(args[0], "-9223372036854775808") == 0)
 			quit(data, 0);
-		quit(data, print_error("exit", "numeric argument required", args[0], -1));
+		quit(data, print_error("exit", "numeric argument required", args[0],
+				-1));
 	}
 	quit(data, (unsigned char)result);
 	return (0);

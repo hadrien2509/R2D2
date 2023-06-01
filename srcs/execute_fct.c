@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_fct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 14:57:49 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/01 11:13:16 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:04:35 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,21 @@ static void	handle_io(t_parse *parse)
 		dup2(parse->pipe_out, 1);
 }
 
-static int	exec_exit_handler(t_data *data, int pid)
+static void	exec_exit_handler(int pid, t_data *data)
 {
-	int	result;
+	t_list	*node;
+	int		*new_pid;
 
 	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
-		quit(data, ERROR);
-	if (waitpid(pid, &result, 0) == -1)
-		return (1);
-	if (signal(SIGINT, signal_handler) == SIG_ERR)
-		quit(data, ERROR);
-	if (result == SIGINT)
-		result = 130 * 256;
-	else if (result == SIGQUIT)
-		result = 131 * 256;
-	return (result / 256);
+		exit(ERROR);
+	new_pid = malloc(sizeof(int));
+	if (!new_pid)
+		exit (42);
+	*new_pid = pid;
+	node = ft_lstnew(new_pid);
+	if (!node)
+		exit (42);
+	ft_lstadd_back(&data->family, node);
 }
 
 int	execute(t_parse *parse, t_data *data, int pid)
@@ -61,5 +61,6 @@ int	execute(t_parse *parse, t_data *data, int pid)
 			quit(data, 1);
 		}
 	}
-	return (exec_exit_handler(data, pid));
+	exec_exit_handler(pid, data);
+	return (0);
 }
