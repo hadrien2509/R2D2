@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/01 12:35:14 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/01 13:04:30 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,33 +53,33 @@ static int	exec_child(t_pipe_data *data)
 	exit(0);
 }
 
-int	complete_pipe(t_list **elem)
+int	complete_pipe(t_data *data, t_list **elem)
 {
 	t_list		*new;
-	t_pipe_data	data;
+	t_pipe_data	p_data;
 	int			pid;
 
-	data.status = 0;
-	pipe(data.end);
+	p_data.status = 0;
+	pipe(p_data.end);
 	pid = fork();
 	if (pid == -1)
-		exit(1);
+		quit(data, 1);
 	else if (pid == 0)
-		exec_child(&data);
+		exec_child(&p_data);
 	if (signal(SIGINT, SIG_IGN) == SIG_ERR)
-		exit(ERROR);
-	if (waitpid(pid, &data.status, 0) == -1)
+		quit(data, ERROR);
+	if (waitpid(pid, &p_data.status, 0) == -1)
 		return (1);
 	if (signal(SIGINT, &signal_handler) == SIG_ERR)
-		exit(ERROR);
-	close(data.end[1]);
-	data.str = get_next_line(data.end[0]);
-	close(data.end[0]);
-	if (!data.str)
-		return (data.status / 256);
-	new = ft_lstnew(data.str);
+		quit(data, ERROR);
+	close(p_data.end[1]);
+	p_data.str = get_next_line(p_data.end[0]);
+	close(p_data.end[0]);
+	if (!p_data.str)
+		return (p_data.status / 256);
+	new = ft_lstnew(p_data.str);
 	ft_lstadd_back(elem, new);
-	return (data.status / 256);
+	return (p_data.status / 256);
 }
 
 static void	del(void *elem_to_del)

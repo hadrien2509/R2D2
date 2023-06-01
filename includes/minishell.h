@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/01 11:12:44 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/01 13:46:32 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct s_handle
 
 char			**env_list_to_tab(size_t env_size, t_env *envlst);
 int				init_data(t_data *data, char **env);
-int				check_command(char **command, t_data *data);
 void			signal_handler(int signal);
 void			signal_handler_child(int signal);
 int				set_env(t_data *data, const char *var, const char *new_val);
@@ -71,7 +70,7 @@ int				builtin_cd(t_data *data, char *str);
 int				builtin_echo(int fd, char **command);
 int				unset(t_env *env, char **names);
 int				export(int fd, t_data *data, char **args);
-int				ft_exit(t_data *data, char **args);
+int				ft_exit_builtin(t_data *data, char **args);
 int				export_print(int fd, t_env *old_head);
 t_env			*get_last(t_env *env);
 void			ft_envadd_back(t_env **alst, t_env *new);
@@ -100,7 +99,8 @@ t_parse			*parse_command(t_token *token);
 int				parse_fd(t_token *token, t_parse *cmd, t_data *data);
 void			exec_line(t_parse *parse, t_data *data);
 char			*get_binary_path(t_env *env, char *name);
-int				create_heredoc(t_in_out **new, t_in_out **in, t_token *token);
+int				create_heredoc(t_data *data, t_in_out **new, t_in_out **in
+					, t_token *token);
 char			*replace_env_variables(t_data *data, char *command);
 char			*get_cmd_path(char *arg, t_data *data);
 int				check_builtins(char *arg);
@@ -113,7 +113,7 @@ void			free_parse(t_parse *parse);
 void			free_tokens(t_token *token);
 int				cmd_pipes_tokenizer(t_list **elem, t_token **new,
 					t_data *data, int *arg_need);
-int				complete_pipe(t_list **elem);
+int				complete_pipe(t_data *data, t_list **elem);
 int				parse_fd_token(t_token *token, t_parse_fd_data *fd_data,
 					t_data *data);
 t_parse_fd_data	*init_parse_fd_data(t_parse_fd_data *fd_data, t_parse *cmd,
@@ -121,5 +121,6 @@ t_parse_fd_data	*init_parse_fd_data(t_parse_fd_data *fd_data, t_parse *cmd,
 int				create_file(t_in_out **new, t_in_out **inout, t_token *token);
 void			set_pipes(t_parse *cmd);
 int				execute(t_parse *parse, t_data *data, int pid);
+void			quit(t_data *data, int status);
 
 #endif

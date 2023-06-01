@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_get.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 12:19:41 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/31 13:57:15 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/01 12:28:33 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,14 @@ int	init_data(t_data *data, char **env)
 	set_env(data, "OLDPWD", NULL);
 	shlvl = get_env(data->env, "SHLVL");
 	if (shlvl)
+	{
 		shell_lvl = ft_atoi(shlvl);
-	if (shell_lvl > 0)
-		set_env(data, "SHLVL", ft_itoa(++shell_lvl));
+		free(shlvl);	
+		shlvl = ft_itoa(++shell_lvl);
+		if (shell_lvl > 0)
+			set_env(data, "SHLVL", shlvl);
+		free(shlvl);
+	}
 	else if (!shlvl)
 		set_env(data, "SHLVL", "1");
 	else

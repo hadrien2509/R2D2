@@ -6,19 +6,19 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 12:41:40 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/29 13:09:42 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/01 11:15:44 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	check_after_pipe(t_list **elem)
+static int	check_after_pipe(t_data *data, t_list **elem)
 {
 	int	error;
 
 	error = 0;
 	if ((*elem)->next == 0)
-		error = complete_pipe(elem);
+		error = complete_pipe(data, elem);
 	if ((*elem)->next && ft_strcmp((*elem)->next->content, "|") == 0)
 		error = 258;
 	syntax_error(error, "|");
@@ -66,7 +66,7 @@ int	cmd_pipes_tokenizer(t_list **elem, t_token **new, t_data *data,
 		free((*elem)->content);
 		if (create_pipe_token(new, arg_need) == 42)
 			return (42);
-		check = check_after_pipe(elem);
+		check = check_after_pipe(data, elem);
 		if (check == 258 || check == 130)
 			return (check);
 	}

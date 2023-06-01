@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_fd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 00:37:36 by samy              #+#    #+#             */
-/*   Updated: 2023/05/30 14:34:03 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/01 12:17:18 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	parse_fd_token(t_token *token, t_parse_fd_data *fd_data, t_data *data)
 		}
 	}
 	else if (token->type == 5)
-		if (create_heredoc(&(fd_data->new), &fd_data->in, token) == 130)
+		if (create_heredoc(data, &(fd_data->new), &fd_data->in, token) == 130)
 			return (130);
 	if (token->type == 4)
 		parse_fd_type_4(fd_data);

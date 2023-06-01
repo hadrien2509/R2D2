@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/31 23:04:11 by samy             ###   ########.fr       */
+/*   Updated: 2023/06/01 11:11:54 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	prompt_line(t_data *data)
 	if (!data->line)
 	{
 		printf("exit\n");
-		exit(0);
+		quit(data, 0);
 	}
 	if (!ft_isempty(data->line))
 		add_history(data->line);
@@ -50,7 +50,7 @@ static void	shell(t_data *data, t_token *token, t_parse *parse)
 		{
 			parse = parse_command(token);
 			if (!parse)
-				exit(1);
+				quit(data, 1);
 		}
 		if (data->exit_status == 0)
 			data->exit_status = parse_fd(token, parse, data);
@@ -59,7 +59,7 @@ static void	shell(t_data *data, t_token *token, t_parse *parse)
 			exec_line(parse, data);
 		free_parse(parse);
 		if (data->exit_status == 42)
-			exit(print_error("error", "malloc failed", NULL, 1));
+			quit(data, print_error("error", "malloc failed", NULL, 1));
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/01 11:12:26 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/01 13:02:24 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	exec_builtins(t_parse *parse, t_data *data, int fd)
 	else if (!ft_strcmp(parse->cmd[0], "env"))
 		return (print_env(fd, data->env));
 	else if (!ft_strcmp(parse->cmd[0], "exit"))
-		return (ft_exit(data, &parse->cmd[1]));
+		return (ft_exit_builtin(data, &parse->cmd[1]));
 	return (0);
 }
 

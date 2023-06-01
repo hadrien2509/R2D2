@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:54:25 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/31 11:38:34 by samy             ###   ########.fr       */
+/*   Updated: 2023/06/01 10:20:41 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static char	*extract_env_name(t_data *data, char *result, char *ptr, char **tmp)
 		env = get_env(data->env, *tmp);
 		if (env && !ft_join_and_assign(&result, env))
 			return (NULL);
+		free(env);
 	}
 	else if (!ft_join_and_assign(&result, "$"))
 		return (NULL);

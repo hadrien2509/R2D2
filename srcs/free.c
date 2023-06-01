@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 15:55:42 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/31 19:12:43 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/01 12:41:09 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,29 @@ void	free_tokens(t_token *token)
 		free(token);
 		token = tmp;
 	}
+}
+
+static	void	free_env(t_env *env)
+{
+	t_env	*tmp;
+
+	while (env)
+	{
+		tmp = env->next;
+		free(env->name);
+		free(env->value);
+		free(env);
+		env = tmp;
+	}
+}
+
+void	quit(t_data *data, int status)
+{
+	if (!data)
+		exit(status);
+	if (data->env)
+		free_env(data->env);
+	if (data->pwd)
+		free(data->pwd);
+	exit(status);
 }
