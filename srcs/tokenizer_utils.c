@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 10:23:15 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/30 11:38:06 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/01 10:00:53 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	check_after_redirec(void *str)
 		str = ">>";
 		error = 258;
 	}
-	else if (!ft_strcmp(str, "<") && !ft_strcmp(str, ">"))
+	else if (!ft_strcmp(str, "<") || !ft_strcmp(str, ">"))
 		error = 258;
 	syntax_error(error, str);
 	return (error);
