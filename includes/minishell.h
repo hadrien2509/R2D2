@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/31 19:13:06 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/01 11:12:44 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_data
 	char			*pwd;
 	char			**envtab;
 	int				exit_status;
+	int				family;
 	t_list			*split;
 }					t_data;
 

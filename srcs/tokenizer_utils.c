@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 10:23:15 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/01 10:00:53 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/01 10:32:46 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ void	syntax_error(int error, char *str)
 		ft_putstr_fd("syntax error near unexpected token `", 2);
 		if (!str)
 			str = "newline";
-		ft_putstr_fd(str, 2);
+		else
+		{
+			ft_putstr_fd(str, 2);
+			free(str);
+		}
 		ft_putstr_fd("'\n", 2);
 	}
 }
@@ -32,20 +36,11 @@ static int	check_after_redirec(void *str)
 	if (str == 0)
 		error = 258;
 	else if (ft_strcmp(str, "|") == 0)
-	{
-		str = "|";
 		error = 258;
-	}
 	else if (ft_strcmp(str, "<<") == 0)
-	{
-		str = "<<";
 		error = 258;
-	}
 	else if (ft_strcmp(str, ">>") == 0)
-	{
-		str = ">>";
 		error = 258;
-	}
 	else if (!ft_strcmp(str, "<") || !ft_strcmp(str, ">"))
 		error = 258;
 	syntax_error(error, str);

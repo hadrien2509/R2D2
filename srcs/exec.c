@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/31 17:17:08 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/01 11:12:26 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static int	exec_cmd(t_parse *parse, t_data *data)
 		return (print_error("minishell", "is a directory", cmd, 126));
 	if (!can_execute(cmd))
 		return (print_error("minishell", "Permission denied", cmd, 126));
+	data->family++;
 	child = fork();
 	result = execute(parse, data, child);
 	if (parse->pipe_out)

@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/31 19:50:21 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/01 12:35:14 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	create_tokens(t_data *data, t_token **token)
 		check = redirec_tokenizer(&elem, &new);
 		if (check == 0)
 			check = cmd_pipes_tokenizer(&elem, &new, data, &arg_need);
-		if (check == 127 || check == 258 || check == 42)
+		if (check == 258 || check == 42)
 			return (check);
 		if (check == 130)
 			return (1);
@@ -114,5 +114,7 @@ int	create_tokens(t_data *data, t_token **token)
 		ft_lstaddtoken_back(token, new);
 	}
 	ft_lstclear(&elem, *del);
+	if (check == 127)
+		return (127);
 	return (0);
 }
