@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/31 17:15:32 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/05/31 19:50:21 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static int	exec_child(t_pipe_data *data)
 	}
 	strdup_nonl(data);
 	ft_putstr_fd(data->str_nonl, data->end[1]);
+	free(data->str_nonl);
 	close(data->end[1]);
 	close(data->end[0]);
 	exit(0);
