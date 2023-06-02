@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/01 13:04:30 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/02 11:34:29 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	create_tokens(t_data *data, t_token **token)
 		check = redirec_tokenizer(&elem, &new);
 		if (check == 0)
 			check = cmd_pipes_tokenizer(&elem, &new, data, &arg_need);
-		if (check == 258 || check == 42)
+		if (check == 258 || check == 42 || check == 2)
 			return (check);
 		if (check == 130)
 			return (1);

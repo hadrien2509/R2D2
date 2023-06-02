@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_pipes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 12:41:40 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/02 11:34:47 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/02 11:41:57 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static int	create_argument_token(t_token **new, t_list **elem, t_token *cmd)
 static int	create_command_token(t_token **new, char *content, t_data *data,
 		int *arg_need)
 {
+	if (!ft_strcmp(content, "."))
+		return (print_error("error", "filename argument required", NULL, 2));
 	*new = ft_lstnewtoken(0, get_cmd_path(content, data));
 	if (*new == NULL)
 		return (42);

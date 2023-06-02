@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 11:59:24 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/31 23:03:21 by samy             ###   ########.fr       */
+/*   Updated: 2023/06/02 11:02:16 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	export_var(t_data *data, char *arg)
 	if (value && *value && *value != '=')
 		if (*value != '+' || *(value + 1) != '=')
 			return (print_error("export", "not a valid identifier", arg, 1));
-	if (value && ++value)
+	if (*value && *++(value))
 	{
 		*(value - 1) = 0;
 		result = set_env(data, arg, value);

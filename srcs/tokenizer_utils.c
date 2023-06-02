@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 10:23:15 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/01 10:32:46 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/02 11:37:49 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	redirec_tokenizer(t_list **elem, t_token **new)
 	if (redirec != 0)
 	{
 		*new = ft_lstnewtoken(redirec, str);
+		redirec = 1;
 		if (*new == NULL)
 			return (42);
 		free((*elem)->content);
