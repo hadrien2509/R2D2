@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_pipes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 12:41:40 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/01 11:15:44 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/02 11:34:47 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ static int	check_after_pipe(t_data *data, t_list **elem)
 	return (error);
 }
 
-static int	create_pipe_token(t_token **new, int *arg_need)
+static int	create_pipe_token(t_token **new, int *arg_need, t_list **elem)
 {
+	free((*elem)->content);
 	*new = ft_lstnewtoken(4, NULL);
 	if (*new == NULL)
 		return (42);
@@ -40,6 +41,8 @@ static int	create_argument_token(t_token **new, t_list **elem, t_token *cmd)
 	if (*new == NULL)
 		return (42);
 	cmd->arg_nb++;
+	if (!cmd->value)
+		return (127);
 	return (0);
 }
 
@@ -49,22 +52,21 @@ static int	create_command_token(t_token **new, char *content, t_data *data,
 	*new = ft_lstnewtoken(0, get_cmd_path(content, data));
 	if (*new == NULL)
 		return (42);
+	*arg_need = 1;
 	if ((*new)->value == NULL)
 		return (127);
-	*arg_need = 1;
 	return (0);
 }
 
 int	cmd_pipes_tokenizer(t_list **elem, t_token **new, t_data *data,
-		int *arg_need)
+int *arg_need)
 {
 	static t_token	*cmd;
 	int				check;
 
 	if (ft_strcmp((*elem)->content, "|") == 0)
 	{
-		free((*elem)->content);
-		if (create_pipe_token(new, arg_need) == 42)
+		if (create_pipe_token(new, arg_need, elem) == 42)
 			return (42);
 		check = check_after_pipe(data, elem);
 		if (check == 258 || check == 130)
@@ -72,15 +74,16 @@ int	cmd_pipes_tokenizer(t_list **elem, t_token **new, t_data *data,
 	}
 	else if (*arg_need == 1)
 	{
-		if (create_argument_token(new, elem, cmd) == 42)
-			return (42);
+		check = create_argument_token(new, elem, cmd);
+		if (check == 42 || check == 127)
+			return (check);
 	}
-	else
+	else if (*arg_need == 0)
 	{
 		check = create_command_token(new, (*elem)->content, data, arg_need);
+		cmd = *new;
 		if (check)
 			return (check);
-		cmd = *new;
 	}
 	return (0);
 }
