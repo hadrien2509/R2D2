@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/02 14:50:01 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/02 15:47:48 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ void	exec_line(t_parse *parse, t_data *data)
 {
 	while (parse)
 	{
+		if (parse->pipe_in)
+			close(parse->pipe_in);
 		if (parse->cmd && parse->cmd[0])
 		{
 			parse->in = ft_lstlastinout(parse->in);
