@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/02 13:02:45 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/02 15:16:02 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ static void	shell(t_data *data, t_token *token, t_parse *parse)
 	if (data->split)
 	{
 		data->exit_status = create_tokens(data, &token);
-		if (data->exit_status != 42)
+		if (data->exit_status != 42 && data->exit_status != 258)
 		{
 			parse = parse_command(token);
 			if (!parse)
 				quit(data, 1);
 		}
-		if (data->exit_status != 42)
+		if (data->exit_status != 42 && data->exit_status != 258)
 			data->exit_status = parse_fd(token, parse, data);
 		free_tokens(token);
 		if (data->exit_status == 0)
