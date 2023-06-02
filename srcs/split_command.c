@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:41:13 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/02 15:00:34 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/02 15:11:18 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,19 +103,6 @@ static char	*handle_dollar_sign(t_data *data, char *ptr, t_handle *handle)
 	return ((handle->command + size));
 }
 
-void print_list(t_list *list)
-{
-//print t_list
-	t_list *tmp;
-
-	tmp = list;
-	while (tmp)
-	{
-		printf("%s\n", tmp->content);
-		tmp = tmp->next;
-	}
-}
-
 t_list	*split_command(t_data *data, char *cmd)
 {
 	t_list		*first;
@@ -138,8 +125,7 @@ t_list	*split_command(t_data *data, char *cmd)
 		else
 			ptr++;
 	}
-	add_command_to_list(&handle, handle.command, 0);
+	add_command_to_list(&handle, handle.command);
 	free(handle.command);
-	print_list(first);
 	return (first);
 }

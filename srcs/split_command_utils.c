@@ -6,17 +6,17 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:58:19 by samy              #+#    #+#             */
-/*   Updated: 2023/06/02 15:00:23 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/02 15:11:13 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	add_command_to_list(t_handle *handle, char *str, int is_pipe)
+int	add_command_to_list(t_handle *handle, char *str)
 {
 	t_list	*elem;
 
-	if (!ft_isempty(str) || is_pipe)
+	if (!ft_isempty(str))
 	{
 		elem = ft_lstnew(ft_strdup(str));
 		if (!elem)
@@ -38,7 +38,7 @@ char	*handle_special_chars(char *ptr, t_handle *handle)
 	tmp = ptr;
 	c = *ptr;
 	*(ptr) = '\0';
-	result = add_command_to_list(handle, handle->command, 0);
+	result = add_command_to_list(handle, handle->command);
 	if (result)
 		return (NULL);
 	*ptr = c;
@@ -47,7 +47,7 @@ char	*handle_special_chars(char *ptr, t_handle *handle)
 		ptr++;
 	c = *ptr;
 	*(ptr) = '\0';
-	result = add_command_to_list(handle, tmp, 0);
+	result = add_command_to_list(handle, tmp);
 	if (result)
 		return (NULL);
 	*(ptr) = c;
@@ -66,7 +66,7 @@ char	*handle_spaces(char *ptr, t_handle *handle)
 	while (ft_is_space(*ptr))
 		ptr++;
 	*(ptr - 1) = '\0';
-	add_command_to_list(handle, handle->command, 0);
+	add_command_to_list(handle, handle->command);
 	old_command = handle->command;
 	handle->command = ft_strdup(ptr);
 	free(old_command);
