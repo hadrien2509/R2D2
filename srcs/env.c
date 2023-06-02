@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 13:52:28 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/01 13:19:28 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/02 12:27:57 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,13 @@ int	del_env(t_env *env, const char *name)
 	return (0);
 }
 
-int	print_env(int fd, t_env *env)
+int	print_env(int fd, t_env *env, char **args)
 {
 	t_env	*elem;
 
 	elem = env;
+	if (args[0])
+		return (1);
 	while (elem)
 	{
 		if (elem->value)

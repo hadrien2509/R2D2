@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/02 10:08:54 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/02 14:50:01 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,49 @@ static int	exec_cmd(t_parse *parse, t_data *data)
 	return (result);
 }
 
-static int	exec_builtins(t_parse *parse, t_data *data, int fd)
+int	builtins(t_data *data, t_parse *parse, int fd)
 {
-	if (!ft_strcmp(parse->cmd[0], "pwd"))
+	char *cmd;
+	char **args;
+
+	cmd = parse->cmd[0];
+	args = &parse->cmd[1];
+	if (!ft_strcmp(cmd, "pwd"))
 	{
 		ft_putstr_fd(data->pwd, fd);
 		write(fd, "\n", 1);
 		return (0);
 	}
-	else if (!ft_strcmp(parse->cmd[0], "cd"))
-		return (builtin_cd(data, parse->cmd[1]));
-	else if (!ft_strcmp(parse->cmd[0], "echo"))
+	else if (!ft_strcmp(cmd, "cd"))
+		return (builtin_cd(data, *args));
+	else if (!ft_strcmp(cmd, "echo"))
 		return (builtin_echo(fd, parse->cmd));
-	else if (!ft_strcmp(parse->cmd[0], "export"))
-		return (export(fd, data, &parse->cmd[1]));
-	else if (!ft_strcmp(parse->cmd[0], "unset"))
-		return (unset(data->env, &parse->cmd[1]));
-	else if (!ft_strcmp(parse->cmd[0], "env"))
-		return (print_env(fd, data->env));
-	else if (!ft_strcmp(parse->cmd[0], "exit"))
-		return (ft_exit_builtin(data, &parse->cmd[1]));
+	else if (!ft_strcmp(cmd, "export"))
+		return (export(fd, data, args));
+	else if (!ft_strcmp(cmd, "unset"))
+		return (unset(data->env, args));
+	else if (!ft_strcmp(cmd, "env"))
+		return (print_env(fd, data->env, args));
+	else if (!ft_strcmp(cmd, "exit"))
+		return (ft_exit_builtin(data, args));
+	return (0);
+}
+
+static int	exec_builtins(t_parse *parse, t_data *data, int fd)
+{
+	int	pid;
+
+	if(!parse->pipe_in && !parse->pipe_out)
+		return (builtins(data, parse, fd));
+	pid = 1;
+	pid = fork();
+	if (pid == 0)
+	{
+		if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
+			quit(data, ERROR);
+		exit (builtins(data, parse, fd));
+	}
+	exec_exit_handler(pid, data);
 	return (0);
 }
 

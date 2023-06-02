@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/01 15:37:41 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/02 14:59:57 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void			signal_handler(int signal);
 void			signal_handler_child(int signal);
 int				set_env(t_data *data, const char *var, const char *new_val);
 char			*get_env(t_env *env, const char *var);
-int				print_env(int fd, t_env *env);
+int				print_env(int fd, t_env *env, char **args);
 int				builtin_cd(t_data *data, char *str);
 int				builtin_echo(int fd, char **command);
 int				unset(t_env *env, char **names);
@@ -91,7 +91,7 @@ int				can_read(char *file);
 int				can_write(char *file);
 char			*handle_spaces(char *ptr, t_handle *handle);
 char			*handle_special_chars(char *ptr, t_handle *handle);
-int				add_command_to_list(t_handle *handle, char *str);
+int				add_command_to_list(t_handle *handle, char *st, int is_pipe);
 void			init_handle(t_handle *handle, t_data *data, t_list **first,
 					char *command);
 int				create_tokens(t_data *data, t_token **token);
@@ -122,5 +122,7 @@ int				create_file(t_in_out **new, t_in_out **inout, t_token *token);
 void			set_pipes(t_parse *cmd);
 int				execute(t_parse *parse, t_data *data, int pid);
 void			quit(t_data *data, int status);
+void			exec_exit_handler(int pid, t_data *data);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 10:23:15 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/02 11:37:49 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/02 14:13:41 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ void	syntax_error(int error, char *str)
 		if (!str)
 			str = "newline";
 		else
-		{
 			ft_putstr_fd(str, 2);
-			free(str);
-		}
 		ft_putstr_fd("'\n", 2);
 	}
 }

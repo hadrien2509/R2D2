@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_fct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 14:57:49 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/01 15:04:35 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/02 12:50:20 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	handle_io(t_parse *parse)
 		dup2(parse->pipe_out, 1);
 }
 
-static void	exec_exit_handler(int pid, t_data *data)
+void	exec_exit_handler(int pid, t_data *data)
 {
 	t_list	*node;
 	int		*new_pid;
