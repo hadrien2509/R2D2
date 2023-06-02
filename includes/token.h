@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 17:58:46 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 12:21:57 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/02 12:22:04 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
+	char			*value_cmd;
 	int				arg_nb;
 	struct s_token	*prev;
 	struct s_token	*next;

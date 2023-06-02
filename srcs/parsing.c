@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 14:34:07 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/02 14:58:50 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	set_pipes(t_parse *cmd)
 int	parse_fd(t_token *token, t_parse *cmd, t_data *data)
 {
 	t_parse_fd_data	fd_data;
+	char			*value_cmd;
 
 	init_parse_fd_data(&fd_data, cmd, token);
 	while (fd_data.token)
@@ -109,6 +110,16 @@ int	parse_fd(t_token *token, t_parse *cmd, t_data *data)
 		if (fd_data.token->type == 2 || fd_data.token->type == 3
 			|| fd_data.token->type == 6 || fd_data.token->type == 4)
 			free(fd_data.token->value);
+		if (fd_data.token->type == 0)
+		{
+			if (!fd_data.token->value)
+			{
+				value_cmd = fd_data.token->value_cmd;
+				print_error(value_cmd, "command not found", NULL, 0);
+				fd_data.error = 127;
+				free(fd_data.token->value_cmd);
+			}
+		}
 		fd_data.token = fd_data.token->next;
 	}
 	fd_data.cmd->in = fd_data.in;

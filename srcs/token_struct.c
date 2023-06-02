@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_struct.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:38:29 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/05/30 11:36:24 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/02 12:24:42 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_token	*ft_lstnewtoken(int type, char *value)
 		return (0);
 	new_lst->type = type;
 	new_lst->value = value;
+	new_lst->value_cmd = 0;
 	new_lst->arg_nb = 0;
 	new_lst->next = 0;
 	return (new_lst);

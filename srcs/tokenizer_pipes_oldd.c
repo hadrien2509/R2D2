@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer_pipes_old.c                              :+:      :+:    :+:   */
+/*   tokenizer_pipes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 12:41:40 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/02 15:07:51 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/02 12:18:51 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static int	create_command_token(t_token **new, char *content, t_data *data,
 	*new = ft_lstnewtoken(0, get_cmd_path(content, data));
 	if (*new == NULL)
 		return (42);
-	(*new)->value_cmd = content;
 	*arg_need = 1;
 	if ((*new)->value == NULL)
 		return (127);

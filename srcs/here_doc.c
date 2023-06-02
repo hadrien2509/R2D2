@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:15:44 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/01 12:16:42 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/02 12:06:08 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	heredoc_process(t_data *data, t_in_out *new)
 		quit(data, ERROR);
 	while (1)
 	{
-		write(1, "heredoc> ", 9);
+		write(1, "> ", 2);
 		line = get_next_line(0);
 		if (!line)
 			quit(data, 1);
