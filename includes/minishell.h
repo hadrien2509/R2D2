@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/02 15:11:59 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:49:52 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,6 @@ void			set_pipes(t_parse *cmd);
 int				execute(t_parse *parse, t_data *data, int pid);
 void			quit(t_data *data, int status);
 void			exec_exit_handler(int pid, t_data *data);
-
+void			close_fd(t_parse *parse);
 
 #endif

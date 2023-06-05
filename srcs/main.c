@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/02 15:16:02 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:44:43 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,15 @@ static void	prompt_line(t_data *data)
 	free(data->line);
 }
 
+static void	del(void *elem_to_del)
+{
+	t_list	*elem;
+
+	elem = (t_list *)elem_to_del;
+	if (elem)
+		free(elem);
+}
+
 static void	shell(t_data *data, t_token *token, t_parse *parse)
 {
 	prompt_line(data);
@@ -59,6 +68,7 @@ static void	shell(t_data *data, t_token *token, t_parse *parse)
 		if (data->exit_status == 0)
 			exec_line(parse, data);
 		free_parse(parse);
+		ft_lstclear(&data->family, *del);
 		if (data->exit_status == 42)
 			quit(data, print_error("error", "malloc failed", NULL, 1));
 	}

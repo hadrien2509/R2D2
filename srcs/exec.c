@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/02 15:47:48 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:49:39 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static int	exec_cmd(t_parse *parse, t_data *data)
 
 int	builtins(t_data *data, t_parse *parse, int fd)
 {
-	char *cmd;
-	char **args;
+	char	*cmd;
+	char	**args;
 
 	cmd = parse->cmd[0];
 	args = &parse->cmd[1];
@@ -63,7 +63,7 @@ static int	exec_builtins(t_parse *parse, t_data *data, int fd)
 {
 	int	pid;
 
-	if(!parse->pipe_in && !parse->pipe_out)
+	if (!parse->pipe_in && !parse->pipe_out)
 		return (builtins(data, parse, fd));
 	pid = 1;
 	pid = fork();
@@ -104,8 +104,6 @@ void	exec_line(t_parse *parse, t_data *data)
 {
 	while (parse)
 	{
-		if (parse->pipe_in)
-			close(parse->pipe_in);
 		if (parse->cmd && parse->cmd[0])
 		{
 			parse->in = ft_lstlastinout(parse->in);
@@ -124,8 +122,7 @@ void	exec_line(t_parse *parse, t_data *data)
 			else
 				data->exit_status = exec_cmd(parse, data);
 		}
-		if (parse->pipe_out)
-			close(parse->pipe_out);
+		close_fd(parse);
 		parse = parse->next;
 	}
 	wait_process(data);
