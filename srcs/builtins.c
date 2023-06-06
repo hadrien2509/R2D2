@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:25:03 by samy              #+#    #+#             */
-/*   Updated: 2023/06/02 13:28:13 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/06 19:50:41 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	ft_exit_builtin(t_data *data, char **args)
 	if (elem == 0)
 	{
 		ft_putstr_fd("exit\n", 2);
-		quit(data, data->exit_status);
+		quit(data, data->old_exit_status);
 	}
 	else if (elem != 1)
 		quit(data, print_error("exit", "too many arguments", NULL, 1));

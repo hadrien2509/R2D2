@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/05 18:44:43 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/06 19:54:29 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static void	shell(t_data *data, t_token *token, t_parse *parse)
 	data->family = 0;
 	if (data->split)
 	{
+		data->old_exit_status = data->exit_status;
 		data->exit_status = create_tokens(data, &token);
 		if (data->exit_status != 42 && data->exit_status != 258)
 		{
