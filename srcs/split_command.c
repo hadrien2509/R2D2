@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:41:13 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/06 12:41:54 by samy             ###   ########.fr       */
+/*   Updated: 2023/06/06 14:15:28 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char	*handle_quotes(t_data *data, char *ptr, t_handle *handle)
 			return (NULL);
 	}
 	tmp = handle->command + size;
-	return (tmp);
+	return (add_empty(handle, tmp));
 }
 
 static char	*handle_dollar_env(t_data *data, char *ptr, char c)
@@ -125,7 +125,8 @@ t_split_elem	*split_command(t_data *data, char *cmd)
 		else
 			ptr++;
 	}
-	add_command_to_list(&handle, handle.command, 0);
+	if (!ft_isempty(handle.command))
+		add_command(&handle, handle.command, 0);
 	free(handle.command);
 	return (first);
 }

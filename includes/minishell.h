@@ -6,7 +6,7 @@
 /*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/06 12:38:13 by samy             ###   ########.fr       */
+/*   Updated: 2023/06/06 14:15:47 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,6 @@ int					execute(t_parse *parse, t_data *data, int pid);
 void				quit(t_data *data, int status);
 void				exec_exit_handler(int pid, t_data *data);
 void				close_fd(t_parse *parse);
-
+int					add_command(t_handle *handle, char *str, int is_special);
+char				*add_empty(t_handle *handle, char *ptr);
 #endif
