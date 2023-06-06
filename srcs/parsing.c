@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/06 12:39:57 by samy             ###   ########.fr       */
+/*   Updated: 2023/06/06 19:36:34 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,16 @@ t_parse	*parse_command(t_token *token)
 	return (cmd);
 }
 
+static void	perror_prompt(int code, char *str)
+{
+	if (code == -1)
+	{
+		ft_putstr_fd(PROMPT, 2);
+		ft_putstr_fd(": ", 2);
+		perror(str);
+	}
+}
+
 int	create_file(t_in_out **new, t_in_out **inout, t_token *token)
 {
 	if (token->type == 2)
@@ -82,8 +92,7 @@ int	create_file(t_in_out **new, t_in_out **inout, t_token *token)
 		(*new)->fd = open(token->value, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	}
 	ft_lstaddinout_back(inout, *new);
-	if ((*new)->fd == -1)
-		perror(token->value);
+	perror_prompt((*new)->fd, token->value);
 	return ((*new)->fd);
 }
 
