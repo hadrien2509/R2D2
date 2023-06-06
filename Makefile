@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+         #
+#    By: samy <samy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:22:05 by hgeissle          #+#    #+#              #
-#    Updated: 2023/06/05 18:50:23 by hgeissle         ###   ########.fr        #
+#    Updated: 2023/06/06 12:41:29 by samy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,8 @@ SRCS = main.c\
 		split_command_utils.c\
 		tokenizer_utils.c\
 		tokenizer_pipes.c\
-		parse_fd.c
+		parse_fd.c\
+		split_elem.c
 
 SRCS_DIR = srcs
 OBJS_DIR = objs

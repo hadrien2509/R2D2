@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 10:23:15 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/02 14:13:41 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/06 12:31:11 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ static int	check_after_redirec(void *str)
 	return (error);
 }
 
-static int	check_redirec_token(t_list *elem)
+static int	check_redirec_token(t_split_elem *elem)
 {
+	if (elem->is_special == 0)
+		return (0);
 	if (ft_strcmp(elem->content, "<<") == 0)
 		return (5);
 	else if (ft_strcmp(elem->content, ">>") == 0)
@@ -57,7 +59,7 @@ static int	check_redirec_token(t_list *elem)
 	return (0);
 }
 
-int	redirec_tokenizer(t_list **elem, t_token **new)
+int	redirec_tokenizer(t_split_elem **elem, t_token **new)
 {
 	int		redirec;
 	char	*str;

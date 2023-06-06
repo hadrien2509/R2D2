@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:41:13 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/02 15:11:18 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/06 12:41:54 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,11 @@ static char	*handle_dollar_sign(t_data *data, char *ptr, t_handle *handle)
 	return ((handle->command + size));
 }
 
-t_list	*split_command(t_data *data, char *cmd)
+t_split_elem	*split_command(t_data *data, char *cmd)
 {
-	t_list		*first;
-	char		*ptr;
-	t_handle	handle;
+	t_split_elem	*first;
+	char			*ptr;
+	t_handle		handle;
 
 	first = NULL;
 	init_handle(&handle, data, &first, cmd);
@@ -125,7 +125,7 @@ t_list	*split_command(t_data *data, char *cmd)
 		else
 			ptr++;
 	}
-	add_command_to_list(&handle, handle.command);
+	add_command_to_list(&handle, handle.command, 0);
 	free(handle.command);
 	return (first);
 }

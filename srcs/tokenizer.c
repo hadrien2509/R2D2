@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/02 11:34:29 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/06 12:42:26 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static void	strdup_nonl(t_pipe_data *data)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	data->str_nonl = malloc(sizeof(char) * data->len);
 	if (!data->str_nonl)
-		exit (-1);
+		exit(-1);
 	data->str_nonl[data->len - 1] = '\0';
 	while (data->str[i] != '\n' && data->str[i])
 	{
@@ -42,7 +42,7 @@ static int	exec_child(t_pipe_data *data)
 		write(1, "> ", 2);
 		data->str = get_next_line(0);
 		if (!data->str)
-			exit (-1);
+			exit(-1);
 		data->len = ft_strlen(data->str);
 	}
 	strdup_nonl(data);
@@ -53,11 +53,11 @@ static int	exec_child(t_pipe_data *data)
 	exit(0);
 }
 
-int	complete_pipe(t_data *data, t_list **elem)
+int	complete_pipe(t_data *data, t_split_elem **elem)
 {
-	t_list		*new;
-	t_pipe_data	p_data;
-	int			pid;
+	t_split_elem	*new;
+	t_pipe_data		p_data;
+	int				pid;
 
 	p_data.status = 0;
 	pipe(p_data.end);
@@ -77,26 +77,17 @@ int	complete_pipe(t_data *data, t_list **elem)
 	close(p_data.end[0]);
 	if (!p_data.str)
 		return (p_data.status / 256);
-	new = ft_lstnew(p_data.str);
-	ft_lstadd_back(elem, new);
+	new = ft_lst_split_new(p_data.str, 0);
+	ft_lst_split_add_back(elem, new);
 	return (p_data.status / 256);
-}
-
-static void	del(void *elem_to_del)
-{
-	t_list	*elem;
-
-	elem = (t_list *)elem_to_del;
-	if (elem)
-		free(elem);
 }
 
 int	create_tokens(t_data *data, t_token **token)
 {
-	t_token	*new;
-	int		check;
-	int		arg_need;
-	t_list	*elem;
+	t_token			*new;
+	int				check;
+	int				arg_need;
+	t_split_elem	*elem;
 
 	*token = 0;
 	arg_need = 0;
@@ -113,7 +104,7 @@ int	create_tokens(t_data *data, t_token **token)
 		elem = elem->next;
 		ft_lstaddtoken_back(token, new);
 	}
-	ft_lstclear(&elem, *del);
+	ft_lst_split_clear(elem);
 	if (check == 127)
 		return (127);
 	return (0);

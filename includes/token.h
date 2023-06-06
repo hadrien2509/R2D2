@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 17:58:46 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/02 12:22:04 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/06 12:38:25 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ typedef struct s_token
 	struct s_token	*prev;
 	struct s_token	*next;
 }					t_token;
+
+typedef struct s_split_elem
+{
+	char				*content;
+	int					is_special;
+	struct s_split_elem	*next;
+}					t_split_elem;
 
 typedef struct s_in_out
 {
@@ -80,5 +87,9 @@ t_in_out			*ft_lstlastinout(t_in_out *lst);
 void				ft_lstaddinout_back(t_in_out **lst, t_in_out *new);
 t_parse				*ft_lstnewcmd(void);
 void				ft_lstaddcmd_back(t_parse **lst, t_parse *new);
+t_split_elem		*ft_lst_split_new(char *value, int is_special);
+t_split_elem		*ft_lst_split_add_back(t_split_elem **alst,
+						t_split_elem *new);
+t_split_elem		*ft_lst_split_clear(t_split_elem *lst);
 
 #endif

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer_pipes.c                                  :+:      :+:    :+:   */
+/*   tokenizer_pipes_oldd.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 12:41:40 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/02 12:18:51 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/06 12:14:06 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	check_after_pipe(t_data *data, t_list **elem)
+static int	check_after_pipe(t_data *data, t_split_elem **elem)
 {
 	int	error;
 
@@ -25,7 +25,7 @@ static int	check_after_pipe(t_data *data, t_list **elem)
 	return (error);
 }
 
-static int	create_pipe_token(t_token **new, int *arg_need, t_list **elem)
+static int	create_pipe_token(t_token **new, int *arg_need, t_split_elem **elem)
 {
 	free((*elem)->content);
 	*new = ft_lstnewtoken(4, NULL);
@@ -35,7 +35,7 @@ static int	create_pipe_token(t_token **new, int *arg_need, t_list **elem)
 	return (0);
 }
 
-static int	create_argument_token(t_token **new, t_list **elem, t_token *cmd)
+static int	create_argument_token(t_token **new, t_split_elem **elem, t_token *cmd)
 {
 	*new = ft_lstnewtoken(1, (*elem)->content);
 	if (*new == NULL)
@@ -65,7 +65,7 @@ static int	create_command_token(t_token **new, char *content, t_data *data,
 	return (0);
 }
 
-int	cmd_pipes_tokenizer(t_list **elem, t_token **new, t_data *data,
+int	cmd_pipes_tokenizer(t_split_elem **elem, t_token **new, t_data *data,
 int *arg_need)
 {
 	static t_token	*cmd;

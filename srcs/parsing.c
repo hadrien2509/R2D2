@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/02 14:58:50 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/06 12:39:57 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,7 @@ int	parse_fd(t_token *token, t_parse *cmd, t_data *data)
 			if (!fd_data.token->value)
 			{
 				value_cmd = fd_data.token->value_cmd;
-				print_error(value_cmd, "command not found", NULL, 0);
-				fd_data.error = 127;
+				fd_data.error = print_error(value_cmd, "command not found", NULL, 127);
 				free(fd_data.token->value_cmd);
 			}
 		}
