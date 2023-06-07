@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 10:23:15 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/07 12:24:43 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/07 12:32:03 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	syntax_error(int error, char *str)
 		ft_putstr_fd("syntax error near unexpected token '", 2);
 		if (!str)
 			str = "newline";
-		else
-			ft_putstr_fd(str, 2);
+		ft_putstr_fd(str, 2);
 		ft_putstr_fd("'\n", 2);
 	}
 }
