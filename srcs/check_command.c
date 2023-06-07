@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:39:50 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/02 13:23:30 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:49:49 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	check_builtins(char *arg)
 	return (0);
 }
 
-char	*get_cmd_path(char *arg, t_data *data)
+char	*get_cmd_path(char *arg, t_data *data, int *path_format)
 {
 	char	*path;
 
@@ -50,6 +50,7 @@ char	*get_cmd_path(char *arg, t_data *data)
 		return (path);
 	else if (access(path, F_OK) != 0)
 	{
+		*path_format = 1;
 		free(path);
 		path = NULL;
 		print_error(arg, "No such file or directory", NULL, 0);
