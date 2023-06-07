@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_pipes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 12:41:40 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/06 12:15:06 by samy             ###   ########.fr       */
+/*   Updated: 2023/06/07 12:26:42 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ static int	create_pipe_token(t_token **new, int *arg_need, t_split_elem **elem)
 	return (0);
 }
 
-static int	create_argument_token(t_token **new, t_split_elem **elem, t_token *cmd)
+static int	create_argument_token(t_token **new, t_split_elem **elem,
+		t_token *cmd)
 {
 	*new = ft_lstnewtoken(1, (*elem)->content);
 	if (*new == NULL)
@@ -67,12 +68,12 @@ static int	create_command_token(t_token **new, char *content, t_data *data,
 }
 
 int	cmd_pipes_tokenizer(t_split_elem **elem, t_token **new, t_data *data,
-int *arg_need)
+		int *arg_need)
 {
 	static t_token	*cmd;
 	int				check;
 
-	if (ft_strcmp((*elem)->content, "|") == 0)
+	if (ft_strcmp((*elem)->content, "|") == 0 && (*elem)->is_special)
 	{
 		if (create_pipe_token(new, arg_need, elem) == 42)
 			return (42);

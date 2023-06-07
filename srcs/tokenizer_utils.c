@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 10:23:15 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/06 12:31:11 by samy             ###   ########.fr       */
+/*   Updated: 2023/06/07 12:24:43 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	syntax_error(int error, char *str)
 {
 	if (error == 258)
 	{
-		ft_putstr_fd("syntax error near unexpected token `", 2);
+		ft_putstr_fd("syntax error near unexpected token '", 2);
 		if (!str)
 			str = "newline";
 		else
@@ -75,9 +75,9 @@ int	redirec_tokenizer(t_split_elem **elem, t_token **new)
 		if (*new == NULL)
 			return (42);
 		free((*elem)->content);
-		*elem = (*elem)->next;
 		if (check_after_redirec(str) == 258)
 			return (258);
+		*elem = (*elem)->next;
 	}
 	return (redirec);
 }
