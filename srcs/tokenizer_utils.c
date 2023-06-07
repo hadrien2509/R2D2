@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 10:23:15 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/07 15:54:25 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:06:41 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,14 @@ void	syntax_error(int error, char *str)
 	}
 }
 
-static int	check_after_redirec(t_split_elem *elem)
+static int	check_after_redirec(char *str, int is_special)
 {
-	int		error;
-	char	*str;
+	int	error;
 
 	error = 0;
-	str = NULL;
-	if (elem && elem->content)
-		str = elem->content;
-	if (!elem || !elem->content)
-	{
-		syntax_error(258, str);
-		return (258);
-	}
-	if (!elem->is_special)
+	if (str == 0)
+		error = 258;
+	if (!is_special)
 		return (0);
 	else if (ft_strcmp(str, "|") == 0)
 		error = 258;
@@ -72,13 +65,14 @@ int	redirec_tokenizer(t_split_elem **elem, t_token **new)
 {
 	int				redirec;
 	char			*str;
-	t_split_elem	*next;
+	int				is_special;
 
 	str = NULL;
+	is_special = 1;
 	if ((*elem)->next != NULL)
 	{
-		next = (*elem)->next;
-		str = next->content;
+		is_special = (*elem)->next->is_special;
+		str = (*elem)->next->content;
 	}
 	redirec = check_redirec_token(*elem);
 	if (redirec != 0)
@@ -88,7 +82,7 @@ int	redirec_tokenizer(t_split_elem **elem, t_token **new)
 		if (*new == NULL)
 			return (42);
 		free((*elem)->content);
-		if (check_after_redirec(next) == 258)
+		if (check_after_redirec(str, is_special) == 258)
 			return (258);
 		*elem = (*elem)->next;
 	}
