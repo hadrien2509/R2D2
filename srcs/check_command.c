@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:39:50 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/07 14:27:35 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/07 15:54:04 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,12 @@ char	*get_cmd_path(char *arg, t_data *data, int *path_format)
 {
 	char	*path;
 
+	if (ft_isempty(arg))
+		return (NULL);
 	if (ft_strchr(arg, '/') != NULL)
 		path = ft_strdup(arg);
 	else if (check_builtins(arg))
-	{
-		path = ft_strdup(arg);
-		return (path);
-	}
+		return (ft_strdup(arg));
 	else
 		path = get_binary_path(data->env, arg);
 	if (path)

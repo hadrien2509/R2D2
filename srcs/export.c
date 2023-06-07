@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 11:59:24 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/02 11:02:16 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/07 15:54:14 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static int	export_var(t_data *data, char *arg)
 
 	result = 0;
 	value = arg;
+	if (ft_isempty(arg))
+		return (print_error("export", "not a valid identifier", "`'", 1));
 	if (*arg == '-')
 		return (print_error("export", "invalid option", arg, 2));
 	if (!(*arg == '_') && !ft_isalpha(*arg))

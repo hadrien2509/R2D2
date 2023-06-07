@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/07 12:15:46 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/07 15:39:22 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ int	create_tokens(t_data *data, t_token **token)
 			return (check);
 		if (check == 130)
 			return (1);
-		elem = elem->next;
+		if (elem)
+			elem = elem->next;
 		ft_lstaddtoken_back(token, new);
 	}
 	ft_lst_split_clear(elem);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:58:19 by samy              #+#    #+#             */
-/*   Updated: 2023/06/06 14:15:33 by samy             ###   ########.fr       */
+/*   Updated: 2023/06/07 15:27:13 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	add_command(t_handle *handle, char *str, int is_special)
 {
 	t_split_elem	*elem;
 
+	if (!str)
+		str = ft_strdup("");
 	elem = ft_lst_split_new(ft_strdup(str), is_special);
 	if (!elem)
 		return (42);

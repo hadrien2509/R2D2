@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 10:23:15 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/07 12:32:03 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/07 15:54:25 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	syntax_error(int error, char *str)
 {
 	if (error == 258)
 	{
-		ft_putstr_fd("syntax error near unexpected token '", 2);
+		ft_putstr_fd(PROMPT, 2);
+		ft_putstr_fd(": syntax error near unexpected token `", 2);
 		if (!str)
 			str = "newline";
 		ft_putstr_fd(str, 2);
@@ -24,13 +25,22 @@ void	syntax_error(int error, char *str)
 	}
 }
 
-static int	check_after_redirec(void *str)
+static int	check_after_redirec(t_split_elem *elem)
 {
-	int	error;
+	int		error;
+	char	*str;
 
 	error = 0;
-	if (str == 0)
-		error = 258;
+	str = NULL;
+	if (elem && elem->content)
+		str = elem->content;
+	if (!elem || !elem->content)
+	{
+		syntax_error(258, str);
+		return (258);
+	}
+	if (!elem->is_special)
+		return (0);
 	else if (ft_strcmp(str, "|") == 0)
 		error = 258;
 	else if (ft_strcmp(str, "<<") == 0)
@@ -60,12 +70,16 @@ static int	check_redirec_token(t_split_elem *elem)
 
 int	redirec_tokenizer(t_split_elem **elem, t_token **new)
 {
-	int		redirec;
-	char	*str;
+	int				redirec;
+	char			*str;
+	t_split_elem	*next;
 
 	str = NULL;
 	if ((*elem)->next != NULL)
-		str = (*elem)->next->content;
+	{
+		next = (*elem)->next;
+		str = next->content;
+	}
 	redirec = check_redirec_token(*elem);
 	if (redirec != 0)
 	{
@@ -74,7 +88,7 @@ int	redirec_tokenizer(t_split_elem **elem, t_token **new)
 		if (*new == NULL)
 			return (42);
 		free((*elem)->content);
-		if (check_after_redirec(str) == 258)
+		if (check_after_redirec(next) == 258)
 			return (258);
 		*elem = (*elem)->next;
 	}
