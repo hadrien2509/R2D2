@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/07 11:53:56 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:22:17 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	prompt_line(t_data *data)
 	if (!data->line)
 	{
 		printf("exit\n");
-		quit(data, 0);
+		quit(data, data->old_exit_status);
 	}
 	if (!ft_isempty(data->line))
 		add_history(data->line);
@@ -50,12 +50,12 @@ static void	del_family(void *elem_to_del)
 
 static void	shell(t_data *data, t_token *token, t_parse *parse)
 {
+	data->old_exit_status = data->exit_status;
 	prompt_line(data);
 	token = 0;
 	data->family = 0;
 	if (data->split)
 	{
-		data->old_exit_status = data->exit_status;
 		data->exit_status = create_tokens(data, &token);
 		if (data->exit_status != 42 && data->exit_status != 258)
 		{
