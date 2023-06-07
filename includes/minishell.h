@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/07 13:50:04 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/07 19:07:04 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char				*get_binary_path(t_env *env, char *name);
 int					create_heredoc(t_data *data, t_in_out **new, t_in_out **in,
 						t_token *token);
 char				*replace_env_variables(t_data *data, char *command);
-char				*get_cmd_path(char *arg, t_data *data, int *path_format);
+char				*get_cmd_path(char *arg, t_data *data);
 int					check_builtins(char *arg);
 int					redirec(t_parse *parse);
 char				*replace_env_variables(t_data *data, char *command);

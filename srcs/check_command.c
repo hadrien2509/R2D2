@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:39:50 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/07 15:54:04 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/07 19:05:17 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ int	check_builtins(char *arg)
 	return (0);
 }
 
-char	*get_cmd_path(char *arg, t_data *data, int *path_format)
+char	*get_cmd_path(char *arg, t_data *data)
 {
 	char	*path;
 
 	if (ft_isempty(arg))
+		return (NULL);
+	if (ft_strcmp(arg, ".") == 0)
 		return (NULL);
 	if (ft_strchr(arg, '/') != NULL)
 		path = ft_strdup(arg);
@@ -49,11 +51,8 @@ char	*get_cmd_path(char *arg, t_data *data, int *path_format)
 		return (path);
 	else if (access(path, F_OK) != 0)
 	{
-		*path_format = 1;
 		free(path);
 		path = NULL;
-		print_error(arg, "No such file or directory", NULL, 0);
-		free(arg);
 	}
 	return (path);
 }

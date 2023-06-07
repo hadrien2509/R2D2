@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/07 14:20:42 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/07 18:13:33 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,14 +112,22 @@ static void	check_command_parse(t_parse_fd_data *fd_data)
 
 	if (!fd_data->token->value)
 	{
-		if (fd_data->token->value_cmd)
+		val = fd_data->token->value_cmd;
+		if (ft_strchr(fd_data->token->value_cmd, '/') != NULL)
 		{
-			val = fd_data->token->value_cmd;
-			fd_data->error = print_error(val, "command not found", NULL, 127);
-			free(fd_data->token->value_cmd);
+			print_error(val, "No such file or directory", NULL, 0);
+			fd_data->error = 127;
+		}
+		else if (ft_strcmp(".", fd_data->token->value_cmd) == 0)
+		{
+			ft_putstr_fd(PROMPT, 2);
+			ft_putstr_fd(".: filename argument required\n", 2);
+			ft_putstr_fd(".: usage: . filename [arguments]\n", 2);
+			fd_data->error = 2;
 		}
 		else
-			fd_data->error = 127;
+			fd_data->error = print_error(val, "command not found", NULL, 127);
+		free(fd_data->token->value_cmd);
 	}
 }
 

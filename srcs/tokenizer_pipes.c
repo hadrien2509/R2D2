@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 12:41:40 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/07 13:51:51 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:08:49 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,12 @@ static int	create_command_token(t_token **new, char *content, t_data *data,
 		int *arg_need)
 {
 	char	*path;
-	int		path_format;
 
-	path_format = 0;
-	if (!ft_strcmp(content, "."))
-	{
-		ft_putstr_fd(PROMPT, 2);
-		ft_putstr_fd(".: filename argument required\n", 2);
-		ft_putstr_fd(".: usage: . filename [arguments]\n", 2);
-		return (2);
-	}
-	path = get_cmd_path(content, data, &path_format);
+	path = get_cmd_path(content, data);
 	*new = ft_lstnewtoken(0, path);
 	if (*new == NULL)
 		return (42);
-	if (path_format == 0)
-		(*new)->value_cmd = content;
+	(*new)->value_cmd = content;
 	*arg_need = 1;
 	if ((*new)->value == NULL)
 		return (127);
