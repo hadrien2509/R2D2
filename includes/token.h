@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 17:58:46 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/08 13:10:12 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:11:24 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_split_elem
 {
 	char				*content;
 	int					is_special;
+	int					is_first;
 	struct s_split_elem	*next;
 }					t_split_elem;
 

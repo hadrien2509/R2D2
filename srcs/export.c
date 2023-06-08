@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 11:59:24 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/08 11:59:07 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:40:55 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static int	add_export_var(t_data *data, char *arg, char *value)
 {
 	char	*old_value;
 	char	*new_value;
+	int		result;
 
 	if (*value != '+' || *(value + 1) != '=')
 		return (print_error("export", "not a valid identifier", arg, 1));
@@ -25,9 +26,12 @@ static int	add_export_var(t_data *data, char *arg, char *value)
 	if (!old_value)
 		return (set_env(data, arg, value));
 	new_value = ft_strjoin(old_value, value);
+	free(old_value);
 	if (!new_value)
 		return (42);
-	return (set_env(data, arg, new_value));
+	result = set_env(data, arg, new_value);
+	free(new_value);
+	return (result);
 }
 
 static int	export_var(t_data *data, char *arg)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:41:13 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/06 14:15:28 by samy             ###   ########.fr       */
+/*   Updated: 2023/06/08 14:12:40 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,6 @@ t_split_elem	*split_command(t_data *data, char *cmd)
 	if (!ft_isempty(handle.command))
 		add_command(&handle, handle.command, 0);
 	free(handle.command);
+	first->is_first = 1;
 	return (first);
 }
