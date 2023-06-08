@@ -6,11 +6,29 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 11:59:24 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/07 15:54:14 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/08 11:59:07 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static int	add_export_var(t_data *data, char *arg, char *value)
+{
+	char	*old_value;
+	char	*new_value;
+
+	if (*value != '+' || *(value + 1) != '=')
+		return (print_error("export", "not a valid identifier", arg, 1));
+	*value = 0;
+	value += 2;
+	old_value = get_env(data->env, arg);
+	if (!old_value)
+		return (set_env(data, arg, value));
+	new_value = ft_strjoin(old_value, value);
+	if (!new_value)
+		return (42);
+	return (set_env(data, arg, new_value));
+}
 
 static int	export_var(t_data *data, char *arg)
 {
@@ -28,8 +46,7 @@ static int	export_var(t_data *data, char *arg)
 	while (*value && *value != '=' && (*value == '_' || ft_isalnum(*value)))
 		value++;
 	if (value && *value && *value != '=')
-		if (*value != '+' || *(value + 1) != '=')
-			return (print_error("export", "not a valid identifier", arg, 1));
+		return (add_export_var(data, arg, value));
 	if (*value && *++(value))
 	{
 		*(value - 1) = 0;
