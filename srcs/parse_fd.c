@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_fd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 00:37:36 by samy              #+#    #+#             */
-/*   Updated: 2023/06/01 12:17:18 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:56:13 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,34 @@ static void	parse_fd_type_4(t_parse_fd_data *fd_data)
 	fd_data->in = 0;
 	fd_data->out = 0;
 	fd_data->cmd = fd_data->cmd->next;
+}
+
+int	create_file(t_in_out **new, t_in_out **inout, t_token *token)
+{
+	if (token->type == 2)
+	{
+		*new = ft_lstnewinout();
+		if (!(*new))
+			return (-1);
+		(*new)->fd = open(token->value, O_RDONLY);
+	}
+	else if (token->type == 3)
+	{
+		*new = ft_lstnewinout();
+		if (!(*new))
+			return (-1);
+		(*new)->fd = open(token->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	}
+	else
+	{
+		*new = ft_lstnewinout();
+		if (!(*new))
+			return (-1);
+		(*new)->fd = open(token->value, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	}
+	ft_lstaddinout_back(inout, *new);
+	perror_prompt((*new)->fd, token->value);
+	return ((*new)->fd);
 }
 
 int	parse_fd_token(t_token *token, t_parse_fd_data *fd_data, t_data *data)

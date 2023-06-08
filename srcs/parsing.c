@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/08 13:11:03 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:56:05 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,34 +66,6 @@ static void	perror_prompt(int code, char *str)
 		ft_putstr_fd(": ", 2);
 		perror(str);
 	}
-}
-
-int	create_file(t_in_out **new, t_in_out **inout, t_token *token)
-{
-	if (token->type == 2)
-	{
-		*new = ft_lstnewinout();
-		if (!(*new))
-			return (-1);
-		(*new)->fd = open(token->value, O_RDONLY);
-	}
-	else if (token->type == 3)
-	{
-		*new = ft_lstnewinout();
-		if (!(*new))
-			return (-1);
-		(*new)->fd = open(token->value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	}
-	else
-	{
-		*new = ft_lstnewinout();
-		if (!(*new))
-			return (-1);
-		(*new)->fd = open(token->value, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	}
-	ft_lstaddinout_back(inout, *new);
-	perror_prompt((*new)->fd, token->value);
-	return ((*new)->fd);
 }
 
 void	set_pipes(t_parse *cmd)

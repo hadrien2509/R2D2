@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/08 14:34:15 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:53:52 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,34 +29,6 @@ static int	exec_cmd(t_parse *parse, t_data *data)
 	if (parse->pipe_out)
 		close(parse->pipe_out);
 	return (result);
-}
-
-int	builtins(t_data *data, t_parse *parse, int fd)
-{
-	char	*cmd;
-	char	**args;
-
-	cmd = parse->cmd[0];
-	args = &parse->cmd[1];
-	if (!ft_strcmp(cmd, "pwd"))
-	{
-		ft_putstr_fd(data->pwd, fd);
-		write(fd, "\n", 1);
-		return (0);
-	}
-	else if (!ft_strcmp(cmd, "cd"))
-		return (builtin_cd(data, *args));
-	else if (!ft_strcmp(cmd, "echo"))
-		return (builtin_echo(fd, parse->cmd));
-	else if (!ft_strcmp(cmd, "export"))
-		return (export(fd, data, args));
-	else if (!ft_strcmp(cmd, "unset"))
-		return (unset(data->env, args));
-	else if (!ft_strcmp(cmd, "env"))
-		return (print_env(fd, data->env, args));
-	else if (!ft_strcmp(cmd, "exit"))
-		return (ft_exit_builtin(data, args));
-	return (0);
 }
 
 static int	exec_builtins(t_parse *parse, t_data *data, int fd)

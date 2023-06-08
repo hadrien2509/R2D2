@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:25:03 by samy              #+#    #+#             */
-/*   Updated: 2023/06/07 15:10:31 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:54:08 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,33 @@ int	ft_exit_builtin(t_data *data, char **args)
 	else if (elem != 1)
 		quit(data, print_error("exit", "too many arguments", NULL, 1));
 	quit(data, (unsigned char)result);
+	return (0);
+}
+
+int	builtins(t_data *data, t_parse *parse, int fd)
+{
+	char	*cmd;
+	char	**args;
+
+	cmd = parse->cmd[0];
+	args = &parse->cmd[1];
+	if (!ft_strcmp(cmd, "pwd"))
+	{
+		ft_putstr_fd(data->pwd, fd);
+		write(fd, "\n", 1);
+		return (0);
+	}
+	else if (!ft_strcmp(cmd, "cd"))
+		return (builtin_cd(data, *args));
+	else if (!ft_strcmp(cmd, "echo"))
+		return (builtin_echo(fd, parse->cmd));
+	else if (!ft_strcmp(cmd, "export"))
+		return (export(fd, data, args));
+	else if (!ft_strcmp(cmd, "unset"))
+		return (unset(data->env, args));
+	else if (!ft_strcmp(cmd, "env"))
+		return (print_env(fd, data->env, args));
+	else if (!ft_strcmp(cmd, "exit"))
+		return (ft_exit_builtin(data, args));
 	return (0);
 }
