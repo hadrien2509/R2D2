@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/07 19:07:04 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:03:42 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,4 +129,5 @@ void				exec_exit_handler(int pid, t_data *data);
 void				close_fd(t_parse *parse);
 int					add_command(t_handle *handle, char *str, int is_special);
 char				*add_empty(t_handle *handle, char *ptr);
+int					builtins(t_data *data, t_parse *parse, int fd);
 #endif
