@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_elem.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:40:53 by samy              #+#    #+#             */
-/*   Updated: 2023/06/08 14:12:21 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/08 20:36:31 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,22 @@ t_split_elem	*ft_lst_split_clear(t_split_elem *lst)
 	return (NULL);
 }
 
-t_split_elem	*ft_lst_split_add_back(t_split_elem **alst, t_split_elem *new)
+t_split_elem	*ft_lst_split_add_back(t_split_elem *alst, t_split_elem *new)
 {
 	t_split_elem	*elem;
 
 	if (!alst || !new)
 		return (NULL);
-	if (!*alst)
+	if (!alst)
 	{
-		*alst = new;
-		return (*alst);
+		alst = new;
+		return (alst);
 	}
-	elem = *alst;
+	elem = alst;
 	while (elem->next)
 		elem = elem->next;
 	elem->next = new;
-	return (*alst);
+	return (alst);
 }
 
 t_split_elem	*ft_lst_split_new(char *value, int is_special)

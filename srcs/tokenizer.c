@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/08 14:09:06 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/08 20:36:02 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	exec_child(t_pipe_data *data)
 	exit(0);
 }
 
-int	complete_pipe(t_data *data, t_split_elem **elem)
+int	complete_pipe(t_data *data, t_split_elem *elem)
 {
 	t_split_elem	*new;
 	t_pipe_data		p_data;
@@ -96,7 +96,7 @@ int	create_tokens(t_data *data, t_token **token)
 	{
 		check = redirec_tokenizer(&elem, &new);
 		if (check == 0)
-			check = cmd_pipes_tokenizer(&elem, &new, data, &arg_need);
+			check = cmd_pipes_tokenizer(elem, &new, data, &arg_need);
 		if (check == 258 || check == 42 || check == 2)
 			return (check);
 		if (check == 130)

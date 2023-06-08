@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 17:58:46 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/08 14:11:24 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/08 20:37:12 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void				ft_lstaddinout_back(t_in_out **lst, t_in_out *new);
 t_parse				*ft_lstnewcmd(void);
 void				ft_lstaddcmd_back(t_parse **lst, t_parse *new);
 t_split_elem		*ft_lst_split_new(char *value, int is_special);
-t_split_elem		*ft_lst_split_add_back(t_split_elem **alst,
+t_split_elem		*ft_lst_split_add_back(t_split_elem *alst,
 						t_split_elem *new);
 t_split_elem		*ft_lst_split_clear(t_split_elem *lst);
 

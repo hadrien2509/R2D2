@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/08 15:03:42 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/08 20:36:49 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_data
 typedef struct s_handle
 {
 	t_data			*data;
-	t_split_elem	**first;
+	t_split_elem	*first;
 	char			*command;
 }					t_handle;
 
@@ -94,8 +94,7 @@ char				*handle_spaces(char *ptr, t_handle *handle);
 char				*handle_special_chars(char *ptr, t_handle *handle);
 int					add_command_to_list(t_handle *handle, char *str,
 						int is_special);
-void				init_handle(t_handle *handle, t_data *data,
-						t_split_elem **first, char *command);
+void				init_handle(t_handle *handle, t_data *data, char *command);
 int					create_tokens(t_data *data, t_token **token);
 t_parse				*parse_command(t_token *token);
 int					parse_fd(t_token *token, t_parse *cmd, t_data *data);
@@ -113,9 +112,9 @@ void				syntax_error(int error, char *str);
 int					redirec_tokenizer(t_split_elem **elem, t_token **new);
 void				free_parse(t_parse *parse);
 void				free_tokens(t_token *token);
-int					cmd_pipes_tokenizer(t_split_elem **elem, t_token **new,
+int					cmd_pipes_tokenizer(t_split_elem *elem, t_token **new,
 						t_data *data, int *arg_need);
-int					complete_pipe(t_data *data, t_split_elem **elem);
+int					complete_pipe(t_data *data, t_split_elem *elem);
 int					parse_fd_token(t_token *token, t_parse_fd_data *fd_data,
 						t_data *data);
 t_parse_fd_data		*init_parse_fd_data(t_parse_fd_data *fd_data, t_parse *cmd,

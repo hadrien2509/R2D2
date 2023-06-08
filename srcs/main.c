@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/07 14:03:35 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/08 20:24:14 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	init_signal(void)
 		exit(print_error("error", "ignore signal failed", NULL, 1));
 }
 
-static void	prompt_line(t_data *data)
+static int	prompt_line(t_data *data)
 {
 	data->line = readline(PROMPT);
 	if (g_exit_status == 1)
@@ -34,9 +34,13 @@ static void	prompt_line(t_data *data)
 		quit(data, data->old_exit_status);
 	}
 	if (!ft_isempty(data->line))
+	{
 		add_history(data->line);
-	data->split = split_command(data, data->line);
-	free(data->line);
+		data->split = split_command(data, data->line);
+		free(data->line);
+		return (0);
+	}
+	return (1);
 }
 
 static void	del_family(void *elem_to_del)
@@ -51,7 +55,8 @@ static void	del_family(void *elem_to_del)
 static void	shell(t_data *data, t_token *token, t_parse *parse)
 {
 	data->old_exit_status = data->exit_status;
-	prompt_line(data);
+	if (prompt_line(data))
+		return ;
 	token = 0;
 	data->family = 0;
 	if (data->split)

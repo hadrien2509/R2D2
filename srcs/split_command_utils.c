@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_command_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:58:19 by samy              #+#    #+#             */
-/*   Updated: 2023/06/08 12:44:23 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/08 20:37:33 by samy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	add_command(t_handle *handle, char *str, int is_special)
 	elem = ft_lst_split_new(ft_strdup(str), is_special);
 	if (!elem)
 		return (42);
-	if (!*(handle->first))
-		*(handle->first) = elem;
+	if (!handle->first)
+		handle->first = elem;
 	else
 		ft_lst_split_add_back(handle->first, elem);
 	return (0);
@@ -70,11 +70,10 @@ char	*handle_spaces(char *ptr, t_handle *handle)
 	return (handle->command);
 }
 
-void	init_handle(t_handle *handle, t_data *data, t_split_elem **first,
-		char *command)
+void	init_handle(t_handle *handle, t_data *data, char *command)
 {
 	handle->data = data;
-	handle->first = first;
+	handle->first = NULL;
 	handle->command = ft_strdup(command);
 }
 
