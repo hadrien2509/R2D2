@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 00:37:36 by samy              #+#    #+#             */
-/*   Updated: 2023/06/08 14:56:13 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:01:06 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,16 @@ static void	parse_fd_type_4(t_parse_fd_data *fd_data)
 	fd_data->in = 0;
 	fd_data->out = 0;
 	fd_data->cmd = fd_data->cmd->next;
+}
+
+static void	perror_prompt(int code, char *str)
+{
+	if (code == -1)
+	{
+		ft_putstr_fd(PROMPT, 2);
+		ft_putstr_fd(": ", 2);
+		perror(str);
+	}
 }
 
 int	create_file(t_in_out **new, t_in_out **inout, t_token *token)

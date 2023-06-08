@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/08 14:56:05 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:00:57 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,6 @@ t_parse	*parse_command(t_token *token)
 	}
 	ft_lstaddcmd_back(&cmd, new);
 	return (cmd);
-}
-
-static void	perror_prompt(int code, char *str)
-{
-	if (code == -1)
-	{
-		ft_putstr_fd(PROMPT, 2);
-		ft_putstr_fd(": ", 2);
-		perror(str);
-	}
 }
 
 void	set_pipes(t_parse *cmd)
