@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:38:29 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/02 12:24:42 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:11:29 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_token	*ft_lstnewtoken(int type, char *value)
 		return (0);
 	new_lst->type = type;
 	new_lst->value = value;
-	new_lst->value_cmd = 0;
 	new_lst->arg_nb = 0;
 	new_lst->next = 0;
 	return (new_lst);

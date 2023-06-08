@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:45:07 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/08 13:11:03 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/07 14:20:42 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,23 @@ void	set_pipes(t_parse *cmd)
 	cmd->pipe_in = end[0];
 }
 
+static void	check_command_parse(t_parse_fd_data *fd_data)
+{
+	char	*val;
+
+	if (!fd_data->token->value)
+	{
+		if (fd_data->token->value_cmd)
+		{
+			val = fd_data->token->value_cmd;
+			fd_data->error = print_error(val, "command not found", NULL, 127);
+			free(fd_data->token->value_cmd);
+		}
+		else
+			fd_data->error = 127;
+	}
+}
+
 int	parse_fd(t_token *token, t_parse *cmd, t_data *data)
 {
 	t_parse_fd_data	fd_data;
@@ -118,6 +135,8 @@ int	parse_fd(t_token *token, t_parse *cmd, t_data *data)
 		if (fd_data.token->type == 2 || fd_data.token->type == 3
 			|| fd_data.token->type == 6 || fd_data.token->type == 4)
 			free(fd_data.token->value);
+		if (fd_data.token->type == 0)
+			check_command_parse(&fd_data);
 		fd_data.token = fd_data.token->next;
 	}
 	fd_data.cmd->in = fd_data.in;

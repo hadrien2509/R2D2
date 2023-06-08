@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/05 18:49:39 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:16:50 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ static void	wait_process(t_data *data)
 	{
 		while (data->family)
 		{
+			printf("%d\n", *(int *)data->family->content);
 			if (waitpid(*((int *)data->family->content), &result, 0) == -1)
 				exit(1);
 			data->family = data->family->next;
@@ -100,10 +101,40 @@ static void	wait_process(t_data *data)
 	}
 }
 
+static void	check_command_parse(t_parse	*parse, t_data *data)
+{
+	char	*val;
+	int		res;
+
+	val = parse->cmd[0];
+	if (parse->cmd && parse->cmd[0])
+		parse->cmd[0] = get_cmd_path(parse->cmd[0], data);
+	if (parse->cmd && !parse->cmd[0])
+	{
+		if (ft_strchr(val, '/') != NULL)
+			res = print_error(val, "No such file or directory", NULL, 127);
+		else if (ft_strcmp(".", val) == 0)
+		{
+			ft_putstr_fd(PROMPT, 2);
+			ft_putstr_fd(".: filename argument required\n", 2);
+			ft_putstr_fd(".: usage: . filename [arguments]\n", 2);
+			res = 2;
+		}
+		else
+			res = print_error(val, "command not found", NULL, 127);
+	}
+	if (val)
+		free(val);
+	else
+		res = 42;
+	data->exit_status = res;
+}
+
 void	exec_line(t_parse *parse, t_data *data)
 {
 	while (parse)
 	{
+		check_command_parse(parse, data);
 		if (parse->cmd && parse->cmd[0])
 		{
 			parse->in = ft_lstlastinout(parse->in);

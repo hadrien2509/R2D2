@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/07 15:39:22 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:09:29 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,5 @@ int	create_tokens(t_data *data, t_token **token)
 		ft_lstaddtoken_back(token, new);
 	}
 	ft_lst_split_clear(elem);
-	if (check == 127)
-		return (127);
 	return (0);
 }

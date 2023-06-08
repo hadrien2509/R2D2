@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 12:41:40 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/08 13:19:22 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:51:51 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,34 @@ static int	create_argument_token(t_token **new, t_split_elem **elem,
 	if (*new == NULL)
 		return (42);
 	cmd->arg_nb++;
+	if (!cmd->value)
+		return (127);
 	return (0);
 }
 
-static int	create_command_token(t_token **new, char *content, int *arg_need)
+static int	create_command_token(t_token **new, char *content, t_data *data,
+		int *arg_need)
 {
-	*new = ft_lstnewtoken(0, content);
+	char	*path;
+	int		path_format;
+
+	path_format = 0;
+	if (!ft_strcmp(content, "."))
+	{
+		ft_putstr_fd(PROMPT, 2);
+		ft_putstr_fd(".: filename argument required\n", 2);
+		ft_putstr_fd(".: usage: . filename [arguments]\n", 2);
+		return (2);
+	}
+	path = get_cmd_path(content, data, &path_format);
+	*new = ft_lstnewtoken(0, path);
 	if (*new == NULL)
 		return (42);
+	if (path_format == 0)
+		(*new)->value_cmd = content;
 	*arg_need = 1;
+	if ((*new)->value == NULL)
+		return (127);
 	return (0);
 }
 
@@ -76,7 +95,7 @@ int	cmd_pipes_tokenizer(t_split_elem **elem, t_token **new, t_data *data,
 	}
 	else if (*arg_need == 0)
 	{
-		check = create_command_token(new, (*elem)->content, arg_need);
+		check = create_command_token(new, (*elem)->content, data, arg_need);
 		cmd = *new;
 		if (check)
 			return (check);
