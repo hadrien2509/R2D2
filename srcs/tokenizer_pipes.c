@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 12:41:40 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/08 13:19:22 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:20:36 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ static int	check_after_pipe(t_data *data, t_split_elem **elem)
 	int	error;
 
 	error = 0;
+	if ((*elem)->is_first)
+	{
+		print_error(0, "syntax error near unexpected token `|'", 0, 258);
+		error = 258;
+	}
 	if ((*elem)->next == 0)
 		error = complete_pipe(data, elem);
 	if ((*elem)->next && ft_strcmp((*elem)->next->content, "|") == 0)

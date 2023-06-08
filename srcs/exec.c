@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/08 13:41:50 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:34:15 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,15 @@ static void	wait_process(t_data *data)
 		}
 		if (signal(SIGINT, signal_handler) == SIG_ERR)
 			exit(ERROR);
-		if (result == SIGINT)
-			data->exit_status = 130;
-		else if (result == SIGQUIT)
-			data->exit_status = 131;
-		else
-			data->exit_status = result / 256;
+		if (data->exit_status == 0)
+		{
+			if (result == SIGINT)
+				data->exit_status = 130;
+			else if (result == SIGQUIT)
+				data->exit_status = 131;
+			else
+				data->exit_status = result / 256;
+		}
 	}
 }
 
