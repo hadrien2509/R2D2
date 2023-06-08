@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/08 13:24:03 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:27:00 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ static void	wait_process(t_data *data)
 	{
 		while (data->family)
 		{
-			printf("%d\n", *(int *)data->family->content);
 			if (waitpid(*((int *)data->family->content), &result, 0) == -1)
 				exit(1);
 			data->family = data->family->next;
