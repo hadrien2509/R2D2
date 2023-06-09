@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:25:03 by samy              #+#    #+#             */
-/*   Updated: 2023/06/08 14:54:08 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/08 20:19:55 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,19 @@ int	ft_exit_builtin(t_data *data, char **args)
 	return (0);
 }
 
+static void	discharge_pipe(t_parse *parse)
+{
+	int		clear_pipe;
+	char	buf[100];
+
+	if (parse->pipe_in)
+	{
+		clear_pipe = read(parse->pipe_in, buf, 100);
+		while (clear_pipe)
+			clear_pipe = read(parse->pipe_in, buf, 100);
+	}
+}
+
 int	builtins(t_data *data, t_parse *parse, int fd)
 {
 	char	*cmd;
@@ -102,6 +115,7 @@ int	builtins(t_data *data, t_parse *parse, int fd)
 
 	cmd = parse->cmd[0];
 	args = &parse->cmd[1];
+	discharge_pipe(parse);
 	if (!ft_strcmp(cmd, "pwd"))
 	{
 		ft_putstr_fd(data->pwd, fd);

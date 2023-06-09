@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/08 20:24:14 by samy             ###   ########.fr       */
+/*   Updated: 2023/06/09 10:39:11 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	shell(t_data *data, t_token *token, t_parse *parse)
 			data->exit_status = parse_fd(token, parse, data);
 		free_tokens(token);
 		if (data->exit_status == 0)
-			exec_line(parse, data);
+			exec_line(parse, parse, data);
 		free_parse(parse);
 		ft_lstclear(&data->family, *del_family);
 		if (data->exit_status == 42)

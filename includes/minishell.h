@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/08 20:36:49 by samy             ###   ########.fr       */
+/*   Updated: 2023/06/09 10:43:19 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void				init_handle(t_handle *handle, t_data *data, char *command);
 int					create_tokens(t_data *data, t_token **token);
 t_parse				*parse_command(t_token *token);
 int					parse_fd(t_token *token, t_parse *cmd, t_data *data);
-void				exec_line(t_parse *parse, t_data *data);
+void				exec_line(t_parse *parse, t_parse *start, t_data *data);
 char				*get_binary_path(t_env *env, char *name);
 int					create_heredoc(t_data *data, t_in_out **new, t_in_out **in,
 						t_token *token);
@@ -124,7 +124,7 @@ int					create_file(t_in_out **new, t_in_out **inout,
 void				set_pipes(t_parse *cmd);
 int					execute(t_parse *parse, t_data *data, int pid);
 void				quit(t_data *data, int status);
-void				exec_exit_handler(int pid, t_data *data);
+int					exec_exit_handler(int pid, t_parse *parse);
 void				close_fd(t_parse *parse);
 int					add_command(t_handle *handle, char *str, int is_special);
 char				*add_empty(t_handle *handle, char *ptr);

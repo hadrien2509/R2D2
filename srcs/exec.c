@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/08 14:53:52 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/08 21:07:54 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int	exec_builtins(t_parse *parse, t_data *data, int fd)
 
 	if (!parse->pipe_in && !parse->pipe_out)
 		return (builtins(data, parse, fd));
-	pid = 1;
 	pid = fork();
 	if (pid == 0)
 	{
@@ -45,33 +44,35 @@ static int	exec_builtins(t_parse *parse, t_data *data, int fd)
 			quit(data, ERROR);
 		exit (builtins(data, parse, fd));
 	}
-	exec_exit_handler(pid, data);
-	return (0);
+	return (exec_exit_handler(pid, parse));
 }
 
-static void	wait_process(t_data *data)
+static void	wait_process(t_data *data, t_parse *parse)
 {
 	int	result;
 
-	if (data->family)
+	result = 0;
+	while (parse)
 	{
-		while (data->family)
+		if (*parse->pid != -1)
 		{
-			if (waitpid(*((int *)data->family->content), &result, 0) == -1)
+			if (waitpid(*parse->pid, &result, 0) == -1)
 				exit(1);
-			data->family = data->family->next;
 		}
-		if (signal(SIGINT, signal_handler) == SIG_ERR)
-			exit(ERROR);
-		if (data->exit_status == 0)
-		{
-			if (result == SIGINT)
-				data->exit_status = 130;
-			else if (result == SIGQUIT)
-				data->exit_status = 131;
-			else
-				data->exit_status = result / 256;
-		}
+		close_fd(parse);
+		free(parse->pid);
+		parse = parse->next;
+	}
+	if (signal(SIGINT, signal_handler) == SIG_ERR)
+		exit(ERROR);
+	if (data->exit_status == 0)
+	{
+		if (result == SIGINT)
+			data->exit_status = 130;
+		else if (result == SIGQUIT)
+			data->exit_status = 131;
+		else
+			data->exit_status = result / 256;
 	}
 }
 
@@ -104,7 +105,7 @@ static void	check_command_parse(t_parse	*parse, t_data *data)
 	data->exit_status = res;
 }
 
-void	exec_line(t_parse *parse, t_data *data)
+void	exec_line(t_parse *parse, t_parse *start, t_data *data)
 {
 	while (parse)
 	{
@@ -130,5 +131,5 @@ void	exec_line(t_parse *parse, t_data *data)
 		close_fd(parse);
 		parse = parse->next;
 	}
-	wait_process(data);
+	wait_process(data, start);
 }
