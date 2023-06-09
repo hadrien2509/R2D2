@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   execute_fct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 14:57:49 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/09 12:15:48 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:07:49 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	check_signal(t_data *data, int result)
+{
+	if (result == SIGINT)
+	{
+		ft_putstr_fd("^C\n", 2);
+		data->exit_status = 130;
+	}
+	else if (result == SIGQUIT)
+	{
+		ft_putstr_fd("^\\Quit: 3\n", 2);
+		data->exit_status = 131;
+	}
+	else
+		data->exit_status = result / 256;
+}
 
 static void	handle_io(t_parse *parse)
 {
@@ -39,23 +55,6 @@ int	exec_exit_handler(int pid, t_parse *parse)
 	return (0);
 }
 
-// void	sig_pipe_quit(int signal)
-// {
-// 	dprintf(2, "ok\n");
-// 	if (signal == SIGPIPE)
-// 		exit (42);
-// 	else if (signal == SIGQUIT)
-// 	{
-// 		ft_putstr_fd("\n^\\Quit: 3\n", 2);
-// 		exit (0);
-// 	}
-// 	else if (signal == SIGINT)
-// 	{
-// 		ft_putstr_fd("\n^C", 2);
-// 		signal_handler(signal);
-// 	}
-// }
-
 int	execute(t_parse *parse, t_data *data, int pid)
 {
 	char	**env_list;
@@ -66,10 +65,6 @@ int	execute(t_parse *parse, t_data *data, int pid)
 	{
 		if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
 			quit(data, ERROR);
-		// if (signal(SIGPIPE, sig_pipe_quit) == SIG_ERR)
-		// 	quit(data, ERROR);
-		// if (signal(SIGINT, sig_pipe_quit) == SIG_ERR)
-		// 	quit(data, ERROR);
 		handle_io(parse);
 		env_list = env_list_to_tab(data->env_size, data->env);
 		if (!env_list)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/09 12:33:16 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:08:01 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,4 +128,5 @@ void				close_fd(t_parse *parse);
 int					add_command(t_handle *handle, char *str, int is_special);
 char				*add_empty(t_handle *handle, char *ptr);
 int					builtins(t_data *data, t_parse *parse, int fd);
+void				check_signal(t_data *data, int result);
 #endif

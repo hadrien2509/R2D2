@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/09 12:31:09 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:06:25 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,8 @@ static void	wait_process(t_data *data, t_parse *parse)
 	while (parse)
 	{
 		if (*parse->pid != -1)
-		{
 			if (waitpid(*parse->pid, &result, 0) == -1)
 				exit(1);
-		}
 		close_fd(parse);
 		free(parse->pid);
 		parse = parse->next;
@@ -66,20 +64,7 @@ static void	wait_process(t_data *data, t_parse *parse)
 	if (signal(SIGINT, signal_handler) == SIG_ERR)
 		exit(ERROR);
 	if (data->exit_status == 0)
-	{
-		if (result == SIGINT)
-		{
-			ft_putstr_fd("^C\n", 2);
-			data->exit_status = 130;
-		}
-		else if (result == SIGQUIT)
-		{
-			ft_putstr_fd("^\\Quit: 3\n", 2);
-			data->exit_status = 131;
-		}
-		else
-			data->exit_status = result / 256;
-	}
+		check_signal(data, result);
 }
 
 static void	check_command_parse(t_parse	*parse, t_data *data)
