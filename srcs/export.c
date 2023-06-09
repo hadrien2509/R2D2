@@ -6,7 +6,7 @@
 /*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 11:59:24 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/06/08 12:40:55 by sde-smed         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:19:37 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,15 @@ static int	export_var(t_data *data, char *arg)
 		value++;
 	if (value && *value && *value != '=')
 		return (add_export_var(data, arg, value));
-	if (*value && *++(value))
+	if (*value)
 	{
-		*(value - 1) = 0;
-		result = set_env(data, arg, value);
+		*value = 0;
+		if (*(value + 1))
+			result = set_env(data, arg, ++value);
+		else
+			result = set_env(data, arg, "");
 	}
-	else
-		result = set_env(data, arg, NULL);
+	result = set_env(data, arg, NULL);
 	return (result);
 }
 
