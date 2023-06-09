@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/09 10:39:11 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/09 12:34:55 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,12 @@ static int	prompt_line(t_data *data)
 	return (1);
 }
 
-static void	del_family(void *elem_to_del)
-{
-	t_list	*elem;
-
-	elem = (t_list *)elem_to_del;
-	if (elem)
-		free(elem);
-}
-
 static void	shell(t_data *data, t_token *token, t_parse *parse)
 {
-	data->old_exit_status = data->exit_status;
 	if (prompt_line(data))
 		return ;
+	data->old_exit_status = data->exit_status;
 	token = 0;
-	data->family = 0;
 	if (data->split)
 	{
 		data->exit_status = create_tokens(data, &token);
@@ -74,7 +64,6 @@ static void	shell(t_data *data, t_token *token, t_parse *parse)
 		if (data->exit_status == 0)
 			exec_line(parse, parse, data);
 		free_parse(parse);
-		ft_lstclear(&data->family, *del_family);
 		if (data->exit_status == 42)
 			quit(data, print_error("error", "malloc failed", NULL, 1));
 	}

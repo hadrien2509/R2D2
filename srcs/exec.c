@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:22:45 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/08 21:07:54 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/09 12:31:09 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,15 @@ static void	wait_process(t_data *data, t_parse *parse)
 	if (data->exit_status == 0)
 	{
 		if (result == SIGINT)
+		{
+			ft_putstr_fd("^C\n", 2);
 			data->exit_status = 130;
+		}
 		else if (result == SIGQUIT)
+		{
+			ft_putstr_fd("^\\Quit: 3\n", 2);
 			data->exit_status = 131;
+		}
 		else
 			data->exit_status = result / 256;
 	}

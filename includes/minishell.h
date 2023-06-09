@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:30:33 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/09 10:43:19 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/09 12:33:16 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ typedef struct s_data
 	char			**envtab;
 	int				exit_status;
 	int				old_exit_status;
-	t_list			*family;
 	t_split_elem	*split;
 }					t_data;
 
