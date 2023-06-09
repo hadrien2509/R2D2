@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:03:11 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/08 20:36:02 by samy             ###   ########.fr       */
+/*   Updated: 2023/06/09 13:29:44 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,11 @@ static int	exec_child(t_pipe_data *data)
 		write(1, "> ", 2);
 		data->str = get_next_line(0);
 		if (!data->str)
+		{
+			ft_putstr_fd(PROMPT, 2);
+			ft_putstr_fd(": syntax error: unexpected end of file\n", 2);
 			exit(-1);
+		}
 		data->len = ft_strlen(data->str);
 	}
 	strdup_nonl(data);
