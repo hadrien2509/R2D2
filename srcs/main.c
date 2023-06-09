@@ -6,7 +6,7 @@
 /*   By: hgeissle <hgeissle@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:29:55 by hgeissle          #+#    #+#             */
-/*   Updated: 2023/06/09 13:24:17 by hgeissle         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:40:49 by hgeissle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ static void	shell(t_data *data, t_token *token, t_parse *parse)
 		if (res != 42 && res != 258 && res != 1)
 			res = parse_fd(token, parse, data);
 		free_tokens(token);
+		data->exit_status = res;
 		if (res == 0)
 			exec_line(parse, parse, data);
 		free_parse(parse);
-		if (res == 42)
+		if (data->exit_status == 42)
 			quit(data, print_error("error", "malloc failed", NULL, 1));
-		data->exit_status = res;
 	}
 }
 
