@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samy <samy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sde-smed <sde-smed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 12:15:52 by sde-smed          #+#    #+#             */
-/*   Updated: 2023/05/30 00:56:52 by samy             ###   ########.fr       */
+/*   Updated: 2023/06/08 15:19:50 by sde-smed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,26 +111,24 @@ static void	sort_list(t_env **head)
 int	export_print(int fd, t_env *old_head)
 {
 	t_env	*head;
+	t_env	*tmp;
 
 	head = copy_env_list(old_head);
 	sort_list(&head);
-	while (head)
+	tmp = head;
+	while (tmp)
 	{
-		if (head->value)
+		ft_putstr_fd("declare -x ", fd);
+		ft_putstr_fd(tmp->name, fd);
+		if (tmp->value)
 		{
-			ft_putstr_fd("declare -x ", fd);
-			ft_putstr_fd(head->name, fd);
 			ft_putstr_fd("=\"", fd);
-			ft_putstr_fd(head->value, fd);
+			ft_putstr_fd(tmp->value, fd);
 			ft_putstr_fd("\"\n", fd);
 		}
 		else
-		{
-			ft_putstr_fd("declare -x ", fd);
-			ft_putstr_fd(head->name, fd);
 			ft_putstr_fd("\n", fd);
-		}
-		head = head->next;
+		tmp = tmp->next;
 	}
 	ft_envclear(&head);
 	return (0);
