@@ -20,7 +20,7 @@ Minishell is a custom implementation of a Unix shell, written in C as part of th
 
 ## Project Overview
 
-R2D2 is a Unix shell that provides a command-line interface for interacting with the operating system. It supports various features such as command execution, pipelines, redirections, environment variable management, and built-in commands like `cd`, `echo`, `export`, and `unset`.
+Minishell is a Unix shell that provides a command-line interface for interacting with the operating system. It supports various features such as command execution, pipelines, redirections, environment variable management, and built-in commands like `cd`, `echo`, `export`, and `unset`.
 
 The project aims to deepen the understanding of process creation, execution, and management in Unix-like systems. It also covers topics like signal handling, file descriptors, and memory management.
 
