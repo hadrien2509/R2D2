@@ -1,7 +1,6 @@
 # R2D2 - Minishell
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/username/minishell)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/username/minishell/releases)
+![42](https://img.shields.io/badge/School-42-black?style=flat-square&logo=42)
 
 Minishell is a custom implementation of a Unix shell, written in C as part of the 42 School curriculum. This project aims to recreate the basic functionalities of a shell, including command execution, pipelines, redirections, and environment variable management.
 
